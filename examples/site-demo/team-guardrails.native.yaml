@@ -1,0 +1,63 @@
+version: 1
+name: team-guardrails
+gemini:
+  default_decision: deny
+  rules:
+    - tool_name: run_shell_command
+      command_prefix: "git status"
+      decision: allow
+      priority: 100
+    - tool_name: run_shell_command
+      command_prefix: "git push"
+      decision: ask_user
+      priority: 100
+  settings:
+    disable_yolo_mode: true
+    disable_always_allow: true
+cursor:
+  hooks:
+    version: 1
+    tools_allow: [Read, Grep, Shell]
+    shell:
+      allow: ["git status", "npm test"]
+      ask: ["git push"]
+      deny: ["sudo"]
+    mcp: []
+antigravity:
+  hooks:
+    version: 1
+    tools:
+      view_file: allow
+      grep_search: allow
+      write_to_file: ask
+copilot:
+  permissions:
+    allow: ["Shell(git status)", "Shell(npm test)"]
+    ask: ["Shell(git push *)"]
+    deny: ["Shell(sudo *)"]
+  mcp:
+    allowed:
+      - url: "https://gitlab.example.com/api/v4/mcp"
+kiro:
+  rules:
+    - capability: shell
+      match: ["git push *"]
+      effect: ask
+    - capability: shell
+      match: ["sudo *"]
+      effect: deny
+windsurf:
+  hooks:
+    version: 1
+    commands: ["git status", "npm test"]
+    mcp:
+      - server: gitlab
+        tools: [get_issue]
+cline:
+  hooks:
+    version: 1
+    tools:
+      read_files: allow
+      search_codebase: allow
+      editor: allow
+    commands: ["git status", "npm test"]

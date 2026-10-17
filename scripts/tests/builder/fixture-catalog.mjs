@@ -1,0 +1,33 @@
+// A small catalog for the model tests, in the same shape as catalog.json.
+const all = level => ({ macos: { level }, linux: { level }, windows: { level } });
+export const fixture = {
+  tools: ["codex", "claude", "opencode"],
+  oses: ["macos", "linux", "windows"],
+  settings: [
+    { id: "profile-name", file: "profile", status: "supported", required: true, yaml_paths: ["name"],
+      value: { type: "string", default: "my-profile" }, reach: { codex: all("configuration-only") } },
+    { id: "commands-deny", file: "profile", status: "supported", title: "Deny commands",
+      description: "Commands the agent may never run, such as sudo.",
+      yaml_paths: ["commands.deny.common", "commands.deny.unix", "commands.deny.windows"],
+      value: { type: "os-string-list", default: { unix: ["sudo"] } },
+      reach: { codex: all("enforced"), claude: all("enforced"), opencode: all("enforced") } },
+    { id: "deny-read", file: "profile", status: "supported",
+      yaml_paths: ["filesystem.deny_read.common", "filesystem.deny_read.unix", "filesystem.deny_read.windows"],
+      value: { type: "os-string-list" },
+      reach: { codex: all("enforced"), opencode: all("not-available"),
+               claude: { macos: { level: "enforced" }, linux: { level: "enforced" }, windows: { level: "partial" } } } },
+    { id: "mcp-servers", file: "profile", status: "supported",
+      yaml_paths: ["mcp_servers.*.url", "mcp_servers.*.unix.command"], value: { type: "map", values: { type: "object", fields: [] } },
+      reach: { codex: all("enforced") } },
+    { id: "windows-sandbox-implementations", file: "profile", status: "supported",
+      yaml_paths: ["windows_platform.allowed_sandbox_implementations"], value: { type: "string-list" },
+      reach: { codex: { macos: { level: "not-applicable" }, linux: { level: "not-applicable" }, windows: { level: "enforced" } } } },
+    { id: "claude-sandbox", file: "profile", status: "supported", yaml_paths: ["claude.sandbox"],
+      value: { type: "os-enum", options: ["required", "tools-only"] }, reach: { claude: all("enforced") } },
+    { id: "codex-prefer-mxc", file: "profile", status: "not-yet-supported", vendor_key: "features.prefer_mxc",
+      title: "Codex: prefer the MXC sandbox", description: "Runs Windows commands in Microsoft's newer sandbox.",
+      reach: { codex: { macos: { level: "not-applicable" }, linux: { level: "not-applicable" }, windows: { level: "partial" } } } },
+    { id: "map-rules", file: "map", status: "supported", yaml_paths: ["rules[].priority", "rules[].profile"],
+      value: { type: "list" }, reach: { codex: all("enforced") } },
+  ],
+};

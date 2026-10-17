@@ -1,0 +1,54 @@
+# Start with tool access denied; add reviewed native permissions deliberately.
+# This is a local tool policy, not an OS filesystem/network sandbox.
+version: 1
+name: local-guardrails
+gemini:
+  default_decision: deny
+  settings:
+    disable_yolo_mode: true
+    disable_always_allow: true
+cursor:
+  hooks:
+    version: 1
+    tools_allow: []
+    shell:
+      allow: []
+      ask: []
+      deny: []
+    mcp: []
+antigravity:
+  hooks:
+    version: 1
+    tools:
+      ask_question: allow
+      list_permissions: allow
+copilot:
+  # Bypass mode is disabled by default; MCP is limited to built-in servers.
+  permissions:
+    deny: ["Shell(sudo *)", "Shell(rm -rf *)", "Read(~/.ssh/**)"]
+  mcp:
+    allowed: []
+kiro:
+  # Admin rules can only deny or ask.
+  rules:
+    - capability: shell
+      match: ["sudo *", "rm -rf *"]
+      effect: deny
+    - capability: mcp
+      effect: ask
+windsurf:
+  # Empty lists block every terminal command and MCP tool call.
+  hooks:
+    version: 1
+    commands: []
+    mcp: []
+cline:
+  # Each user also runs `edict install-hook cline`.
+  hooks:
+    version: 1
+    tools:
+      read_files: allow
+      search_codebase: allow
+      ask_question: allow
+      submit_and_exit: allow
+    commands: []

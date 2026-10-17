@@ -1,0 +1,70 @@
+# Tests for AgentEdict itself: the agent on every supported platform, the
+# role policy example, and the configuration builder.
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+env:
+  GOFLAGS: -mod=readonly -buildvcs=false
+  GOTOOLCHAIN: local
+
+jobs:
+  go:
+    runs-on: ubuntu-latest
+    container: golang:1.27.2
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check dependencies
+        run: |
+          go mod download
+          go mod verify
+          go mod tidy -diff
+      - name: Test
+        run: |
+          go test ./...
+          go test -race ./...
+          go vet ./...
+      # Native Linux tests plus compile checks for every other platform.
+      # Cross-compiling doesn't run Windows or macOS integration tests.
+      - name: Build and compile tests for every platform
+        run: |
+          set -eu
+          mkdir -p build-checks
+          for target in windows/amd64 linux/amd64 darwin/amd64 darwin/arm64; do
+            target_os="${target%/*}"
+            target_arch="${target#*/}"
+            CGO_ENABLED=0 GOOS="$target_os" GOARCH="$target_arch" \
+              go build -o "build-checks/edict-$target_os-$target_arch" ./cmd/edict
+            for package in ./cmd/edict ./internal/agent ./internal/compiler ./internal/platform ./internal/cursorhook ./internal/antigravityhook ./internal/windsurfhook ./internal/clinehook ./internal/hookjson; do
+              package_name="${package##*/}"
+              CGO_ENABLED=0 GOOS="$target_os" GOARCH="$target_arch" \
+                go test -c -o "build-checks/test-$target_os-$target_arch-$package_name" "$package"
+            done
+          done
+      - name: Validate the role policy example
+        run: |
+          go build -o /usr/local/bin/edict ./cmd/edict
+          edict compile-bundle -map examples/role-policy/policy-map.yaml -profiles-dir examples/role-policy/profiles -target-os all -output-dir dist-role
+          edict validate-bundle -dir dist-role -target-os all
+
+  builder:
+    runs-on: ubuntu-latest
+    container: golang:1.27.2
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install Node.js
+        run: |
+          apt-get update -qq
+          apt-get install -y -qq --no-install-recommends nodejs > /dev/null
+          node --version
+      - name: Build the WebAssembly and run the builder tests
+        run: |
+          make builder
+          node --test scripts/tests/builder/*.test.mjs

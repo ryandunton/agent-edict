@@ -1,0 +1,92 @@
+# Builds, validates, signs and publishes the AgentEdict policy bundle when
+# this repository is hosted on GitHub. One-time setup, including the bundle
+# repository, the signing secret and the tokens: docs/deployment/github.md.
+# Publishing is skipped until the AGENTEDICT_BUNDLE_REPO variable is set, so a
+# mirror without that setup only runs the checks.
+name: AgentEdict policy
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+env:
+  GOFLAGS: -mod=readonly -buildvcs=false
+  GOTOOLCHAIN: local
+  POLICY_MAP_FILE: policy-map.yaml
+  POLICY_SOURCE: profiles/
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    container: golang:1.27.2
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check dependencies
+        run: |
+          go mod download
+          go mod verify
+          go mod tidy -diff
+      - name: Test
+        run: |
+          go test ./...
+          go vet ./...
+      - name: Compile and validate every policy the map can select
+        run: |
+          go build -o /usr/local/bin/edict ./cmd/edict
+          edict compile-bundle -map "$POLICY_MAP_FILE" -profiles-dir "$POLICY_SOURCE" -target-os all -output-dir dist
+          edict validate-bundle -dir dist -target-os all
+
+  publish:
+    needs: verify
+    if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main' && vars.AGENTEDICT_BUNDLE_REPO != ''
+    runs-on: ubuntu-latest
+    container: golang:1.27.2
+    # The environment holds the signing key and the publish token. Restrict it
+    # to the main branch, and add required reviewers to approve each publish.
+    environment: policy-signing
+    concurrency:
+      group: agentedict-publish
+      cancel-in-progress: false
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build, validate and sign the bundle
+        env:
+          EDICT_SIGNING_PRIVATE_KEY: ${{ secrets.EDICT_SIGNING_PRIVATE_KEY }}
+        run: |
+          set -eu
+          apt-get update -qq
+          apt-get install -y -qq --no-install-recommends openssl > /dev/null
+          go build -o /usr/local/bin/edict ./cmd/edict
+          edict compile-bundle -map "$POLICY_MAP_FILE" -profiles-dir "$POLICY_SOURCE" -target-os all -output-dir dist
+          edict validate-bundle -dir dist -target-os all
+          tar -czf policy-bundle.tar.gz -C dist policy-map.yaml profiles
+          umask 077
+          signing_key=$(mktemp)
+          trap 'rm -f "$signing_key"' EXIT
+          printf '%s' "$EDICT_SIGNING_PRIVATE_KEY" | base64 --decode > "$signing_key"
+          openssl pkeyutl -sign -inkey "$signing_key" -rawin \
+            -in policy-bundle.tar.gz -out policy-bundle.tar.gz.sig
+          chmod 0644 policy-bundle.tar.gz.sig
+      - name: Publish to the bundle repository
+        env:
+          BUNDLE_REPO: ${{ vars.AGENTEDICT_BUNDLE_REPO }}
+          BUNDLE_REPO_TOKEN: ${{ secrets.AGENTEDICT_BUNDLE_PUBLISH_TOKEN }}
+        run: |
+          set -eu
+          export GIT_TERMINAL_PROMPT=0
+          # The helper reads the token from the environment, so it never
+          # appears in a command line or a remote URL.
+          helper='!f() { echo username=x-access-token; echo "password=${BUNDLE_REPO_TOKEN}"; }; f'
+          git config --global user.name "AgentEdict CI"
+          git config --global user.email "agentedict-ci@users.noreply.github.com"
+          git -c credential.helper="$helper" clone --depth 1 "https://github.com/${BUNDLE_REPO}.git" bundles
+          cp policy-bundle.tar.gz policy-bundle.tar.gz.sig bundles/
+          cd bundles
+          git add policy-bundle.tar.gz policy-bundle.tar.gz.sig
+          git commit -m "Publish policy bundle from ${GITHUB_REPOSITORY}@${GITHUB_SHA}"
+          git -c credential.helper="$helper" push origin HEAD

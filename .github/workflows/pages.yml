@@ -1,0 +1,48 @@
+# Publishes public/ (the website and the configuration builder) to GitHub
+# Pages. The builder's WebAssembly is build output, so it's built here.
+name: Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+env:
+  GOFLAGS: -mod=readonly -buildvcs=false
+  GOTOOLCHAIN: local
+
+jobs:
+  build:
+    # Forks and copies of this repository don't publish a site.
+    if: github.repository == 'ryandunton/agent-edict'
+    runs-on: ubuntu-latest
+    container: golang:1.27.2
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build the configuration builder
+        run: |
+          make builder
+          test -s public/builder/edict.wasm && test -s public/builder/wasm_exec.js
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: public
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

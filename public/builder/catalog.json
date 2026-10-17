@@ -1,0 +1,7056 @@
+{
+ "version": 1,
+ "researched": "2026-10-17",
+ "tools": [
+  "codex",
+  "claude",
+  "opencode",
+  "gemini",
+  "cursor",
+  "antigravity",
+  "copilot",
+  "kiro",
+  "windsurf",
+  "cline"
+ ],
+ "tool_names": {
+  "codex": "Codex",
+  "claude": "Claude Code",
+  "opencode": "OpenCode",
+  "gemini": "Gemini CLI",
+  "cursor": "Cursor",
+  "antigravity": "Antigravity",
+  "copilot": "GitHub Copilot",
+  "kiro": "Kiro",
+  "windsurf": "Windsurf / Devin Desktop",
+  "cline": "Cline"
+ },
+ "oses": [
+  "macos",
+  "linux",
+  "windows"
+ ],
+ "os_names": {
+  "macos": "macOS",
+  "linux": "Linux",
+  "windows": "Windows"
+ },
+ "labels": {
+  "not-yet-supported": "not yet supported by AgentEdict",
+  "vendor-console": "vendor console only",
+  "user-setting": "user setting: users can change it"
+ },
+ "topics": [
+  {
+   "id": "profile",
+   "title": "Profile details"
+  },
+  {
+   "id": "sandbox",
+   "title": "Sandbox and permissions"
+  },
+  {
+   "id": "approvals",
+   "title": "Approvals"
+  },
+  {
+   "id": "files",
+   "title": "Files"
+  },
+  {
+   "id": "commands",
+   "title": "Commands"
+  },
+  {
+   "id": "web",
+   "title": "Web, browser and computer use"
+  },
+  {
+   "id": "mcp",
+   "title": "MCP servers"
+  },
+  {
+   "id": "features",
+   "title": "Features"
+  },
+  {
+   "id": "models",
+   "title": "Models, sign-in and accounts"
+  },
+  {
+   "id": "plugins",
+   "title": "Plugins, skills and hooks"
+  },
+  {
+   "id": "instructions",
+   "title": "Instructions"
+  },
+  {
+   "id": "telemetry",
+   "title": "Telemetry and updates"
+  },
+  {
+   "id": "gemini",
+   "title": "Gemini CLI"
+  },
+  {
+   "id": "cursor",
+   "title": "Cursor"
+  },
+  {
+   "id": "antigravity",
+   "title": "Antigravity"
+  },
+  {
+   "id": "copilot",
+   "title": "GitHub Copilot"
+  },
+  {
+   "id": "kiro",
+   "title": "Kiro"
+  },
+  {
+   "id": "windsurf",
+   "title": "Windsurf / Devin Desktop"
+  },
+  {
+   "id": "cline",
+   "title": "Cline"
+  },
+  {
+   "id": "map",
+   "title": "Who gets which profile"
+  }
+ ],
+ "settings": [
+  {
+   "id": "profile-name",
+   "title": "Profile name",
+   "topic": "profile",
+   "file": "profile",
+   "status": "supported",
+   "yaml_paths": [
+    "name"
+   ],
+   "value": {
+    "type": "string",
+    "default": "my-profile",
+    "pattern": "^[A-Za-z0-9_-]+$"
+   },
+   "description": "The profile's name. A policy map refers to profiles by this name, and it becomes the file name of the compiled output. Letters, numbers, underscores and hyphens only.",
+   "reach": {
+    "codex": {
+     "macos": {
+      "level": "configuration-only",
+      "writes": "requirements.toml header comment"
+     },
+     "linux": {
+      "level": "configuration-only",
+      "writes": "requirements.toml header comment"
+     },
+     "windows": {
+      "level": "configuration-only",
+      "writes": "requirements.toml header comment"
+     }
+    },
+    "claude": {
+     "macos": {
+      "level": "configuration-only",
+      "writes": "bundle file name"
+     },
+     "linux": {
+      "level": "configuration-only",
+      "writes": "bundle file name"
+     },
+     "windows": {
+      "level": "configuration-only",
+      "writes": "bundle file name"
+     }
+    },
+    "opencode": {
+     "macos": {
+      "level": "configuration-only",
+      "writes": "bundle file name"
+     },
+     "linux": {
+      "level": "configuration-only",
+      "writes": "bundle file name"
+     },
+     "windows": {
+      "level": "configuration-only",
+      "writes": "bundle file name"
+     }
+    }
+   },
+   "sources": [
+    {
+     "title": "AgentEdict README",
+     "url": "https://github.com/ryandunton/agent-edict/blob/main/README.md"
+    }
+   ],
+   "researched": "2026-10-17",
+   "required": true
+  },
+  {
+   "id": "profile-description",
+   "title": "Description",
+   "topic": "profile",
+   "file": "profile",
+   "status": "supported",
+   "yaml_paths": [
+    "description"
+   ],
+   "value": {
+    "type": "string",
+    "default": ""
+   },
+   "description": "A note for people reading the file. It isn't written to any tool.",
+   "reach": {
+    "codex": {
+     "macos": {
+      "level": "not-applicable",
+      "note": "For people reading the profile only."
+     },
+     "linux": {
+      "level": "not-applicable",
+      "note": "For people reading the profile only."
+     },
+     "windows": {
+      "level": "not-applicable",
+      "note": "For people reading the profile only."
+     }
+    },
+    "claude": {
+     "macos": {
+      "level": "not-applicable",
+      "note": "For people reading the profile only."
+     },
+     "linux": {
+      "level": "not-applicable",
+      "note": "For people reading the profile only."
+     },
+     "windows": {
+      "level": "not-applicable",
+      "note": "For people reading the profile only."
+     }
+    },
+    "opencode": {
+     "macos": {
+      "level": "not-applicable",
+      "note": "For people reading the profile only."
+     },
+     "linux": {
+      "level": "not-applicable",
+      "note": "For people reading the profile only."
+     },
+     "windows": {
+      "level": "not-applicable",
+      "note": "For people reading the profile only."
+     }
+    }
+   },
+   "sources": [
+    {
+     "title": "AgentEdict README",
+     "url": "https://github.com/ryandunton/agent-edict/blob/main/README.md"
+    }
+   ],
+   "researched": "2026-10-17"
+  },
+  {
+   "id": "sandbox-modes",
+   "title": "Allowed sandbox modes",
+   "topic": "sandbox",
+   "file": "profile",
+   "status": "supported",
+   "yaml_paths": [
+    "sandbox.modes"
+   ],
+   "value": {
+    "type": "string-list",
+    "options": [
+     "read-only",
+     "workspace-write",
+     "danger-full-access"
+    ],
+    "default": [
+     "read-only",
+     "workspace-write"
+    ]
+   },
+   "description": "Which Codex sandbox modes users may pick. Leaving out danger-full-access stops Codex from running commands with no sandbox. A list with only read-only makes this a read-only profile, which only Codex can enforce.",
+   "reach": {
+    "codex": {
+     "macos": {
+      "level": "enforced",
+      "writes": "requirements.toml → allowed_sandbox_modes"
+     },
+     "linux": {
+      "level": "enforced",
+      "writes": "requirements.toml → allowed_sandbox_modes"
+     },
+     "windows": {
+      "level": "enforced",
+      "writes": "requirements.toml → allowed_sandbox_modes"
+     }
+    },
+    "claude": {
+     "macos": {
+      "level": "not-available",
+      "note": "Not written. A read-only-only list stops the profile compiling for Claude."
+     },
+     "linux": {
+      "level": "not-available",
+      "note": "Not written. A read-only-only list stops the profile compiling for Claude."
+     },
+     "windows": {
+      "level": "not-available",
+      "note": "Not written. A read-only-only list stops the profile compiling for Claude."
+     }
+    },
+    "opencode": {
+     "macos": {
+      "level": "not-available",
+      "note": "Not written. A read-only-only list stops the profile compiling for OpenCode."
+     },
+     "linux": {
+      "level": "not-available",
+      "note": "Not written. A read-only-only list stops the profile compiling for OpenCode."
+     },
+     "windows": {
+      "level": "not-available",
+      "note": "Not written. A read-only-only list stops the profile compiling for OpenCode."
+     }
+    }
+   },
+   "sources": [
+    {
+     "title": "Codex managed configuration",
+     "url": "https://learn.chatgpt.com/docs/enterprise/managed-configuration"
+    },
+    {
+     "title": "AgentEdict README",
+     "url": "https://github.com/ryandunton/agent-edict/blob/main/README.md"
+    }
+   ],
+   "researched": "2026-10-17"
+  },
+  {
+   "id": "default-permissions",
+   "title": "Default permission profile",
+   "topic": "sandbox",
+   "file": "profile",
+   "status": "supported",
+   "yaml_paths": [
+    "default_permissions"
+   ],
+   "value": {
+    "type": "string",
+    "default": ":workspace",
+    "suggestions": [
+     ":read-only",
+     ":workspace"
+    ]
+   },
+   "description": "The permission profile Codex starts with: a built-in one such as :workspace or :read-only, or one you define under Permission profiles. If that profile turns command networking off, Claude and OpenCode block network access as well as they can.",
+   "reach": {
+    "codex": {
+     "macos": {
+      "level": "enforced",
+      "writes": "requirements.toml → default_permissions"
+     },
+     "linux": {
+      "level": "enforced",
+      "writes": "requirements.toml → default_permissions"
+     },
+     "windows": {
+      "level": "enforced",
+      "writes": "requirements.toml → default_permissions"
+     }
+    },
+    "claude": {
+     "macos": {
+      "level": "partial",
+      "writes": "managed-settings.json → sandbox.network",
+      "note": "Only network.enabled: false is used. With claude.sandbox: required the OS sandbox blocks shell networking; otherwise curl, wget, ssh and scp are denied."
+     },
+     "linux": {
+      "level": "partial",
+      "writes": "managed-settings.json → sandbox.network",
+      "note": "Only network.enabled: false is used. With claude.sandbox: required the OS sandbox blocks shell networking; otherwise curl, wget, ssh and scp are denied."
+     },
+     "windows": {
+      "level": "partial",
+      "writes": "managed-settings.json → permissions.deny",
+      "note": "Only network.enabled: false is used. Claude has no OS sandbox on Windows, so only curl, wget, ssh and scp are denied."
+     }
+    },
+    "opencode": {
+     "macos": {
+      "level": "partial",
+      "writes": "opencode.json → permission.webfetch",
+      "note": "Only network.enabled: false is used, which denies OpenCode's web fetch tool. :read-only isn't supported."
+     },
+     "linux": {
+      "level": "partial",
+      "writes": "opencode.json → permission.webfetch",
+      "note": "Only network.enabled: false is used, which denies OpenCode's web fetch tool. :read-only isn't supported."
+     },
+     "windows": {
+      "level": "partial",
+      "writes": "opencode.json → permission.webfetch",
+      "note": "Only network.enabled: false is used, which denies OpenCode's web fetch tool. :read-only isn't supported."
+     }
+    }
+   },
+   "sources": [
+    {
+     "title": "Codex managed configuration",
+     "url": "https://learn.chatgpt.com/docs/enterprise/managed-configuration"
+    },
+    {
+     "title": "AgentEdict role policy guide",
+     "url": "https://github.com/ryandunton/agent-edict/blob/main/docs/role-policy.md"
+    }
+   ],
+   "researched": "2026-10-17"
+  },
+  {
+   "id": "allowed-permission-profiles",
+   "title": "Allowed permission profiles",
+   "topic": "sandbox",
+   "file": "profile",
+   "status": "supported",
+   "yaml_paths": [
+    "allowed_permission_profiles"
+   ],
+   "value": {
+    "type": "map",
+    "values": {
+     "type": "bool",
+     "default": true
+    },
+    "key_label": "Profile",
+    "key_suggestions": [
+     ":read-only",
+     ":workspace"
+    ],
+    "default": {
+     ":read-only": true
+    }
+   },
+   "description": "Which permission profiles users may switch to in Codex. Set a profile to true to allow it.",
+   "reach": {
+    "codex": {
+     "macos": {
+      "level": "enforced",
+      "writes": "requirements.toml → [allowed_permission_profiles]"
+     },
+     "linux": {
+      "level": "enforced",
+      "writes": "requirements.toml → [allowed_permission_profiles]"
+     },
+     "windows": {
+      "level": "enforced",
+      "writes": "requirements.toml → [allowed_permission_profiles]"
+     }
+    }
+   },
+   "sources": [
+    {
+     "title": "Codex managed configuration",
+     "url": "https://learn.chatgpt.com/docs/enterprise/managed-configuration"
+    }
+   ],
+   "researched": "2026-10-17"
+  },
+  {
+   "id": "permission-profiles",
+   "title": "Permission profiles",
+   "topic": "sandbox",
+   "file": "profile",
+   "status": "supported",
+   "yaml_paths": [
+    "permissions.*.description",
+    "permissions.*.extends",
+    "permissions.*.filesystem.:root",
+    "permissions.*.filesystem.:minimal",
+    "permissions.*.filesystem.:tmpdir",
+    "permissions.*.filesystem.:slash_tmp",
+    "permissions.*.filesystem.glob_scan_max_depth",
+    "permissions.*.filesystem.:workspace_roots",
+    "permissions.*.network.enabled"
+   ],
+   "value": {
+    "type": "map",
+    "values": {
+     "type": "object",
+     "fields": [
+      {
+       "type": "string",
+       "key": "description"
+      },
+      {
+       "type": "string",
+       "suggestions": [
+        ":workspace",
+        ":read-only"
+       ],
+       "key": "extends"
+      },
+      {
+       "type": "object",
+       "fields": [
+        {
+         "type": "enum",
+         "options": [
+          "read",
+          "write",
+          "deny"
+         ],
+         "key": ":root",
+         "label": "Whole disk"
+        },
+        {
+         "type": "enum",
+         "options": [
+          "read",
+          "write",
+          "deny"
+         ],
+         "key": ":minimal",
+         "label": "Minimal runtime files"
+        },
+        {
+         "type": "enum",
+         "options": [
+          "read",
+          "write",
+          "deny"
+         ],
+         "key": ":tmpdir",
+         "label": "Temp directory"
+        },
+        {
+         "type": "enum",
+         "options": [
+          "read",
+          "write",
+          "deny"
+         ],
+         "key": ":slash_tmp",
+         "label": "/tmp"
+        },
+        {
+         "type": "int",
+         "min": 1,
+         "key": "glob_scan_max_depth"
+        },
+        {
+         "type": "map",
+         "values": {
+          "type": "enum",
+          "options": [
+           "read",
+           "write",
+           "deny"
+          ]
+         },
+         "key_label": "Path or pattern",
+         "key": ":workspace_roots",
+         "label": "Workspace paths"
+        }
+       ],
+       "optional": true,
+       "key": "filesystem"
+      },
+      {
+       "type": "object",
+       "fields": [
+        {
+         "type": "bool",
+         "default": true,
+         "key": "enabled",
+         "label": "Command networking"
+        }
+       ],
+       "optional": true,
+       "key": "network"
+      }
+     ]
+    },
+    "key_label": "Profile name",
+    "default": {
+     "my-profile": {
+      "description": "",
+      "extends": ":workspace"
+     }
+    }
+   },
+   "description": "Named Codex permission profiles: what commands may read and write on disk, and whether they get network access. Codex enforces them in its OS sandbox. Claude and OpenCode can't, so a profile with filesystem rules or extends: :read-only stops the file compiling for them.",
+   "reach": {
+    "codex": {
+     "macos": {
+      "level": "enforced",
+      "writes": "requirements.toml → [permissions.<name>]"
+     },
+     "linux": {
+      "level": "enforced",
+      "writes": "requirements.toml → [permissions.<name>]"
+     },
+     "windows": {
+      "level": "enforced",
+      "writes": "requirements.toml → [permissions.<name>]"
+     }
+    },
+    "claude": {
+     "macos": {
+      "level": "not-available",
+      "note": "Filesystem rules and :read-only aren't supported. network.enabled: false is used only on the default profile."
+     },
+     "linux": {
+      "level": "not-available",
+      "note": "Filesystem rules and :read-only aren't supported. network.enabled: false is used only on the default profile."
+     },
+     "windows": {
+      "level": "not-available",
+      "note": "Filesystem rules and :read-only aren't supported. network.enabled: false is used only on the default profile."
+     }
+    },
+    "opencode": {
+     "macos": {
+      "level": "not-available",
+      "note": "Filesystem rules and :read-only aren't supported. network.enabled: false is used only on the default profile."
+     },
+     "linux": {
+      "level": "not-available",
+      "note": "Filesystem rules and :read-only aren't supported. network.enabled: false is used only on the default profile."
+     },
+     "windows": {
+      "level": "not-available",
+      "note": "Filesystem rules and :read-only aren't supported. network.enabled: false is used only on the default profile."
+     }
+    }
+   },
+   "sources": [
+    {
+     "title": "Codex managed configuration",
+     "url": "https://learn.chatgpt.com/docs/enterprise/managed-configuration"
+    }
+   ],
+   "researched": "2026-10-17"
+  },
+  {
+   "id": "windows-sandbox-implementations",
+   "title": "Windows sandbox types",
+   "topic": "sandbox",
+   "file": "profile",
+   "status": "supported",
+   "yaml_paths": [
+    "windows_platform.allowed_sandbox_implementations"
+   ],
+   "value": {
+    "type": "string-list",
+    "options": [
+     "elevated",
+     "unelevated"
+    ],
+    "default": [
+     "elevated"
+    ]
+   },
+   "description": "Which of Codex's Windows sandbox types users may run. elevated isolates network access better than unelevated. This doesn't control Codex's newer MXC sandbox; see the Codex MXC entries.",
+   "reach": {
+    "codex": {
+     "macos": {
+      "level": "not-applicable",
+      "note": "Windows only."
+     },
+     "linux": {
+      "level": "not-applicable",
+      "note": "Windows only."
+     },
+     "windows": {
+      "level": "enforced",
+      "writes": "requirements.toml → [windows] allowed_sandbox_implementations"
+     }
+    }
+   },
+   "sources": [
+    {
+     "title": "Codex managed configuration",
+     "url": "https://learn.chatgpt.com/docs/enterprise/managed-configuration"
+    },
+    {
+     "title": "AgentEdict README",
+     "url": "https://github.com/ryandunton/agent-edict/blob/main/README.md"
+    }
+   ],
+   "researched": "2026-10-17"
+  },
+  {
+   "id": "claude-sandbox",
+   "title": "Claude OS sandbox",
+   "topic": "sandbox",
+   "file": "profile",
+   "status": "supported",
+   "yaml_paths": [
+    "claude.sandbox"
+   ],
+   "value": {
+    "type": "os-enum",
+    "options": [
+     "required",
+     "tools-only"
+    ],
+    "keys": [
+     "unix",
+     "windows"
+    ],
+    "default": {
+     "unix": "required",
+     "windows": "tools-only"
+    }
+   },
+   "description": "Whether Claude must run shell commands in its OS sandbox. required turns the sandbox on and stops Claude starting without it, so blocked files and network stay blocked even in shell commands. tools-only accepts that those settings apply only to Claude's own tools. A profile with blocked files or networking off must choose. unix covers macOS and Linux.",
+   "reach": {
+    "claude": {
+     "macos": {
+      "level": "enforced",
+      "writes": "managed-settings.json → sandbox",
+      "note": "The sandbox is built in."
+     },
+     "linux": {
+      "level": "enforced",
+      "writes": "managed-settings.json → sandbox",
+      "note": "Needs bubblewrap and socat installed; with required, Claude won't start without them."
+     },
+     "windows": {
+      "level": "not-available",
+      "note": "No Claude sandbox on native Windows: use tools-only."
+     }
+    }
+   },
+   "sources": [
+    {
+     "title": "Claude Code managed settings",
+     "url": "https://code.claude.com/docs/en/managed-settings"
+    },
+    {
+     "title": "AgentEdict role policy guide",
+     "url": "https://github.com/ryandunton/agent-edict/blob/main/docs/role-policy.md"
+    }
+   ],
+   "researched": "2026-10-17"
+  },
+  {
+   "id": "approval-policies",
+   "title": "Allowed approval policies",
+   "topic": "approvals",
+   "file": "profile",
+   "status": "supported",
+   "yaml_paths": [
+    "approval.policies"
+   ],
+   "value": {
+    "type": "string-list",
+    "options": [
+     "untrusted",
+     "on-failure",
+     "on-request",
+     "never"
+    ],
+    "default": [
+     "on-request"
+    ]
+   },
+   "description": "When Codex must stop and ask before acting. Users can only pick from this list.",
+   "reach": {
+    "codex": {
+     "macos": {
+      "level": "enforced",
+      "writes": "requirements.toml → allowed_approval_policies"
+     },
+     "linux": {
+      "level": "enforced",
+      "writes": "requirements.toml → allowed_approval_policies"
+     },
+     "windows": {
+      "level": "enforced",
+      "writes": "requirements.toml → allowed_approval_policies"
+     }
+    }
+   },
+   "sources": [
+    {
+     "title": "Codex managed configuration",
+     "url": "https://learn.chatgpt.com/docs/enterprise/managed-configuration"
+    }
+   ],
+   "researched": "2026-10-17"
+  },
+  {
+   "id": "approval-reviewers",
+   "title": "Allowed approval reviewers",
+   "topic": "approvals",
+   "file": "profile",
+   "status": "supported",
+   "yaml_paths": [
+    "approval.reviewers"
+   ],
+   "value": {
+    "type": "string-list",
+    "options": [
+     "auto_review",
+     "user"
+    ],
+    "default": [
+     "auto_review",
+     "user"
+    ]
+   },
+   "description": "Who may answer Codex's approval requests: the person (user) or Codex's automatic reviewer (auto_review).",
+   "reach": {
+    "codex": {
+     "macos": {
+      "level": "enforced",
+      "writes": "requirements.toml → allowed_approvals_reviewers"
+     },
+     "linux": {
+      "level": "enforced",
+      "writes": "requirements.toml → allowed_approvals_reviewers"
+     },
+     "windows": {
+      "level": "enforced",
+      "writes": "requirements.toml → allowed_approvals_reviewers"
+     }
+    }
+   },
+   "sources": [
+    {
+     "title": "Codex managed configuration",
+     "url": "https://learn.chatgpt.com/docs/enterprise/managed-configuration"
+    }
+   ],
+   "researched": "2026-10-17"
+  },
+  {
+   "id": "approval-bypass",
+   "title": "Bypass mode",
+   "topic": "approvals",
+   "file": "profile",
+   "status": "supported",
+   "yaml_paths": [
+    "approval.bypass_mode"
+   ],
+   "value": {
+    "type": "enum",
+    "options": [
+     "forbidden",
+     "allowed"
+    ],
+    "default": "forbidden"
+   },
+   "description": "Whether users may skip approvals. AgentEdict checks this only in read-only profiles, which must say forbidden; it isn't written to any file. Claude's bypass mode is always turned off.",
+   "reach": {
+    "codex": {
+     "macos": {
+      "level": "configuration-only",
+      "note": "Checked for read-only profiles only; not written."
+     },
+     "linux": {
+      "level": "configuration-only",
+      "note": "Checked for read-only profiles only; not written."
+     },
+     "windows": {
+      "level": "configuration-only",
+      "note": "Checked for read-only profiles only; not written."
+     }
+    }
+   },
+   "sources": [
+    {
+     "title": "AgentEdict README",
+     "url": "https://github.com/ryandunton/agent-edict/blob/main/README.md"
+    }
+   ],
+   "researched": "2026-10-17"
+  },
+  {
+   "id": "guardian-extra-policy",
+   "title": "Approval reviewer guidance",
+   "topic": "approvals",
+   "file": "profile",
+   "status": "supported",
+   "yaml_paths": [
+    "guardian_extra_policy"
+   ],
+   "value": {
+    "type": "text",
+    "default": ""
+   },
+   "description": "Extra guidance for Codex's automatic approval reviewer: what to approve and what to deny. Claude and OpenCode receive the same text as instructions. It guides the model; it doesn't block anything on its own.",
+   "reach": {
+    "codex": {
+     "macos": {
+      "level": "configuration-only",
+      "writes": "requirements.toml → guardian_extra_policy"
+     },
+     "linux": {
+      "level": "configuration-only",
+      "writes": "requirements.toml → guardian_extra_policy"
+     },
+     "windows": {
+      "level": "configuration-only",
+      "writes": "requirements.toml → guardian_extra_policy"
+     }
+    },
+    "claude": {
+     "macos": {
+      "level": "configuration-only",
+      "writes": "managed-settings.json → instructions"
+     },
+     "linux": {
+      "level": "configuration-only",
+      "writes": "managed-settings.json → instructions"
+     },
+     "windows": {
+      "level": "configuration-only",
+      "writes": "managed-settings.json → instructions"
+     }
+    },
+    "opencode": {
+     "macos": {
+      "level": "configuration-only",
+      "writes": "managed-instructions.md"
+     },
+     "linux": {
+      "level": "configuration-only",
+      "writes": "managed-instructions.md"
+     },
+     "windows": {
+      "level": "configuration-only",
+      "writes": "managed-instructions.md"
+     }
+    }
+   },
+   "sources": [
+    {
+     "title": "Codex managed configuration",
+     "url": "https://learn.chatgpt.com/docs/enterprise/managed-configuration"
+    },
+    {
+     "title": "AgentEdict README",
+     "url": "https://github.com/ryandunton/agent-edict/blob/main/README.md"
+    }
+   ],
+   "researched": "2026-10-17"
+  },
+  {
+   "id": "deny-read",
+   "title": "Blocked files",
+   "topic": "files",
+   "file": "profile",
+   "status": "supported",
+   "yaml_paths": [
+    "filesystem.deny_read.common",
+    "filesystem.deny_read.unix",
+    "filesystem.deny_read.windows"
+   ],
+   "value": {
+    "type": "os-string-list",
+    "default": {
+     "common": [
+      "~/.ssh"
+     ]
+    }
+   },
+   "description": "Paths the agent must never read, such as SSH keys and cloud credentials. common applies everywhere; unix covers macOS and Linux. OpenCode can't block reads, so a profile with this setting doesn't compile for OpenCode.",
+   "reach": {
+    "codex": {
+     "macos": {
+      "level": "enforced",
+      "writes": "requirements.toml → [permissions.filesystem] deny_read"
+     },
+     "linux": {
+      "level": "enforced",
+      "writes": "requirements.toml → [permissions.filesystem] deny_read"
+     },
+     "windows": {
+      "level": "enforced",
+      "writes": "requirements.toml → [permissions.filesystem] deny_read"
+     }
+    },
+    "claude": {
+     "macos": {
+      "level": "enforced",
+      "writes": "managed-settings.json → permissions.deny Read(…) and sandbox.filesystem.denyRead",
+      "note": "Shell commands are blocked only with claude.sandbox: required; with tools-only, only Claude's file tools are."
+     },
+     "linux": {
+      "level": "enforced",
+      "writes": "managed-settings.json → permissions.deny Read(…) and sandbox.filesystem.denyRead",
+      "note": "Shell commands are blocked only with claude.sandbox: required; with tools-only, only Claude's file tools are."
+     },
+     "windows": {
+      "level": "partial",
+      "writes": "managed-settings.json → permissions.deny Read(…)",
+      "note": "Claude's file tools only. Shell commands can still read these paths on Windows."
+     }
+    },
+    "opencode": {
+     "macos": {
+      "level": "not-available",
+      "note": "OpenCode can't block reads. The profile won't compile for OpenCode."
+     },
+     "linux": {
+      "level": "not-available",
+      "note": "OpenCode can't block reads. The profile won't compile for OpenCode."
+     },
+     "windows": {
+      "level": "not-available",
+      "note": "OpenCode can't block reads. The profile won't compile for OpenCode."
+     }
+    }
+   },
+   "sources": [
+    {
+     "title": "Codex managed configuration",
+     "url": "https://learn.chatgpt.com/docs/enterprise/managed-configuration"
+    },
+    {
+     "title": "Claude Code managed settings",
+     "url": "https://code.claude.com/docs/en/managed-settings"
+    },
+    {
+     "title": "AgentEdict role policy guide",
+     "url": "https://github.com/ryandunton/agent-edict/blob/main/docs/role-policy.md"
+    }
+   ],
+   "researched": "2026-10-17"
+  },
+  {
+   "id": "commands-deny",
+   "title": "Deny commands",
+   "topic": "commands",
+   "file": "profile",
+   "status": "supported",
+   "yaml_paths": [
+    "commands.deny.common",
+    "commands.deny.unix",
+    "commands.deny.windows"
+   ],
+   "value": {
+    "type": "os-string-list",
+    "default": {
+     "unix": [
+      "sudo"
+     ]
+    }
+   },
+   "description": "Commands the agent may never run, matched by how the command starts: \"sudo\" blocks every sudo command. common applies everywhere; unix covers macOS and Linux.",
+   "reach": {
+    "codex": {
+     "macos": {
+      "level": "enforced",
+      "writes": "requirements.toml → rules.prefix_rules (forbidden)"
+     },
+     "linux": {
+      "level": "enforced",
+      "writes": "requirements.toml → rules.prefix_rules (forbidden)"
+     },
+     "windows": {
+      "level": "enforced",
+      "writes": "requirements.toml → rules.prefix_rules (forbidden)"
+     }
+    },
+    "claude": {
+     "macos": {
+      "level": "enforced",
+      "writes": "managed-settings.json → permissions.deny Bash(…)",
+      "note": "Matched by Claude's permission rules."
+     },
+     "linux": {
+      "level": "enforced",
+      "writes": "managed-settings.json → permissions.deny Bash(…)",
+      "note": "Matched by Claude's permission rules."
+     },
+     "windows": {
+      "level": "enforced",
+      "writes": "managed-settings.json → permissions.deny Bash(…)",
+      "note": "Matched by Claude's permission rules."
+     }
+    },
+    "opencode": {
+     "macos": {
+      "level": "enforced",
+      "writes": "opencode.json → permission.bash (deny)"
+     },
+     "linux": {
+      "level": "enforced",
+      "writes": "opencode.json → permission.bash (deny)"
+     },
+     "windows": {
+      "level": "enforced",
+      "writes": "opencode.json → permission.bash (deny)"
+     }
+    }
+   },
+   "sources": [
+    {
+     "title": "Codex managed configuration",
+     "url": "https://learn.chatgpt.com/docs/enterprise/managed-configuration"
+    },
+    {
+     "title": "Claude Code managed settings",
+     "url": "https://code.claude.com/docs/en/managed-settings"
+    },
+    {
+     "title": "OpenCode permissions",
+     "url": "https://opencode.ai/docs/permissions/"
+    }
+   ],
+   "researched": "2026-10-17"
+  },
+  {
+   "id": "commands-prompt",
+   "title": "Ask before commands",
+   "topic": "commands",
+   "file": "profile",
+   "status": "supported",
+   "yaml_paths": [
+    "commands.prompt.common",
+    "commands.prompt.unix",
+    "commands.prompt.windows"
+   ],
+   "value": {
+    "type": "os-string-list",
+    "default": {
+     "common": [
+      "git push"
+     ]
+    }
+   },
+   "description": "Commands the agent must ask about before running, matched by how the command starts.",
+   "reach": {
+    "codex": {
+     "macos": {
+      "level": "enforced",
+      "writes": "requirements.toml → rules.prefix_rules (prompt)"
+     },
+     "linux": {
+      "level": "enforced",
+      "writes": "requirements.toml → rules.prefix_rules (prompt)"
+     },
+     "windows": {
+      "level": "enforced",
+      "writes": "requirements.toml → rules.prefix_rules (prompt)"
+     }
+    },
+    "claude": {
+     "macos": {
+      "level": "enforced",
+      "writes": "managed-settings.json → permissions.ask Bash(…)"
+     },
+     "linux": {
+      "level": "enforced",
+      "writes": "managed-settings.json → permissions.ask Bash(…)"
+     },
+     "windows": {
+      "level": "enforced",
+      "writes": "managed-settings.json → permissions.ask Bash(…)"
+     }
+    },
+    "opencode": {
+     "macos": {
+      "level": "enforced",
+      "writes": "opencode.json → permission.bash (ask)"
+     },
+     "linux": {
+      "level": "enforced",
+      "writes": "opencode.json → permission.bash (ask)"
+     },
+     "windows": {
+      "level": "enforced",
+      "writes": "opencode.json → permission.bash (ask)"
+     }
+    }
+   },
+   "sources": [
+    {
+     "title": "Codex managed configuration",
+     "url": "https://learn.chatgpt.com/docs/enterprise/managed-configuration"
+    },
+    {
+     "title": "Claude Code managed settings",
+     "url": "https://code.claude.com/docs/en/managed-settings"
+    },
+    {
+     "title": "OpenCode permissions",
+     "url": "https://opencode.ai/docs/permissions/"
+    }
+   ],
+   "researched": "2026-10-17"
+  },
+  {
+   "id": "commands-allow",
+   "title": "Allow commands",
+   "topic": "commands",
+   "file": "profile",
+   "status": "supported",
+   "yaml_paths": [
+    "commands.allow.common",
+    "commands.allow.unix",
+    "commands.allow.windows"
+   ],
+   "value": {
+    "type": "os-string-list",
+    "default": {
+     "common": [
+      "git status"
+     ]
+    }
+   },
+   "description": "Commands the agent may run without asking, matched by how the command starts. Codex has no allow rules in its admin file; its approval policy decides.",
+   "reach": {
+    "codex": {
+     "macos": {
+      "level": "not-available",
+      "note": "Codex's admin file has no allow rules."
+     },
+     "linux": {
+      "level": "not-available",
+      "note": "Codex's admin file has no allow rules."
+     },
+     "windows": {
+      "level": "not-available",
+      "note": "Codex's admin file has no allow rules."
+     }
+    },
+    "claude": {
+     "macos": {
+      "level": "enforced",
+      "writes": "managed-settings.json → permissions.allow Bash(…)",
+      "note": "Only these managed allow rules count; users' own rules are ignored."
+     },
+     "linux": {
+      "level": "enforced",
+      "writes": "managed-settings.json → permissions.allow Bash(…)",
+      "note": "Only these managed allow rules count; users' own rules are ignored."
+     },
+     "windows": {
+      "level": "enforced",
+      "writes": "managed-settings.json → permissions.allow Bash(…)",
+      "note": "Only these managed allow rules count; users' own rules are ignored."
+     }
+    },
+    "opencode": {
+     "macos": {
+      "level": "enforced",
+      "writes": "opencode.json → permission.bash (allow)"
+     },
+     "linux": {
+      "level": "enforced",
+      "writes": "opencode.json → permission.bash (allow)"
+     },
+     "windows": {
+      "level": "enforced",
+      "writes": "opencode.json → permission.bash (allow)"
+     }
+    }
+   },
+   "sources": [
+    {
+     "title": "Codex managed configuration",
+     "url": "https://learn.chatgpt.com/docs/enterprise/managed-configuration"
+    },
+    {
+     "title": "Claude Code managed settings",
+     "url": "https://code.claude.com/docs/en/managed-settings"
+    },
+    {
+     "title": "OpenCode permissions",
+     "url": "https://opencode.ai/docs/permissions/"
+    }
+   ],
+   "researched": "2026-10-17"
+  },
+  {
+   "id": "allow-login-shell",
+   "title": "Allow login shells",
+   "topic": "commands",
+   "file": "profile",
+   "status": "supported",
+   "yaml_paths": [
+    "flags.allow_login_shell"
+   ],
+   "value": {
+    "type": "bool",
+    "default": false
+   },
+   "description": "Whether Codex may start commands in a login shell, which loads the user's shell profile scripts.",
+   "reach": {
+    "codex": {
+     "macos": {
+      "level": "enforced",
+      "writes": "requirements.toml → allow_login_shell"
+     },
+     "linux": {
+      "level": "enforced",
+      "writes": "requirements.toml → allow_login_shell"
+     },
+     "windows": {
+      "level": "enforced",
+      "writes": "requirements.toml → allow_login_shell"
+     }
+    }
+   },
+   "sources": [
+    {
+     "title": "Codex managed configuration",
+     "url": "https://learn.chatgpt.com/docs/enterprise/managed-configuration"
+    }
+   ],
+   "researched": "2026-10-17"
+  },
+  {
+   "id": "web-search-modes",
+   "title": "Web search",
+   "topic": "web",
+   "file": "profile",
+   "status": "supported",
+   "yaml_paths": [
+    "web_search.modes"
+   ],
+   "value": {
+    "type": "string-list",
+    "options": [
+     "disabled",
+     "cached",
+     "indexed",
+     "live"
+    ],
+    "default": [
+     "cached"
+    ]
+   },
+   "description": "Which kinds of web search the agent may use. disabled on its own turns web search off. OpenCode follows the first mode: disabled denies its web fetch tool, live allows it, anything else asks.",
+   "reach": {
+    "codex": {
+     "macos": {
+      "level": "enforced",
+      "writes": "requirements.toml → allowed_web_search_modes"
+     },
+     "linux": {
+      "level": "enforced",
+      "writes": "requirements.toml → allowed_web_search_modes"
+     },
+     "windows": {
+      "level": "enforced",
+      "writes": "requirements.toml → allowed_web_search_modes"
+     }
+    },
+    "opencode": {
+     "macos": {
+      "level": "partial",
+      "writes": "opencode.json → permission.webfetch",
+      "note": "Only the first mode is used."
+     },
+     "linux": {
+      "level": "partial",
+      "writes": "opencode.json → permission.webfetch",
+      "note": "Only the first mode is used."
+     },
+     "windows": {
+      "level": "partial",
+      "writes": "opencode.json → permission.webfetch",
+      "note": "Only the first mode is used."
+     }
+    }
+   },
+   "sources": [
+    {
+     "title": "Codex managed configuration",
+     "url": "https://learn.chatgpt.com/docs/enterprise/managed-configuration"
+    },
+    {
+     "title": "OpenCode permissions",
+     "url": "https://opencode.ai/docs/permissions/"
+    }
+   ],
+   "researched": "2026-10-17"
+  },
+  {
+   "id": "browser-use",
+   "title": "Browser use rules",
+   "topic": "web",
+   "file": "profile",
+   "status": "supported",
+   "yaml_paths": [
+    "browser_use.allow_history_access",
+    "browser_use.allow_global_persistent_approval",
+    "browser_use.default_origin_policy.access",
+    "browser_use.default_origin_policy.uploads",
+    "browser_use.default_origin_policy.downloads",
+    "browser_use.default_origin_policy.full_cdp_access",
+    "browser_use.default_origin_policy.persistent_approval",
+    "browser_use.default_origin_policy.access_approval_lifetime"
+   ],
+   "value": {
+    "type": "object",
+    "fields": [
+     {
+      "type": "bool",
+      "default": false,
+      "key": "allow_history_access",
+      "label": "Read browser history"
+     },
+     {
+      "type": "bool",
+      "default": false,
+      "key": "allow_global_persistent_approval",
+      "label": "Remember approvals for every site"
+     },
+     {
+      "type": "object",
+      "fields": [
+       {
+        "type": "enum",
+        "options": [
+         "allow",
+         "ask",
+         "deny"
+        ],
+        "default": "ask",
+        "key": "access",
+        "label": "Visit sites"
+       },
+       {
+        "type": "enum",
+        "options": [
+         "allow",
+         "ask",
+         "deny"
+        ],
+        "default": "deny",
+        "key": "uploads",
+        "label": "Upload files"
+       },
+       {
+        "type": "enum",
+        "options": [
+         "allow",
+         "ask",
+         "deny"
+        ],
+        "default": "ask",
+        "key": "downloads",
+        "label": "Download files"
+       },
+       {
+        "type": "enum",
+        "options": [
+         "allow",
+         "ask",
+         "deny"
+        ],
+        "default": "deny",
+        "key": "full_cdp_access",
+        "label": "Full browser control (CDP)"
+       },
+       {
+        "type": "bool",
+        "default": false,
+        "key": "persistent_approval",
+        "label": "Remember site approvals"
+       },
+       {
+        "type": "enum",
+        "options": [
+         "thread",
+         "session"
+        ],
+        "default": "thread",
+        "key": "access_approval_lifetime",
+        "label": "Approval lasts for"
+       }
+      ],
+      "key": "default_origin_policy",
+      "label": "Default for each site"
+     }
+    ]
+   },
+   "description": "What Codex may do in a browser on any site: visiting, uploading, downloading, full browser control, and how long approvals last.",
+   "reach": {
+    "codex": {
+     "macos": {
+      "level": "enforced",
+      "writes": "requirements.toml → [browser_use]"
+     },
+     "linux": {
+      "level": "enforced",
+      "writes": "requirements.toml → [browser_use]"
+     },
+     "windows": {
+      "level": "enforced",
+      "writes": "requirements.toml → [browser_use]"
+     }
+    }
+   },
+   "sources": [
+    {
+     "title": "Codex managed configuration",
+     "url": "https://learn.chatgpt.com/docs/enterprise/managed-configuration"
+    }
+   ],
+   "researched": "2026-10-17"
+  },
+  {
+   "id": "allow-locked-computer-use",
+   "title": "Computer use while locked",
+   "topic": "web",
+   "file": "profile",
+   "status": "supported",
+   "yaml_paths": [
+    "computer_use.allow_locked_computer_use"
+   ],
+   "value": {
+    "type": "bool",
+    "default": false
+   },
+   "description": "Whether Codex may control the computer while the screen is locked.",
+   "reach": {
+    "codex": {
+     "macos": {
+      "level": "enforced",
+      "writes": "requirements.toml → [computer_use] allow_locked_computer_use"
+     },
+     "linux": {
+      "level": "enforced",
+      "writes": "requirements.toml → [computer_use] allow_locked_computer_use"
+     },
+     "windows": {
+      "level": "enforced",
+      "writes": "requirements.toml → [computer_use] allow_locked_computer_use"
+     }
+    }
+   },
+   "sources": [
+    {
+     "title": "Codex managed configuration",
+     "url": "https://learn.chatgpt.com/docs/enterprise/managed-configuration"
+    }
+   ],
+   "researched": "2026-10-17"
+  },
+  {
+   "id": "allow-browser-and-computer-use",
+   "title": "Allow browser and computer use",
+   "topic": "web",
+   "file": "profile",
+   "status": "supported",
+   "yaml_paths": [
+    "flags.allow_browser_and_computer_use"
+   ],
+   "value": {
+    "type": "bool",
+    "default": false
+   },
+   "description": "Master switch for Codex controlling a browser or the computer.",
+   "reach": {
+    "codex": {
+     "macos": {
+      "level": "enforced",
+      "writes": "requirements.toml → allow_browser_and_computer_use"
+     },
+     "linux": {
+      "level": "enforced",
+      "writes": "requirements.toml → allow_browser_and_computer_use"
+     },
+     "windows": {
+      "level": "enforced",
+      "writes": "requirements.toml → allow_browser_and_computer_use"
+     }
+    }
+   },
+   "sources": [
+    {
+     "title": "Codex managed configuration",
+     "url": "https://learn.chatgpt.com/docs/enterprise/managed-configuration"
+    }
+   ],
+   "researched": "2026-10-17"
+  },
+  {
+   "id": "allow-appshots",
+   "title": "Allow Appshots",
+   "topic": "web",
+   "file": "profile",
+   "status": "supported",
+   "yaml_paths": [
+    "flags.allow_appshots"
+   ],
+   "value": {
+    "type": "bool",
+    "default": false
+   },
+   "description": "Whether Codex may take screenshots of apps (Appshots).",
+   "reach": {
+    "codex": {
+     "macos": {
+      "level": "enforced",
+      "writes": "requirements.toml → allow_appshots"
+     },
+     "linux": {
+      "level": "enforced",
+      "writes": "requirements.toml → allow_appshots"
+     },
+     "windows": {
+      "level": "enforced",
+      "writes": "requirements.toml → allow_appshots"
+     }
+    }
+   },
+   "sources": [
+    {
+     "title": "Codex managed configuration",
+     "url": "https://learn.chatgpt.com/docs/enterprise/managed-configuration"
+    }
+   ],
+   "researched": "2026-10-17"
+  },
+  {
+   "id": "allow-remote-control",
+   "title": "Allow remote control",
+   "topic": "web",
+   "file": "profile",
+   "status": "supported",
+   "yaml_paths": [
+    "flags.allow_remote_control"
+   ],
+   "value": {
+    "type": "bool",
+    "default": false
+   },
+   "description": "Whether a Codex session on this machine may be driven from another device.",
+   "reach": {
+    "codex": {
+     "macos": {
+      "level": "enforced",
+      "writes": "requirements.toml → allow_remote_control"
+     },
+     "linux": {
+      "level": "enforced",
+      "writes": "requirements.toml → allow_remote_control"
+     },
+     "windows": {
+      "level": "enforced",
+      "writes": "requirements.toml → allow_remote_control"
+     }
+    }
+   },
+   "sources": [
+    {
+     "title": "Codex managed configuration",
+     "url": "https://learn.chatgpt.com/docs/enterprise/managed-configuration"
+    }
+   ],
+   "researched": "2026-10-17"
+  },
+  {
+   "id": "mcp-servers",
+   "title": "MCP servers",
+   "topic": "mcp",
+   "file": "profile",
+   "status": "supported",
+   "yaml_paths": [
+    "mcp_servers.*.url",
+    "mcp_servers.*.unix.command",
+    "mcp_servers.*.unix.args",
+    "mcp_servers.*.windows.command",
+    "mcp_servers.*.windows.args",
+    "mcp_servers.*.trust"
+   ],
+   "value": {
+    "type": "map",
+    "values": {
+     "type": "object",
+     "fields": [
+      {
+       "type": "string",
+       "key": "url",
+       "label": "Remote server URL"
+      },
+      {
+       "type": "object",
+       "fields": [
+        {
+         "type": "string",
+         "key": "command"
+        },
+        {
+         "type": "string-list",
+         "key": "args"
+        }
+       ],
+       "optional": true,
+       "key": "unix",
+       "label": "Local server on macOS and Linux"
+      },
+      {
+       "type": "object",
+       "fields": [
+        {
+         "type": "string",
+         "key": "command"
+        },
+        {
+         "type": "string-list",
+         "key": "args"
+        }
+       ],
+       "optional": true,
+       "key": "windows",
+       "label": "Local server on Windows"
+      },
+      {
+       "type": "bool",
+       "default": false,
+       "key": "trust",
+       "label": "Trusted (not written yet)"
+      }
+     ]
+    },
+    "key_label": "Server name",
+    "default": {}
+   },
+   "description": "The only MCP servers the agent may use. Leave the list empty to allow none. Give each server a URL, or the command that starts it on each OS. The trust flag is accepted but not written to any tool yet.",
+   "reach": {
+    "codex": {
+     "macos": {
+      "level": "enforced",
+      "writes": "requirements.toml → [mcp_servers.<name>] identity",
+      "note": "Matched by URL or launch command."
+     },
+     "linux": {
+      "level": "enforced",
+      "writes": "requirements.toml → [mcp_servers.<name>] identity",
+      "note": "Matched by URL or launch command."
+     },
+     "windows": {
+      "level": "enforced",
+      "writes": "requirements.toml → [mcp_servers.<name>] identity",
+      "note": "Matched by URL or launch command."
+     }
+    },
+    "claude": {
+     "macos": {
+      "level": "enforced",
+      "writes": "managed-settings.json → allowedMcpServers",
+      "note": "Matched by server name only."
+     },
+     "linux": {
+      "level": "enforced",
+      "writes": "managed-settings.json → allowedMcpServers",
+      "note": "Matched by server name only."
+     },
+     "windows": {
+      "level": "enforced",
+      "writes": "managed-settings.json → allowedMcpServers",
+      "note": "Matched by server name only."
+     }
+    },
+    "opencode": {
+     "macos": {
+      "level": "configuration-only",
+      "writes": "opencode.json → mcp",
+      "note": "Adds these servers; it doesn't stop users adding their own."
+     },
+     "linux": {
+      "level": "configuration-only",
+      "writes": "opencode.json → mcp",
+      "note": "Adds these servers; it doesn't stop users adding their own."
+     },
+     "windows": {
+      "level": "configuration-only",
+      "writes": "opencode.json → mcp",
+      "note": "Adds these servers; it doesn't stop users adding their own."
+     }
+    }
+   },
+   "sources": [
+    {
+     "title": "Codex managed configuration",
+     "url": "https://learn.chatgpt.com/docs/enterprise/managed-configuration"
+    },
+    {
+     "title": "Claude Code managed settings",
+     "url": "https://code.claude.com/docs/en/managed-settings"
+    },
+    {
+     "title": "OpenCode config",
+     "url": "https://opencode.ai/docs/config/"
+    }
+   ],
+   "researched": "2026-10-17"
+  },
+  {
+   "id": "feature-apps",
+   "title": "Apps",
+   "topic": "features",
+   "file": "profile",
+   "status": "supported",
+   "yaml_paths": [
+    "features.apps"
+   ],
+   "value": {
+    "type": "bool",
+    "default": false
+   },
+   "description": "Whether Codex may use connected apps. Set to false to turn the feature off for everyone.",
+   "reach": {
+    "codex": {
+     "macos": {
+      "level": "enforced",
+      "writes": "requirements.toml → [features] apps"
+     },
+     "linux": {
+      "level": "enforced",
+      "writes": "requirements.toml → [features] apps"
+     },
+     "windows": {
+      "level": "enforced",
+      "writes": "requirements.toml → [features] apps"
+     }
+    }
+   },
+   "sources": [
+    {
+     "title": "Codex managed configuration",
+     "url": "https://learn.chatgpt.com/docs/enterprise/managed-configuration"
+    }
+   ],
+   "researched": "2026-10-17"
+  },
+  {
+   "id": "feature-browser-use",
+   "title": "Browser use",
+   "topic": "features",
+   "file": "profile",
+   "status": "supported",
+   "yaml_paths": [
+    "features.browser_use"
+   ],
+   "value": {
+    "type": "bool",
+    "default": false
+   },
+   "description": "Whether Codex may control its built-in browser. Set to false to turn the feature off for everyone.",
+   "reach": {
+    "codex": {
+     "macos": {
+      "level": "enforced",
+      "writes": "requirements.toml → [features] browser_use"
+     },
+     "linux": {
+      "level": "enforced",
+      "writes": "requirements.toml → [features] browser_use"
+     },
+     "windows": {
+      "level": "enforced",
+      "writes": "requirements.toml → [features] browser_use"
+     }
+    }
+   },
+   "sources": [
+    {
+     "title": "Codex managed configuration",
+     "url": "https://learn.chatgpt.com/docs/enterprise/managed-configuration"
+    }
+   ],
+   "researched": "2026-10-17"
+  },
+  {
+   "id": "feature-browser-use-external",
+   "title": "External browser use",
+   "topic": "features",
+   "file": "profile",
+   "status": "supported",
+   "yaml_paths": [
+    "features.browser_use_external"
+   ],
+   "value": {
+    "type": "bool",
+    "default": false
+   },
+   "description": "Whether Codex may control a browser outside Codex. Set to false to turn the feature off for everyone.",
+   "reach": {
+    "codex": {
+     "macos": {
+      "level": "enforced",
+      "writes": "requirements.toml → [features] browser_use_external"
+     },
+     "linux": {
+      "level": "enforced",
+      "writes": "requirements.toml → [features] browser_use_external"
+     },
+     "windows": {
+      "level": "enforced",
+      "writes": "requirements.toml → [features] browser_use_external"
+     }
+    }
+   },
+   "sources": [
+    {
+     "title": "Codex managed configuration",
+     "url": "https://learn.chatgpt.com/docs/enterprise/managed-configuration"
+    }
+   ],
+   "researched": "2026-10-17"
+  },
+  {
+   "id": "feature-browser-use-full-cdp-access",
+   "title": "Full browser control",
+   "topic": "features",
+   "file": "profile",
+   "status": "supported",
+   "yaml_paths": [
+    "features.browser_use_full_cdp_access"
+   ],
+   "value": {
+    "type": "bool",
+    "default": false
+   },
+   "description": "Whether Codex may use full Chrome DevTools Protocol access to a browser. Set to false to turn the feature off for everyone.",
+   "reach": {
+    "codex": {
+     "macos": {
+      "level": "enforced",
+      "writes": "requirements.toml → [features] browser_use_full_cdp_access"
+     },
+     "linux": {
+      "level": "enforced",
+      "writes": "requirements.toml → [features] browser_use_full_cdp_access"
+     },
+     "windows": {
+      "level": "enforced",
+      "writes": "requirements.toml → [features] browser_use_full_cdp_access"
+     }
+    }
+   },
+   "sources": [
+    {
+     "title": "Codex managed configuration",
+     "url": "https://learn.chatgpt.com/docs/enterprise/managed-configuration"
+    }
+   ],
+   "researched": "2026-10-17"
+  },
+  {
+   "id": "feature-computer-use",
+   "title": "Computer use",
+   "topic": "features",
+   "file": "profile",
+   "status": "supported",
+   "yaml_paths": [
+    "features.computer_use"
+   ],
+   "value": {
+    "type": "bool",
+    "default": false
+   },
+   "description": "Whether Codex may control the mouse, keyboard and screen. Set to false to turn the feature off for everyone.",
+   "reach": {
+    "codex": {
+     "macos": {
+      "level": "enforced",
+      "writes": "requirements.toml → [features] computer_use"
+     },
+     "linux": {
+      "level": "enforced",
+      "writes": "requirements.toml → [features] computer_use"
+     },
+     "windows": {
+      "level": "enforced",
+      "writes": "requirements.toml → [features] computer_use"
+     }
+    }
+   },
+   "sources": [
+    {
+     "title": "Codex managed configuration",
+     "url": "https://learn.chatgpt.com/docs/enterprise/managed-configuration"
+    }
+   ],
+   "researched": "2026-10-17"
+  },
+  {
+   "id": "feature-in-app-browser",
+   "title": "In-app browser",
+   "topic": "features",
+   "file": "profile",
+   "status": "supported",
+   "yaml_paths": [
+    "features.in_app_browser"
+   ],
+   "value": {
+    "type": "bool",
+    "default": false
+   },
+   "description": "Whether Codex may open web pages in its in-app browser. Set to false to turn the feature off for everyone.",
+   "reach": {
+    "codex": {
+     "macos": {
+      "level": "enforced",
+      "writes": "requirements.toml → [features] in_app_browser"
+     },
+     "linux": {
+      "level": "enforced",
+      "writes": "requirements.toml → [features] in_app_browser"
+     },
+     "windows": {
+      "level": "enforced",
+      "writes": "requirements.toml → [features] in_app_browser"
+     }
+    }
+   },
+   "sources": [
+    {
+     "title": "Codex managed configuration",
+     "url": "https://learn.chatgpt.com/docs/enterprise/managed-configuration"
+    }
+   ],
+   "researched": "2026-10-17"
+  },
+  {
+   "id": "feature-memories",
+   "title": "Memories",
+   "topic": "features",
+   "file": "profile",
+   "status": "supported",
+   "yaml_paths": [
+    "features.memories"
+   ],
+   "value": {
+    "type": "bool",
+    "default": false
+   },
+   "description": "Whether Codex may remember things between sessions. Set to false to turn the feature off for everyone.",
+   "reach": {
+    "codex": {
+     "macos": {
+      "level": "enforced",
+      "writes": "requirements.toml → [features] memories"
+     },
+     "linux": {
+      "level": "enforced",
+      "writes": "requirements.toml → [features] memories"
+     },
+     "windows": {
+      "level": "enforced",
+      "writes": "requirements.toml → [features] memories"
+     }
+    }
+   },
+   "sources": [
+    {
+     "title": "Codex managed configuration",
+     "url": "https://learn.chatgpt.com/docs/enterprise/managed-configuration"
+    }
+   ],
+   "researched": "2026-10-17"
+  },
+  {
+   "id": "feature-multi-agent",
+   "title": "Multiple agents",
+   "topic": "features",
+   "file": "profile",
+   "status": "supported",
+   "yaml_paths": [
+    "features.multi_agent"
+   ],
+   "value": {
+    "type": "bool",
+    "default": false
+   },
+   "description": "Whether Codex may start helper agents. Set to false to turn the feature off for everyone.",
+   "reach": {
+    "codex": {
+     "macos": {
+      "level": "enforced",
+      "writes": "requirements.toml → [features] multi_agent"
+     },
+     "linux": {
+      "level": "enforced",
+      "writes": "requirements.toml → [features] multi_agent"
+     },
+     "windows": {
+      "level": "enforced",
+      "writes": "requirements.toml → [features] multi_agent"
+     }
+    }
+   },
+   "sources": [
+    {
+     "title": "Codex managed configuration",
+     "url": "https://learn.chatgpt.com/docs/enterprise/managed-configuration"
+    }
+   ],
+   "researched": "2026-10-17"
+  },
+  {
+   "id": "feature-plugin-sharing",
+   "title": "Plugin sharing",
+   "topic": "features",
+   "file": "profile",
+   "status": "supported",
+   "yaml_paths": [
+    "features.plugin_sharing"
+   ],
+   "value": {
+    "type": "bool",
+    "default": false
+   },
+   "description": "Whether users may share Codex plugins. Set to false to turn the feature off for everyone.",
+   "reach": {
+    "codex": {
+     "macos": {
+      "level": "enforced",
+      "writes": "requirements.toml → [features] plugin_sharing"
+     },
+     "linux": {
+      "level": "enforced",
+      "writes": "requirements.toml → [features] plugin_sharing"
+     },
+     "windows": {
+      "level": "enforced",
+      "writes": "requirements.toml → [features] plugin_sharing"
+     }
+    }
+   },
+   "sources": [
+    {
+     "title": "Codex managed configuration",
+     "url": "https://learn.chatgpt.com/docs/enterprise/managed-configuration"
+    }
+   ],
+   "researched": "2026-10-17"
+  },
+  {
+   "id": "feature-plugins",
+   "title": "Plugins",
+   "topic": "features",
+   "file": "profile",
+   "status": "supported",
+   "yaml_paths": [
+    "features.plugins"
+   ],
+   "value": {
+    "type": "bool",
+    "default": false
+   },
+   "description": "Whether Codex may use plugins. Set to false to turn the feature off for everyone.",
+   "reach": {
+    "codex": {
+     "macos": {
+      "level": "enforced",
+      "writes": "requirements.toml → [features] plugins"
+     },
+     "linux": {
+      "level": "enforced",
+      "writes": "requirements.toml → [features] plugins"
+     },
+     "windows": {
+      "level": "enforced",
+      "writes": "requirements.toml → [features] plugins"
+     }
+    }
+   },
+   "sources": [
+    {
+     "title": "Codex managed configuration",
+     "url": "https://learn.chatgpt.com/docs/enterprise/managed-configuration"
+    }
+   ],
+   "researched": "2026-10-17"
+  },
+  {
+   "id": "feature-remote-plugin",
+   "title": "Remote plugins",
+   "topic": "features",
+   "file": "profile",
+   "status": "supported",
+   "yaml_paths": [
+    "features.remote_plugin"
+   ],
+   "value": {
+    "type": "bool",
+    "default": false
+   },
+   "description": "Whether Codex may install plugins from remote sources. Set to false to turn the feature off for everyone.",
+   "reach": {
+    "codex": {
+     "macos": {
+      "level": "enforced",
+      "writes": "requirements.toml → [features] remote_plugin"
+     },
+     "linux": {
+      "level": "enforced",
+      "writes": "requirements.toml → [features] remote_plugin"
+     },
+     "windows": {
+      "level": "enforced",
+      "writes": "requirements.toml → [features] remote_plugin"
+     }
+    }
+   },
+   "sources": [
+    {
+     "title": "Codex managed configuration",
+     "url": "https://learn.chatgpt.com/docs/enterprise/managed-configuration"
+    }
+   ],
+   "researched": "2026-10-17"
+  },
+  {
+   "id": "feature-guardian-approval",
+   "title": "Automatic approval reviewer",
+   "topic": "features",
+   "file": "profile",
+   "status": "supported",
+   "yaml_paths": [
+    "features.guardian_approval"
+   ],
+   "value": {
+    "type": "bool",
+    "default": false
+   },
+   "description": "Whether Codex's automatic reviewer may answer approval requests. Set to false to turn the feature off for everyone.",
+   "reach": {
+    "codex": {
+     "macos": {
+      "level": "enforced",
+      "writes": "requirements.toml → [features] guardian_approval"
+     },
+     "linux": {
+      "level": "enforced",
+      "writes": "requirements.toml → [features] guardian_approval"
+     },
+     "windows": {
+      "level": "enforced",
+      "writes": "requirements.toml → [features] guardian_approval"
+     }
+    }
+   },
+   "sources": [
+    {
+     "title": "Codex managed configuration",
+     "url": "https://learn.chatgpt.com/docs/enterprise/managed-configuration"
+    }
+   ],
+   "researched": "2026-10-17"
+  },
+  {
+   "id": "allow-managed-hooks-only",
+   "title": "Managed hooks only",
+   "topic": "features",
+   "file": "profile",
+   "status": "supported",
+   "yaml_paths": [
+    "flags.allow_managed_hooks_only"
+   ],
+   "value": {
+    "type": "bool",
+    "default": true
+   },
+   "description": "Whether Codex runs only hooks the administrator installed, ignoring hooks users add. AgentEdict writes true unless you say otherwise.",
+   "reach": {
+    "codex": {
+     "macos": {
+      "level": "enforced",
+      "writes": "requirements.toml → allow_managed_hooks_only"
+     },
+     "linux": {
+      "level": "enforced",
+      "writes": "requirements.toml → allow_managed_hooks_only"
+     },
+     "windows": {
+      "level": "enforced",
+      "writes": "requirements.toml → allow_managed_hooks_only"
+     }
+    }
+   },
+   "sources": [
+    {
+     "title": "Codex managed configuration",
+     "url": "https://learn.chatgpt.com/docs/enterprise/managed-configuration"
+    }
+   ],
+   "researched": "2026-10-17"
+  },
+  {
+   "id": "feedback",
+   "title": "Send feedback",
+   "topic": "features",
+   "file": "profile",
+   "status": "supported",
+   "yaml_paths": [
+    "feedback.enabled"
+   ],
+   "value": {
+    "type": "bool",
+    "default": false
+   },
+   "description": "Whether users may send feedback reports to OpenAI from Codex.",
+   "reach": {
+    "codex": {
+     "macos": {
+      "level": "enforced",
+      "writes": "requirements.toml → [feedback] enabled"
+     },
+     "linux": {
+      "level": "enforced",
+      "writes": "requirements.toml → [feedback] enabled"
+     },
+     "windows": {
+      "level": "enforced",
+      "writes": "requirements.toml → [feedback] enabled"
+     }
+    }
+   },
+   "sources": [
+    {
+     "title": "Codex managed configuration",
+     "url": "https://learn.chatgpt.com/docs/enterprise/managed-configuration"
+    }
+   ],
+   "researched": "2026-10-17"
+  },
+  {
+   "id": "developer-instructions",
+   "title": "Instructions for the agent",
+   "topic": "instructions",
+   "file": "profile",
+   "status": "supported",
+   "yaml_paths": [
+    "additional_developer_instructions"
+   ],
+   "value": {
+    "type": "text",
+    "default": ""
+   },
+   "description": "Text added to every conversation, such as \"check authentication changes for security risks\". It guides the model; it doesn't block anything.",
+   "reach": {
+    "codex": {
+     "macos": {
+      "level": "configuration-only",
+      "writes": "requirements.toml → additional_developer_instructions"
+     },
+     "linux": {
+      "level": "configuration-only",
+      "writes": "requirements.toml → additional_developer_instructions"
+     },
+     "windows": {
+      "level": "configuration-only",
+      "writes": "requirements.toml → additional_developer_instructions"
+     }
+    },
+    "claude": {
+     "macos": {
+      "level": "configuration-only",
+      "writes": "managed-settings.json → instructions"
+     },
+     "linux": {
+      "level": "configuration-only",
+      "writes": "managed-settings.json → instructions"
+     },
+     "windows": {
+      "level": "configuration-only",
+      "writes": "managed-settings.json → instructions"
+     }
+    },
+    "opencode": {
+     "macos": {
+      "level": "configuration-only",
+      "writes": "managed-instructions.md"
+     },
+     "linux": {
+      "level": "configuration-only",
+      "writes": "managed-instructions.md"
+     },
+     "windows": {
+      "level": "configuration-only",
+      "writes": "managed-instructions.md"
+     }
+    }
+   },
+   "sources": [
+    {
+     "title": "Codex managed configuration",
+     "url": "https://learn.chatgpt.com/docs/enterprise/managed-configuration"
+    },
+    {
+     "title": "OpenCode config",
+     "url": "https://opencode.ai/docs/config/"
+    }
+   ],
+   "researched": "2026-10-17"
+  },
+  {
+   "id": "otel",
+   "title": "Telemetry export",
+   "topic": "telemetry",
+   "file": "profile",
+   "status": "supported",
+   "yaml_paths": [
+    "otel.enabled",
+    "otel.endpoint",
+    "otel.log_user_prompt"
+   ],
+   "value": {
+    "type": "object",
+    "fields": [
+     {
+      "type": "bool",
+      "default": true,
+      "key": "enabled"
+     },
+     {
+      "type": "string",
+      "default": "https://otel.example.com:4318",
+      "key": "endpoint",
+      "label": "OTLP HTTP endpoint"
+     },
+     {
+      "type": "bool",
+      "default": false,
+      "key": "log_user_prompt",
+      "label": "Include prompt text"
+     }
+    ]
+   },
+   "description": "Sends Codex usage events to your OpenTelemetry collector. Only `edict compile` writes it, for Codex-only read-only profiles, as a separate <name>.codex.config.toml; bundles don't install it.",
+   "reach": {
+    "codex": {
+     "macos": {
+      "level": "configuration-only",
+      "writes": "<name>.codex.config.toml → [otel]",
+      "note": "Written only by edict compile for read-only profiles; not installed by bundles."
+     },
+     "linux": {
+      "level": "configuration-only",
+      "writes": "<name>.codex.config.toml → [otel]",
+      "note": "Written only by edict compile for read-only profiles; not installed by bundles."
+     },
+     "windows": {
+      "level": "configuration-only",
+      "writes": "<name>.codex.config.toml → [otel]",
+      "note": "Written only by edict compile for read-only profiles; not installed by bundles."
+     }
+    }
+   },
+   "sources": [
+    {
+     "title": "Codex managed configuration",
+     "url": "https://learn.chatgpt.com/docs/enterprise/managed-configuration"
+    },
+    {
+     "title": "AgentEdict README",
+     "url": "https://github.com/ryandunton/agent-edict/blob/main/README.md"
+    }
+   ],
+   "researched": "2026-10-17"
+  },
+  {
+   "id": "disable-auto-update",
+   "title": "Turn off auto-update",
+   "topic": "telemetry",
+   "file": "profile",
+   "status": "supported",
+   "yaml_paths": [
+    "flags.disable_auto_update"
+   ],
+   "value": {
+    "type": "bool",
+    "default": true
+   },
+   "description": "Meant to stop agents updating themselves. AgentEdict accepts this field but doesn't write it to any tool yet.",
+   "reach": {
+    "codex": {
+     "macos": {
+      "level": "not-available",
+      "note": "Accepted but not written yet."
+     },
+     "linux": {
+      "level": "not-available",
+      "note": "Accepted but not written yet."
+     },
+     "windows": {
+      "level": "not-available",
+      "note": "Accepted but not written yet."
+     }
+    },
+    "claude": {
+     "macos": {
+      "level": "not-available",
+      "note": "Accepted but not written yet."
+     },
+     "linux": {
+      "level": "not-available",
+      "note": "Accepted but not written yet."
+     },
+     "windows": {
+      "level": "not-available",
+      "note": "Accepted but not written yet."
+     }
+    },
+    "opencode": {
+     "macos": {
+      "level": "not-available",
+      "note": "Accepted but not written yet."
+     },
+     "linux": {
+      "level": "not-available",
+      "note": "Accepted but not written yet."
+     },
+     "windows": {
+      "level": "not-available",
+      "note": "Accepted but not written yet."
+     }
+    }
+   },
+   "sources": [
+    {
+     "title": "AgentEdict README",
+     "url": "https://github.com/ryandunton/agent-edict/blob/main/README.md"
+    }
+   ],
+   "researched": "2026-10-17"
+  },
+  {
+   "id": "native-name",
+   "title": "Native profile name",
+   "topic": "profile",
+   "file": "native",
+   "status": "supported",
+   "yaml_paths": [
+    "name"
+   ],
+   "value": {
+    "type": "string",
+    "default": "my-native-profile",
+    "pattern": "^[a-zA-Z0-9][a-zA-Z0-9_-]{0,127}$"
+   },
+   "description": "The native profile's name. A policy map refers to it by this name. Letters, numbers, underscores and hyphens, starting with a letter or number.",
+   "reach": {
+    "gemini": {
+     "macos": {
+      "level": "configuration-only",
+      "writes": "bundle file name"
+     },
+     "linux": {
+      "level": "configuration-only",
+      "writes": "bundle file name"
+     },
+     "windows": {
+      "level": "configuration-only",
+      "writes": "bundle file name"
+     }
+    },
+    "cursor": {
+     "macos": {
+      "level": "configuration-only",
+      "writes": "bundle file name"
+     },
+     "linux": {
+      "level": "configuration-only",
+      "writes": "bundle file name"
+     },
+     "windows": {
+      "level": "configuration-only",
+      "writes": "bundle file name"
+     }
+    },
+    "antigravity": {
+     "macos": {
+      "level": "configuration-only",
+      "writes": "bundle file name"
+     },
+     "linux": {
+      "level": "configuration-only",
+      "writes": "bundle file name"
+     },
+     "windows": {
+      "level": "configuration-only",
+      "writes": "bundle file name"
+     }
+    },
+    "copilot": {
+     "macos": {
+      "level": "configuration-only",
+      "writes": "bundle file name"
+     },
+     "linux": {
+      "level": "configuration-only",
+      "writes": "bundle file name"
+     },
+     "windows": {
+      "level": "configuration-only",
+      "writes": "bundle file name"
+     }
+    },
+    "kiro": {
+     "macos": {
+      "level": "configuration-only",
+      "writes": "bundle file name"
+     },
+     "linux": {
+      "level": "configuration-only",
+      "writes": "bundle file name"
+     },
+     "windows": {
+      "level": "configuration-only",
+      "writes": "bundle file name"
+     }
+    },
+    "windsurf": {
+     "macos": {
+      "level": "configuration-only",
+      "writes": "bundle file name"
+     },
+     "linux": {
+      "level": "configuration-only",
+      "writes": "bundle file name"
+     },
+     "windows": {
+      "level": "configuration-only",
+      "writes": "bundle file name"
+     }
+    },
+    "cline": {
+     "macos": {
+      "level": "configuration-only",
+      "writes": "bundle file name"
+     },
+     "linux": {
+      "level": "configuration-only",
+      "writes": "bundle file name"
+     },
+     "windows": {
+      "level": "configuration-only",
+      "writes": "bundle file name"
+     }
+    }
+   },
+   "sources": [
+    {
+     "title": "AgentEdict README",
+     "url": "https://github.com/ryandunton/agent-edict/blob/main/README.md"
+    }
+   ],
+   "researched": "2026-10-17",
+   "required": true
+  },
+  {
+   "id": "gemini-default-decision",
+   "title": "Gemini: default for unlisted tools",
+   "topic": "gemini",
+   "file": "native",
+   "status": "supported",
+   "yaml_paths": [
+    "gemini.default_decision"
+   ],
+   "value": {
+    "type": "enum",
+    "options": [
+     "deny",
+     "ask_user"
+    ],
+    "default": "deny"
+   },
+   "description": "What Gemini CLI does with a tool call no rule covers: deny it, or ask the user.",
+   "reach": {
+    "gemini": {
+     "macos": {
+      "level": "enforced",
+      "writes": "policies/agentedict.toml",
+      "note": "Admin policy files override user and command-line tool rules."
+     },
+     "linux": {
+      "level": "enforced",
+      "writes": "policies/agentedict.toml",
+      "note": "Admin policy files override user and command-line tool rules."
+     },
+     "windows": {
+      "level": "enforced",
+      "writes": "policies/agentedict.toml",
+      "note": "Admin policy files override user and command-line tool rules."
+     }
+    }
+   },
+   "sources": [
+    {
+     "title": "Gemini CLI policy engine source (v0.64.0)",
+     "url": "https://github.com/google-gemini/gemini-cli/blob/v0.64.0/packages/core/src/policy/toml-loader.ts"
+    },
+    {
+     "title": "AgentEdict gemini integration notes",
+     "url": "https://github.com/ryandunton/agent-edict/blob/main/docs/integrations/gemini.md"
+    }
+   ],
+   "researched": "2026-10-17"
+  },
+  {
+   "id": "gemini-rules",
+   "title": "Gemini: tool rules",
+   "topic": "gemini",
+   "file": "native",
+   "status": "supported",
+   "yaml_paths": [
+    "gemini.rules[].tool_name",
+    "gemini.rules[].decision",
+    "gemini.rules[].priority",
+    "gemini.rules[].command_prefix",
+    "gemini.rules[].mcp_name",
+    "gemini.rules[].modes",
+    "gemini.rules[].deny_message"
+   ],
+   "value": {
+    "type": "list",
+    "items": {
+     "type": "object",
+     "fields": [
+      {
+       "type": "string",
+       "suggestions": [
+        "run_shell_command",
+        "read_file",
+        "write_file",
+        "web_fetch",
+        "*"
+       ],
+       "key": "tool_name",
+       "label": "Tool"
+      },
+      {
+       "type": "enum",
+       "options": [
+        "allow",
+        "deny",
+        "ask_user"
+       ],
+       "default": "deny",
+       "key": "decision"
+      },
+      {
+       "type": "int",
+       "min": 1,
+       "max": 999,
+       "default": 100,
+       "key": "priority"
+      },
+      {
+       "type": "string",
+       "key": "command_prefix",
+       "label": "Command starts with (run_shell_command only)"
+      },
+      {
+       "type": "string",
+       "key": "mcp_name",
+       "label": "MCP server name"
+      },
+      {
+       "type": "string-list",
+       "options": [
+        "default",
+        "autoEdit",
+        "plan",
+        "yolo"
+       ],
+       "key": "modes",
+       "label": "Only in these approval modes"
+      },
+      {
+       "type": "string",
+       "key": "deny_message",
+       "label": "Message when denied"
+      }
+     ]
+    }
+   },
+   "description": "Allow, deny or ask rules for Gemini CLI's tools, shell commands by prefix, and MCP servers. A higher priority wins; 950 is reserved. Denying MCP tools doesn't stop MCP servers starting.",
+   "reach": {
+    "gemini": {
+     "macos": {
+      "level": "enforced",
+      "writes": "policies/agentedict.toml"
+     },
+     "linux": {
+      "level": "enforced",
+      "writes": "policies/agentedict.toml"
+     },
+     "windows": {
+      "level": "enforced",
+      "writes": "policies/agentedict.toml"
+     }
+    }
+   },
+   "sources": [
+    {
+     "title": "Gemini CLI policy engine source (v0.64.0)",
+     "url": "https://github.com/google-gemini/gemini-cli/blob/v0.64.0/packages/core/src/policy/toml-loader.ts"
+    },
+    {
+     "title": "AgentEdict gemini integration notes",
+     "url": "https://github.com/ryandunton/agent-edict/blob/main/docs/integrations/gemini.md"
+    }
+   ],
+   "researched": "2026-10-17"
+  },
+  {
+   "id": "gemini-disable-yolo",
+   "title": "Gemini: turn off YOLO mode",
+   "topic": "gemini",
+   "file": "native",
+   "status": "supported",
+   "yaml_paths": [
+    "gemini.settings.disable_yolo_mode"
+   ],
+   "value": {
+    "type": "bool",
+    "default": true
+   },
+   "description": "Stops users switching Gemini CLI into YOLO mode, which approves every tool call.",
+   "reach": {
+    "gemini": {
+     "macos": {
+      "level": "configuration-only",
+      "writes": "settings.json → security.disableYoloMode",
+      "note": "The GEMINI_CLI_SYSTEM_SETTINGS_PATH variable can point Gemini at another settings file."
+     },
+     "linux": {
+      "level": "configuration-only",
+      "writes": "settings.json → security.disableYoloMode",
+      "note": "The GEMINI_CLI_SYSTEM_SETTINGS_PATH variable can point Gemini at another settings file."
+     },
+     "windows": {
+      "level": "configuration-only",
+      "writes": "settings.json → security.disableYoloMode",
+      "note": "The GEMINI_CLI_SYSTEM_SETTINGS_PATH variable can point Gemini at another settings file."
+     }
+    }
+   },
+   "sources": [
+    {
+     "title": "Gemini CLI settings source (v0.64.0)",
+     "url": "https://github.com/google-gemini/gemini-cli/blob/v0.64.0/packages/cli/src/config/settings.ts"
+    },
+    {
+     "title": "AgentEdict gemini integration notes",
+     "url": "https://github.com/ryandunton/agent-edict/blob/main/docs/integrations/gemini.md"
+    }
+   ],
+   "researched": "2026-10-17"
+  },
+  {
+   "id": "gemini-disable-always-allow",
+   "title": "Gemini: turn off \"always allow\"",
+   "topic": "gemini",
+   "file": "native",
+   "status": "supported",
+   "yaml_paths": [
+    "gemini.settings.disable_always_allow"
+   ],
+   "value": {
+    "type": "bool",
+    "default": true
+   },
+   "description": "Stops users answering a prompt with \"always allow\".",
+   "reach": {
+    "gemini": {
+     "macos": {
+      "level": "configuration-only",
+      "writes": "settings.json → security.disableAlwaysAllow",
+      "note": "The GEMINI_CLI_SYSTEM_SETTINGS_PATH variable can point Gemini at another settings file."
+     },
+     "linux": {
+      "level": "configuration-only",
+      "writes": "settings.json → security.disableAlwaysAllow",
+      "note": "The GEMINI_CLI_SYSTEM_SETTINGS_PATH variable can point Gemini at another settings file."
+     },
+     "windows": {
+      "level": "configuration-only",
+      "writes": "settings.json → security.disableAlwaysAllow",
+      "note": "The GEMINI_CLI_SYSTEM_SETTINGS_PATH variable can point Gemini at another settings file."
+     }
+    }
+   },
+   "sources": [
+    {
+     "title": "Gemini CLI settings source (v0.64.0)",
+     "url": "https://github.com/google-gemini/gemini-cli/blob/v0.64.0/packages/cli/src/config/settings.ts"
+    },
+    {
+     "title": "AgentEdict gemini integration notes",
+     "url": "https://github.com/ryandunton/agent-edict/blob/main/docs/integrations/gemini.md"
+    }
+   ],
+   "researched": "2026-10-17"
+  },
+  {
+   "id": "gemini-sandbox-default",
+   "title": "Gemini: default sandbox",
+   "topic": "gemini",
+   "file": "native",
+   "status": "supported",
+   "yaml_paths": [
+    "gemini.settings.sandbox_default"
+   ],
+   "value": {
+    "type": "enum",
+    "options": [
+     "disabled",
+     "auto",
+     "docker",
+     "podman",
+     "sandbox-exec",
+     "runsc",
+     "lxc",
+     "windows-native"
+    ],
+    "default": "auto"
+   },
+   "description": "Which sandbox Gemini CLI uses by default. disabled, auto, docker and podman work everywhere; sandbox-exec is macOS only, runsc and lxc are Linux only, and windows-native is Windows only. Users can still change it.",
+   "reach": {
+    "gemini": {
+     "macos": {
+      "level": "configuration-only",
+      "writes": "settings.json → tools.sandbox",
+      "note": "Also sandbox-exec."
+     },
+     "linux": {
+      "level": "configuration-only",
+      "writes": "settings.json → tools.sandbox",
+      "note": "Also runsc and lxc."
+     },
+     "windows": {
+      "level": "configuration-only",
+      "writes": "settings.json → tools.sandbox",
+      "note": "Also windows-native."
+     }
+    }
+   },
+   "sources": [
+    {
+     "title": "Gemini CLI sandbox config source (v0.64.0)",
+     "url": "https://github.com/google-gemini/gemini-cli/blob/v0.64.0/packages/cli/src/config/sandboxConfig.ts"
+    },
+    {
+     "title": "AgentEdict gemini integration notes",
+     "url": "https://github.com/ryandunton/agent-edict/blob/main/docs/integrations/gemini.md"
+    }
+   ],
+   "researched": "2026-10-17"
+  },
+  {
+   "id": "cursor-hooks",
+   "title": "Cursor: allowed tools, commands and MCP tools",
+   "topic": "cursor",
+   "file": "native",
+   "status": "supported",
+   "yaml_paths": [
+    "cursor.hooks.version",
+    "cursor.hooks.tools_allow",
+    "cursor.hooks.shell.allow",
+    "cursor.hooks.shell.ask",
+    "cursor.hooks.shell.deny",
+    "cursor.hooks.mcp[].name",
+    "cursor.hooks.mcp[].url",
+    "cursor.hooks.mcp[].command",
+    "cursor.hooks.mcp[].tools",
+    "cursor.hooks.mcp[].decision"
+   ],
+   "value": {
+    "type": "object",
+    "fields": [
+     {
+      "type": "fixed",
+      "value": 1,
+      "key": "version"
+     },
+     {
+      "type": "string-list",
+      "suggestions": [
+       "Read",
+       "Write",
+       "Delete",
+       "List",
+       "Grep",
+       "Shell",
+       "Fetch"
+      ],
+      "key": "tools_allow",
+      "label": "Allowed tools"
+     },
+     {
+      "type": "object",
+      "fields": [
+       {
+        "type": "string-list",
+        "key": "allow"
+       },
+       {
+        "type": "string-list",
+        "key": "ask"
+       },
+       {
+        "type": "string-list",
+        "key": "deny"
+       }
+      ],
+      "key": "shell",
+      "label": "Shell commands (exact)"
+     },
+     {
+      "type": "list",
+      "items": {
+       "type": "object",
+       "fields": [
+        {
+         "type": "string",
+         "key": "name",
+         "label": "Server name"
+        },
+        {
+         "type": "string",
+         "key": "url",
+         "label": "HTTPS URL"
+        },
+        {
+         "type": "string",
+         "key": "command",
+         "label": "Launch command"
+        },
+        {
+         "type": "string-list",
+         "key": "tools",
+         "label": "Tool names"
+        },
+        {
+         "type": "enum",
+         "options": [
+          "allow"
+         ],
+         "default": "allow",
+         "key": "decision"
+        }
+       ]
+      },
+      "key": "mcp",
+      "label": "Allowed MCP tools"
+     }
+    ],
+    "default": {
+     "version": 1,
+     "tools_allow": [],
+     "shell": {
+      "allow": [],
+      "ask": [],
+      "deny": []
+     },
+     "mcp": []
+    }
+   },
+   "description": "Cursor hooks that let only listed tools, exact shell commands and exact MCP tools run. Anything not listed is denied, so empty lists deny everything. It's a guardrail in Cursor's hooks, not an OS sandbox.",
+   "reach": {
+    "cursor": {
+     "macos": {
+      "level": "partial",
+      "writes": "hooks.json + agentedict-policy.json",
+      "note": "Hook guardrail: Cursor starts hooks through the user's shell, so a changed shell environment can get around it."
+     },
+     "linux": {
+      "level": "partial",
+      "writes": "hooks.json + agentedict-policy.json",
+      "note": "Hook guardrail: Cursor starts hooks through the user's shell, so a changed shell environment can get around it."
+     },
+     "windows": {
+      "level": "partial",
+      "writes": "hooks.json + agentedict-policy.json",
+      "note": "Hook guardrail: Cursor starts hooks through the user's shell, so a changed shell environment can get around it."
+     }
+    }
+   },
+   "sources": [
+    {
+     "title": "Cursor hooks",
+     "url": "https://cursor.com/docs/hooks"
+    },
+    {
+     "title": "AgentEdict cursor integration notes",
+     "url": "https://github.com/ryandunton/agent-edict/blob/main/docs/integrations/cursor.md"
+    }
+   ],
+   "researched": "2026-10-17"
+  },
+  {
+   "id": "antigravity-hooks",
+   "title": "Antigravity: allowed tools, files, commands and sites",
+   "topic": "antigravity",
+   "file": "native",
+   "status": "supported",
+   "yaml_paths": [
+    "antigravity.hooks.version",
+    "antigravity.hooks.read_roots",
+    "antigravity.hooks.write_roots",
+    "antigravity.hooks.https_origins",
+    "antigravity.hooks.commands[].command",
+    "antigravity.hooks.commands[].directory",
+    "antigravity.hooks.commands[].decision",
+    "antigravity.hooks.tools"
+   ],
+   "value": {
+    "type": "object",
+    "fields": [
+     {
+      "type": "fixed",
+      "value": 1,
+      "key": "version"
+     },
+     {
+      "type": "string-list",
+      "key": "read_roots",
+      "label": "Folders it may read (absolute)"
+     },
+     {
+      "type": "string-list",
+      "key": "write_roots",
+      "label": "Folders it may write (absolute)"
+     },
+     {
+      "type": "string-list",
+      "key": "https_origins",
+      "label": "Sites it may fetch (https://host)"
+     },
+     {
+      "type": "list",
+      "items": {
+       "type": "object",
+       "fields": [
+        {
+         "type": "string",
+         "key": "command",
+         "label": "Exact command"
+        },
+        {
+         "type": "string",
+         "key": "directory",
+         "label": "In folder (absolute)"
+        },
+        {
+         "type": "enum",
+         "options": [
+          "allow",
+          "ask",
+          "deny"
+         ],
+         "default": "ask",
+         "key": "decision"
+        }
+       ]
+      },
+      "key": "commands",
+      "label": "Terminal commands"
+     },
+     {
+      "type": "map",
+      "values": {
+       "type": "enum",
+       "options": [
+        "allow",
+        "ask",
+        "deny"
+       ],
+       "default": "allow"
+      },
+      "key_label": "Tool",
+      "key_suggestions": [
+       "view_file",
+       "list_dir",
+       "find_by_name",
+       "grep_search",
+       "write_to_file",
+       "replace_file_content",
+       "multi_replace_file_content",
+       "ask_question",
+       "list_permissions",
+       "search_web",
+       "read_url_content"
+      ],
+      "key": "tools",
+      "label": "Tools"
+     }
+    ],
+    "default": {
+     "version": 1,
+     "tools": {
+      "ask_question": "allow"
+     }
+    }
+   },
+   "description": "An Antigravity hook that lets only listed tools, folders, exact commands and sites through. Anything else is denied, including MCP tools. Each user must turn the hook on, and can turn it off.",
+   "reach": {
+    "antigravity": {
+     "macos": {
+      "level": "partial",
+      "writes": "antigravity-hooks.json + antigravity-policy.json",
+      "note": "Each user enrolls the hook and can disable it in settings."
+     },
+     "linux": {
+      "level": "partial",
+      "writes": "antigravity-hooks.json + antigravity-policy.json",
+      "note": "Each user enrolls the hook and can disable it in settings."
+     },
+     "windows": {
+      "level": "partial",
+      "writes": "antigravity-hooks.json + antigravity-policy.json",
+      "note": "Each user enrolls the hook and can disable it in settings."
+     }
+    }
+   },
+   "sources": [
+    {
+     "title": "Antigravity hooks",
+     "url": "https://antigravity.google/docs/hooks"
+    },
+    {
+     "title": "AgentEdict antigravity integration notes",
+     "url": "https://github.com/ryandunton/agent-edict/blob/main/docs/integrations/antigravity.md"
+    }
+   ],
+   "researched": "2026-10-17"
+  },
+  {
+   "id": "copilot-disable-bypass",
+   "title": "Copilot: turn off bypass mode",
+   "topic": "copilot",
+   "file": "native",
+   "status": "supported",
+   "yaml_paths": [
+    "copilot.disable_bypass_mode"
+   ],
+   "value": {
+    "type": "bool",
+    "default": true
+   },
+   "description": "Blocks --yolo, --allow-all and similar switches that skip Copilot's prompts. On by default.",
+   "reach": {
+    "copilot": {
+     "macos": {
+      "level": "enforced",
+      "writes": "managed-settings.json → permissions.disableBypassPermissionsMode",
+      "note": "An open Copilot issue reports non-interactive -p sessions can still bypass it."
+     },
+     "linux": {
+      "level": "enforced",
+      "writes": "managed-settings.json → permissions.disableBypassPermissionsMode",
+      "note": "An open Copilot issue reports non-interactive -p sessions can still bypass it."
+     },
+     "windows": {
+      "level": "enforced",
+      "writes": "managed-settings.json → permissions.disableBypassPermissionsMode",
+      "note": "An open Copilot issue reports non-interactive -p sessions can still bypass it."
+     }
+    }
+   },
+   "sources": [
+    {
+     "title": "GitHub Copilot enterprise managed settings",
+     "url": "https://docs.github.com/en/copilot/reference/enterprise-administrators/enterprise-managed-settings"
+    },
+    {
+     "title": "AgentEdict copilot integration notes",
+     "url": "https://github.com/ryandunton/agent-edict/blob/main/docs/integrations/copilot.md"
+    }
+   ],
+   "researched": "2026-10-17"
+  },
+  {
+   "id": "copilot-permissions",
+   "title": "Copilot: tool rules",
+   "topic": "copilot",
+   "file": "native",
+   "status": "supported",
+   "yaml_paths": [
+    "copilot.permissions.allow",
+    "copilot.permissions.ask",
+    "copilot.permissions.deny"
+   ],
+   "value": {
+    "type": "object",
+    "fields": [
+     {
+      "type": "string-list",
+      "key": "allow"
+     },
+     {
+      "type": "string-list",
+      "key": "ask"
+     },
+     {
+      "type": "string-list",
+      "key": "deny"
+     }
+    ],
+    "default": {
+     "deny": [
+      "Shell(sudo *)"
+     ]
+    }
+   },
+   "description": "Allow, ask and deny rules such as Shell(git push *), Read(~/.ssh/**), Edit(//etc/**) or Domain(*.example.com). Deny beats ask, and ask beats allow. A rule can't be in two lists.",
+   "reach": {
+    "copilot": {
+     "macos": {
+      "level": "enforced",
+      "writes": "managed-settings.json → permissions.allow/ask/deny"
+     },
+     "linux": {
+      "level": "enforced",
+      "writes": "managed-settings.json → permissions.allow/ask/deny"
+     },
+     "windows": {
+      "level": "enforced",
+      "writes": "managed-settings.json → permissions.allow/ask/deny"
+     }
+    }
+   },
+   "sources": [
+    {
+     "title": "GitHub Copilot enterprise managed settings",
+     "url": "https://docs.github.com/en/copilot/reference/enterprise-administrators/enterprise-managed-settings"
+    },
+    {
+     "title": "AgentEdict copilot integration notes",
+     "url": "https://github.com/ryandunton/agent-edict/blob/main/docs/integrations/copilot.md"
+    }
+   ],
+   "researched": "2026-10-17"
+  },
+  {
+   "id": "copilot-mcp",
+   "title": "Copilot: MCP servers",
+   "topic": "copilot",
+   "file": "native",
+   "status": "supported",
+   "yaml_paths": [
+    "copilot.mcp.allowed[].name",
+    "copilot.mcp.allowed[].url",
+    "copilot.mcp.allowed[].command",
+    "copilot.mcp.denied[].name",
+    "copilot.mcp.denied[].url",
+    "copilot.mcp.denied[].command"
+   ],
+   "value": {
+    "type": "object",
+    "fields": [
+     {
+      "type": "list",
+      "items": {
+       "type": "object",
+       "fields": [
+        {
+         "type": "string",
+         "key": "name",
+         "label": "Server name"
+        },
+        {
+         "type": "string",
+         "key": "url",
+         "label": "URL pattern"
+        },
+        {
+         "type": "string-list",
+         "key": "command",
+         "label": "Launch command"
+        }
+       ]
+      },
+      "key": "allowed",
+      "label": "Allowed servers (empty allows only built-in ones)"
+     },
+     {
+      "type": "list",
+      "items": {
+       "type": "object",
+       "fields": [
+        {
+         "type": "string",
+         "key": "name",
+         "label": "Server name"
+        },
+        {
+         "type": "string",
+         "key": "url",
+         "label": "URL pattern"
+        },
+        {
+         "type": "string-list",
+         "key": "command",
+         "label": "Launch command"
+        }
+       ]
+      },
+      "key": "denied",
+      "label": "Denied servers"
+     }
+    ],
+    "default": {
+     "allowed": []
+    }
+   },
+   "description": "Which MCP servers Copilot may use, matched by exact name, URL pattern or exact launch command. Deny wins. An empty allowed list blocks every server except built-in ones.",
+   "reach": {
+    "copilot": {
+     "macos": {
+      "level": "enforced",
+      "writes": "managed-settings.json → allowedMcpServers, deniedMcpServers"
+     },
+     "linux": {
+      "level": "enforced",
+      "writes": "managed-settings.json → allowedMcpServers, deniedMcpServers"
+     },
+     "windows": {
+      "level": "enforced",
+      "writes": "managed-settings.json → allowedMcpServers, deniedMcpServers"
+     }
+    }
+   },
+   "sources": [
+    {
+     "title": "GitHub Copilot enterprise managed settings",
+     "url": "https://docs.github.com/en/copilot/reference/enterprise-administrators/enterprise-managed-settings"
+    },
+    {
+     "title": "AgentEdict copilot integration notes",
+     "url": "https://github.com/ryandunton/agent-edict/blob/main/docs/integrations/copilot.md"
+    }
+   ],
+   "researched": "2026-10-17"
+  },
+  {
+   "id": "copilot-sandbox",
+   "title": "Copilot: sandbox",
+   "topic": "copilot",
+   "file": "native",
+   "status": "supported",
+   "yaml_paths": [
+    "copilot.sandbox.enabled",
+    "copilot.sandbox.fail_if_unavailable",
+    "copilot.sandbox.allow_bypass"
+   ],
+   "value": {
+    "type": "object",
+    "fields": [
+     {
+      "type": "bool",
+      "default": true,
+      "key": "enabled"
+     },
+     {
+      "type": "bool",
+      "default": true,
+      "key": "fail_if_unavailable",
+      "label": "Refuse to run without it"
+     },
+     {
+      "type": "bool",
+      "default": false,
+      "key": "allow_bypass",
+      "label": "Let users bypass it"
+     }
+    ],
+    "default": {
+     "enabled": true,
+     "fail_if_unavailable": true,
+     "allow_bypass": false
+    }
+   },
+   "description": "Turns on Copilot's own sandbox for commands. Needs Copilot CLI 1.0.93, VS Code 1.141.0 or the Copilot app 1.1.26; older clients are blocked when it's required.",
+   "reach": {
+    "copilot": {
+     "macos": {
+      "level": "enforced",
+      "writes": "managed-settings.json → sandbox",
+      "note": "Copilot enforces its own sandbox; AgentEdict only sets it."
+     },
+     "linux": {
+      "level": "enforced",
+      "writes": "managed-settings.json → sandbox",
+      "note": "Copilot enforces its own sandbox; AgentEdict only sets it."
+     },
+     "windows": {
+      "level": "enforced",
+      "writes": "managed-settings.json → sandbox",
+      "note": "Copilot enforces its own sandbox; AgentEdict only sets it."
+     }
+    }
+   },
+   "sources": [
+    {
+     "title": "GitHub Copilot enterprise managed settings",
+     "url": "https://docs.github.com/en/copilot/reference/enterprise-administrators/enterprise-managed-settings"
+    },
+    {
+     "title": "AgentEdict copilot integration notes",
+     "url": "https://github.com/ryandunton/agent-edict/blob/main/docs/integrations/copilot.md"
+    }
+   ],
+   "researched": "2026-10-17"
+  },
+  {
+   "id": "copilot-computer-use",
+   "title": "Copilot: computer use",
+   "topic": "copilot",
+   "file": "native",
+   "status": "supported",
+   "yaml_paths": [
+    "copilot.computer_use"
+   ],
+   "value": {
+    "type": "bool",
+    "default": false
+   },
+   "description": "Set to false to stop users turning on computer use in Copilot.",
+   "reach": {
+    "copilot": {
+     "macos": {
+      "level": "enforced",
+      "writes": "managed-settings.json → features.computerUse"
+     },
+     "linux": {
+      "level": "enforced",
+      "writes": "managed-settings.json → features.computerUse"
+     },
+     "windows": {
+      "level": "enforced",
+      "writes": "managed-settings.json → features.computerUse"
+     }
+    }
+   },
+   "sources": [
+    {
+     "title": "GitHub Copilot enterprise managed settings",
+     "url": "https://docs.github.com/en/copilot/reference/enterprise-administrators/enterprise-managed-settings"
+    },
+    {
+     "title": "AgentEdict copilot integration notes",
+     "url": "https://github.com/ryandunton/agent-edict/blob/main/docs/integrations/copilot.md"
+    }
+   ],
+   "researched": "2026-10-17"
+  },
+  {
+   "id": "kiro-rules",
+   "title": "Kiro: deny and ask rules",
+   "topic": "kiro",
+   "file": "native",
+   "status": "supported",
+   "yaml_paths": [
+    "kiro.rules[].capability",
+    "kiro.rules[].match",
+    "kiro.rules[].exclude",
+    "kiro.rules[].effect"
+   ],
+   "value": {
+    "type": "list",
+    "items": {
+     "type": "object",
+     "fields": [
+      {
+       "type": "enum",
+       "options": [
+        "fs_read",
+        "fs_write",
+        "shell",
+        "web_fetch",
+        "web_search",
+        "mcp",
+        "subagent",
+        "skill",
+        "power",
+        "context",
+        "diagnostics",
+        "sandbox_network",
+        "all",
+        "builtin",
+        "filesystem",
+        "signin_method"
+       ],
+       "default": "shell",
+       "key": "capability"
+      },
+      {
+       "type": "string-list",
+       "key": "match",
+       "label": "Matches"
+      },
+      {
+       "type": "string-list",
+       "key": "exclude",
+       "label": "Except"
+      },
+      {
+       "type": "enum",
+       "options": [
+        "deny",
+        "ask"
+       ],
+       "default": "deny",
+       "key": "effect"
+      }
+     ]
+    },
+    "default": [
+     {
+      "capability": "shell",
+      "match": [
+       "sudo *"
+      ],
+      "effect": "deny"
+     }
+    ]
+   },
+   "description": "Rules that deny or ask for Kiro's capabilities: file reads and writes, shell commands, web, MCP and more. Admin rules can't allow anything, and the stricter rule wins over the user's. A signin_method rule can deny sign-in methods (idc, external_idp, builder_id, google, github, social). At least one rule is required.",
+   "reach": {
+    "kiro": {
+     "macos": {
+      "level": "enforced",
+      "writes": "managed-settings.json → permissions",
+      "note": "Kiro must restart to pick up changes. Not yet checked on an installed client."
+     },
+     "linux": {
+      "level": "enforced",
+      "writes": "managed-settings.json → permissions",
+      "note": "Kiro must restart to pick up changes. Not yet checked on an installed client."
+     },
+     "windows": {
+      "level": "enforced",
+      "writes": "managed-settings.json → permissions",
+      "note": "Kiro must restart to pick up changes. Not yet checked on an installed client."
+     }
+    }
+   },
+   "sources": [
+    {
+     "title": "Kiro permission policies",
+     "url": "https://kiro.dev/docs/enterprise/governance/permissions/"
+    },
+    {
+     "title": "Kiro sign-in governance",
+     "url": "https://kiro.dev/docs/enterprise/governance/sign-in/"
+    },
+    {
+     "title": "AgentEdict kiro integration notes",
+     "url": "https://github.com/ryandunton/agent-edict/blob/main/docs/integrations/kiro.md"
+    }
+   ],
+   "researched": "2026-10-17"
+  },
+  {
+   "id": "kiro-signin-help",
+   "title": "Kiro: sign-in help link",
+   "topic": "kiro",
+   "file": "native",
+   "status": "supported",
+   "yaml_paths": [
+    "kiro.signin_help_url"
+   ],
+   "value": {
+    "type": "string",
+    "default": "https://it.example.com/help"
+   },
+   "description": "An https link shown to users when a sign-in method is blocked.",
+   "reach": {
+    "kiro": {
+     "macos": {
+      "level": "enforced",
+      "writes": "managed-settings.json"
+     },
+     "linux": {
+      "level": "enforced",
+      "writes": "managed-settings.json"
+     },
+     "windows": {
+      "level": "enforced",
+      "writes": "managed-settings.json"
+     }
+    }
+   },
+   "sources": [
+    {
+     "title": "Kiro sign-in governance",
+     "url": "https://kiro.dev/docs/enterprise/governance/sign-in/"
+    },
+    {
+     "title": "AgentEdict kiro integration notes",
+     "url": "https://github.com/ryandunton/agent-edict/blob/main/docs/integrations/kiro.md"
+    }
+   ],
+   "researched": "2026-10-17"
+  },
+  {
+   "id": "windsurf-hooks",
+   "title": "Windsurf / Devin Desktop: allowed commands and MCP tools",
+   "topic": "windsurf",
+   "file": "native",
+   "status": "supported",
+   "yaml_paths": [
+    "windsurf.hooks.version",
+    "windsurf.hooks.commands",
+    "windsurf.hooks.mcp[].server",
+    "windsurf.hooks.mcp[].tools"
+   ],
+   "value": {
+    "type": "object",
+    "fields": [
+     {
+      "type": "fixed",
+      "value": 1,
+      "key": "version"
+     },
+     {
+      "type": "string-list",
+      "key": "commands",
+      "label": "Exact command lines"
+     },
+     {
+      "type": "list",
+      "items": {
+       "type": "object",
+       "fields": [
+        {
+         "type": "string",
+         "key": "server",
+         "label": "Server label"
+        },
+        {
+         "type": "string-list",
+         "key": "tools",
+         "label": "Tool names"
+        }
+       ]
+      },
+      "key": "mcp",
+      "label": "Allowed MCP tools"
+     }
+    ],
+    "default": {
+     "version": 1,
+     "commands": [],
+     "mcp": []
+    }
+   },
+   "description": "System hooks that block any terminal command or MCP tool that isn't listed exactly. Empty lists block all of them. MCP server labels are chosen by users, so they aren't a strong identity.",
+   "reach": {
+    "windsurf": {
+     "macos": {
+      "level": "partial",
+      "writes": "hooks.json (Devin and Windsurf) + windsurf-policy.json",
+      "note": "Blocks only when the hook exits with code 2; a missing hook or Restricted Mode lets actions through."
+     },
+     "linux": {
+      "level": "partial",
+      "writes": "hooks.json (Devin and Windsurf) + windsurf-policy.json",
+      "note": "Blocks only when the hook exits with code 2; a missing hook or Restricted Mode lets actions through."
+     },
+     "windows": {
+      "level": "partial",
+      "writes": "hooks.json (Devin and Windsurf) + windsurf-policy.json",
+      "note": "Blocks only when the hook exits with code 2; a missing hook or Restricted Mode lets actions through."
+     }
+    }
+   },
+   "sources": [
+    {
+     "title": "Devin Desktop Cascade hooks",
+     "url": "https://docs.devin.ai/desktop/cascade/hooks"
+    },
+    {
+     "title": "AgentEdict windsurf integration notes",
+     "url": "https://github.com/ryandunton/agent-edict/blob/main/docs/integrations/windsurf.md"
+    }
+   ],
+   "researched": "2026-10-17"
+  },
+  {
+   "id": "cline-hooks",
+   "title": "Cline: allowed tools and commands",
+   "topic": "cline",
+   "file": "native",
+   "status": "supported",
+   "yaml_paths": [
+    "cline.hooks.version",
+    "cline.hooks.tools",
+    "cline.hooks.commands"
+   ],
+   "value": {
+    "type": "object",
+    "fields": [
+     {
+      "type": "fixed",
+      "value": 1,
+      "key": "version"
+     },
+     {
+      "type": "map",
+      "values": {
+       "type": "enum",
+       "options": [
+        "allow"
+       ],
+       "default": "allow"
+      },
+      "key_label": "Tool",
+      "key_suggestions": [
+       "read_files",
+       "search_codebase",
+       "ask_question",
+       "submit_and_exit",
+       "run_commands",
+       "execute_command"
+      ],
+      "key": "tools",
+      "label": "Allowed tools"
+     },
+     {
+      "type": "string-list",
+      "key": "commands",
+      "label": "Exact commands"
+     }
+    ],
+    "default": {
+     "version": 1,
+     "tools": {
+      "ask_question": "allow"
+     },
+     "commands": []
+    }
+   },
+   "description": "A Cline hook that cancels any tool not set to allow, and any command that isn't listed exactly. Each user must also run `edict install-hook cline`, and Cline lets actions through if the hook is missing or fails.",
+   "reach": {
+    "cline": {
+     "macos": {
+      "level": "partial",
+      "writes": "cline-policy.json + the user's Cline hook",
+      "note": "Each user installs the hook and can remove it; Cline fails open."
+     },
+     "linux": {
+      "level": "partial",
+      "writes": "cline-policy.json + the user's Cline hook",
+      "note": "Each user installs the hook and can remove it; Cline fails open."
+     },
+     "windows": {
+      "level": "partial",
+      "writes": "cline-policy.json + the user's Cline hook",
+      "note": "Each user installs the hook and can remove it; Cline fails open."
+     }
+    }
+   },
+   "sources": [
+    {
+     "title": "Cline hooks (source)",
+     "url": "https://github.com/cline/cline/blob/main/sdk/examples/hooks/README.md"
+    },
+    {
+     "title": "AgentEdict cline integration notes",
+     "url": "https://github.com/ryandunton/agent-edict/blob/main/docs/integrations/cline.md"
+    }
+   ],
+   "researched": "2026-10-17"
+  },
+  {
+   "id": "map-managed-agents",
+   "title": "Managed agents",
+   "topic": "map",
+   "file": "map",
+   "status": "supported",
+   "yaml_paths": [
+    "managed_agents"
+   ],
+   "value": {
+    "type": "string-list",
+    "options": [
+     "codex",
+     "claude",
+     "opencode",
+     "gemini",
+     "cursor",
+     "antigravity",
+     "copilot",
+     "kiro",
+     "windsurf",
+     "cline"
+    ],
+    "default": [
+     "codex",
+     "claude"
+    ]
+   },
+   "description": "The agents AgentEdict manages on each machine. Agents not listed are left alone.",
+   "reach": {
+    "codex": {
+     "macos": {
+      "level": "enforced",
+      "writes": "AgentEdict agent"
+     },
+     "linux": {
+      "level": "enforced",
+      "writes": "AgentEdict agent"
+     },
+     "windows": {
+      "level": "enforced",
+      "writes": "AgentEdict agent"
+     }
+    },
+    "claude": {
+     "macos": {
+      "level": "enforced",
+      "writes": "AgentEdict agent"
+     },
+     "linux": {
+      "level": "enforced",
+      "writes": "AgentEdict agent"
+     },
+     "windows": {
+      "level": "enforced",
+      "writes": "AgentEdict agent"
+     }
+    },
+    "opencode": {
+     "macos": {
+      "level": "enforced",
+      "writes": "AgentEdict agent"
+     },
+     "linux": {
+      "level": "enforced",
+      "writes": "AgentEdict agent"
+     },
+     "windows": {
+      "level": "enforced",
+      "writes": "AgentEdict agent"
+     }
+    },
+    "gemini": {
+     "macos": {
+      "level": "enforced",
+      "writes": "AgentEdict agent"
+     },
+     "linux": {
+      "level": "enforced",
+      "writes": "AgentEdict agent"
+     },
+     "windows": {
+      "level": "enforced",
+      "writes": "AgentEdict agent"
+     }
+    },
+    "cursor": {
+     "macos": {
+      "level": "enforced",
+      "writes": "AgentEdict agent"
+     },
+     "linux": {
+      "level": "enforced",
+      "writes": "AgentEdict agent"
+     },
+     "windows": {
+      "level": "enforced",
+      "writes": "AgentEdict agent"
+     }
+    },
+    "antigravity": {
+     "macos": {
+      "level": "enforced",
+      "writes": "AgentEdict agent"
+     },
+     "linux": {
+      "level": "enforced",
+      "writes": "AgentEdict agent"
+     },
+     "windows": {
+      "level": "enforced",
+      "writes": "AgentEdict agent"
+     }
+    },
+    "copilot": {
+     "macos": {
+      "level": "enforced",
+      "writes": "AgentEdict agent"
+     },
+     "linux": {
+      "level": "enforced",
+      "writes": "AgentEdict agent"
+     },
+     "windows": {
+      "level": "enforced",
+      "writes": "AgentEdict agent"
+     }
+    },
+    "kiro": {
+     "macos": {
+      "level": "enforced",
+      "writes": "AgentEdict agent"
+     },
+     "linux": {
+      "level": "enforced",
+      "writes": "AgentEdict agent"
+     },
+     "windows": {
+      "level": "enforced",
+      "writes": "AgentEdict agent"
+     }
+    },
+    "windsurf": {
+     "macos": {
+      "level": "enforced",
+      "writes": "AgentEdict agent"
+     },
+     "linux": {
+      "level": "enforced",
+      "writes": "AgentEdict agent"
+     },
+     "windows": {
+      "level": "enforced",
+      "writes": "AgentEdict agent"
+     }
+    },
+    "cline": {
+     "macos": {
+      "level": "enforced",
+      "writes": "AgentEdict agent"
+     },
+     "linux": {
+      "level": "enforced",
+      "writes": "AgentEdict agent"
+     },
+     "windows": {
+      "level": "enforced",
+      "writes": "AgentEdict agent"
+     }
+    }
+   },
+   "sources": [
+    {
+     "title": "AgentEdict role policy guide",
+     "url": "https://github.com/ryandunton/agent-edict/blob/main/docs/role-policy.md"
+    }
+   ],
+   "researched": "2026-10-17",
+   "required": true
+  },
+  {
+   "id": "map-standard",
+   "title": "Standard policy",
+   "topic": "map",
+   "file": "map",
+   "status": "supported",
+   "yaml_paths": [
+    "standard.profile",
+    "standard.priority"
+   ],
+   "value": {
+    "type": "object",
+    "fields": [
+     {
+      "type": "string",
+      "key": "profile",
+      "label": "Profile name"
+     },
+     {
+      "type": "int",
+      "min": 1,
+      "default": 100,
+      "key": "priority",
+      "label": "Priority (lower wins)"
+     }
+    ],
+    "default": {
+     "profile": "standard",
+     "priority": 100
+    }
+   },
+   "description": "The profile every managed agent gets when nobody logged in matches a rule for it. When several people are logged in, someone who matches no rule brings the standard at its priority, so it beats any rule numbered after it.",
+   "reach": {
+    "codex": {
+     "macos": {
+      "level": "enforced",
+      "writes": "AgentEdict agent"
+     },
+     "linux": {
+      "level": "enforced",
+      "writes": "AgentEdict agent"
+     },
+     "windows": {
+      "level": "enforced",
+      "writes": "AgentEdict agent"
+     }
+    },
+    "claude": {
+     "macos": {
+      "level": "enforced",
+      "writes": "AgentEdict agent"
+     },
+     "linux": {
+      "level": "enforced",
+      "writes": "AgentEdict agent"
+     },
+     "windows": {
+      "level": "enforced",
+      "writes": "AgentEdict agent"
+     }
+    },
+    "opencode": {
+     "macos": {
+      "level": "enforced",
+      "writes": "AgentEdict agent"
+     },
+     "linux": {
+      "level": "enforced",
+      "writes": "AgentEdict agent"
+     },
+     "windows": {
+      "level": "enforced",
+      "writes": "AgentEdict agent"
+     }
+    },
+    "gemini": {
+     "macos": {
+      "level": "enforced",
+      "writes": "AgentEdict agent"
+     },
+     "linux": {
+      "level": "enforced",
+      "writes": "AgentEdict agent"
+     },
+     "windows": {
+      "level": "enforced",
+      "writes": "AgentEdict agent"
+     }
+    },
+    "cursor": {
+     "macos": {
+      "level": "enforced",
+      "writes": "AgentEdict agent"
+     },
+     "linux": {
+      "level": "enforced",
+      "writes": "AgentEdict agent"
+     },
+     "windows": {
+      "level": "enforced",
+      "writes": "AgentEdict agent"
+     }
+    },
+    "antigravity": {
+     "macos": {
+      "level": "enforced",
+      "writes": "AgentEdict agent"
+     },
+     "linux": {
+      "level": "enforced",
+      "writes": "AgentEdict agent"
+     },
+     "windows": {
+      "level": "enforced",
+      "writes": "AgentEdict agent"
+     }
+    },
+    "copilot": {
+     "macos": {
+      "level": "enforced",
+      "writes": "AgentEdict agent"
+     },
+     "linux": {
+      "level": "enforced",
+      "writes": "AgentEdict agent"
+     },
+     "windows": {
+      "level": "enforced",
+      "writes": "AgentEdict agent"
+     }
+    },
+    "kiro": {
+     "macos": {
+      "level": "enforced",
+      "writes": "AgentEdict agent"
+     },
+     "linux": {
+      "level": "enforced",
+      "writes": "AgentEdict agent"
+     },
+     "windows": {
+      "level": "enforced",
+      "writes": "AgentEdict agent"
+     }
+    },
+    "windsurf": {
+     "macos": {
+      "level": "enforced",
+      "writes": "AgentEdict agent"
+     },
+     "linux": {
+      "level": "enforced",
+      "writes": "AgentEdict agent"
+     },
+     "windows": {
+      "level": "enforced",
+      "writes": "AgentEdict agent"
+     }
+    },
+    "cline": {
+     "macos": {
+      "level": "enforced",
+      "writes": "AgentEdict agent"
+     },
+     "linux": {
+      "level": "enforced",
+      "writes": "AgentEdict agent"
+     },
+     "windows": {
+      "level": "enforced",
+      "writes": "AgentEdict agent"
+     }
+    }
+   },
+   "sources": [
+    {
+     "title": "AgentEdict role policy guide",
+     "url": "https://github.com/ryandunton/agent-edict/blob/main/docs/role-policy.md"
+    }
+   ],
+   "researched": "2026-10-17",
+   "required": true
+  },
+  {
+   "id": "map-rules",
+   "title": "Group rules",
+   "topic": "map",
+   "file": "map",
+   "status": "supported",
+   "yaml_paths": [
+    "rules[].priority",
+    "rules[].profile",
+    "rules[].description",
+    "rules[].agents",
+    "rules[].match_groups"
+   ],
+   "value": {
+    "type": "list",
+    "items": {
+     "type": "object",
+     "fields": [
+      {
+       "type": "int",
+       "min": 1,
+       "key": "priority"
+      },
+      {
+       "type": "string",
+       "key": "profile",
+       "label": "Profile name"
+      },
+      {
+       "type": "string",
+       "key": "description"
+      },
+      {
+       "type": "string-list",
+       "options": [
+        "all",
+        "codex",
+        "claude",
+        "opencode",
+        "gemini",
+        "cursor",
+        "antigravity",
+        "copilot",
+        "kiro",
+        "windsurf",
+        "cline"
+       ],
+       "key": "agents",
+       "label": "Agents (or all)"
+      },
+      {
+       "type": "object",
+       "fields": [
+        {
+         "type": "string-list",
+         "key": "windows"
+        },
+        {
+         "type": "string-list",
+         "key": "linux"
+        },
+        {
+         "type": "string-list",
+         "key": "darwin",
+         "label": "macOS"
+        }
+       ],
+       "key": "match_groups",
+       "label": "Groups per OS"
+      }
+     ]
+    },
+    "editor": "rules"
+   },
+   "description": "Give users in certain groups a different profile. Each agent is matched on its own: a person gets their lowest-numbered matching rule for it, and across everyone logged in the lowest number wins. The builder numbers rules 10, 20, 30 in list order unless you type a number. Windows groups are written as a SID, entra:<object id>, .\\LocalGroup or DOMAIN\\Group.",
+   "reach": {
+    "codex": {
+     "macos": {
+      "level": "partial",
+      "writes": "AgentEdict agent",
+      "note": "macOS counts the console user only; Macs are assumed single-user."
+     },
+     "linux": {
+      "level": "enforced",
+      "writes": "AgentEdict agent"
+     },
+     "windows": {
+      "level": "enforced",
+      "writes": "AgentEdict agent"
+     }
+    },
+    "claude": {
+     "macos": {
+      "level": "partial",
+      "writes": "AgentEdict agent",
+      "note": "macOS counts the console user only; Macs are assumed single-user."
+     },
+     "linux": {
+      "level": "enforced",
+      "writes": "AgentEdict agent"
+     },
+     "windows": {
+      "level": "enforced",
+      "writes": "AgentEdict agent"
+     }
+    },
+    "opencode": {
+     "macos": {
+      "level": "partial",
+      "writes": "AgentEdict agent",
+      "note": "macOS counts the console user only; Macs are assumed single-user."
+     },
+     "linux": {
+      "level": "enforced",
+      "writes": "AgentEdict agent"
+     },
+     "windows": {
+      "level": "enforced",
+      "writes": "AgentEdict agent"
+     }
+    },
+    "gemini": {
+     "macos": {
+      "level": "partial",
+      "writes": "AgentEdict agent",
+      "note": "macOS counts the console user only; Macs are assumed single-user."
+     },
+     "linux": {
+      "level": "enforced",
+      "writes": "AgentEdict agent"
+     },
+     "windows": {
+      "level": "enforced",
+      "writes": "AgentEdict agent"
+     }
+    },
+    "cursor": {
+     "macos": {
+      "level": "partial",
+      "writes": "AgentEdict agent",
+      "note": "macOS counts the console user only; Macs are assumed single-user."
+     },
+     "linux": {
+      "level": "enforced",
+      "writes": "AgentEdict agent"
+     },
+     "windows": {
+      "level": "enforced",
+      "writes": "AgentEdict agent"
+     }
+    },
+    "antigravity": {
+     "macos": {
+      "level": "partial",
+      "writes": "AgentEdict agent",
+      "note": "macOS counts the console user only; Macs are assumed single-user."
+     },
+     "linux": {
+      "level": "enforced",
+      "writes": "AgentEdict agent"
+     },
+     "windows": {
+      "level": "enforced",
+      "writes": "AgentEdict agent"
+     }
+    },
+    "copilot": {
+     "macos": {
+      "level": "partial",
+      "writes": "AgentEdict agent",
+      "note": "macOS counts the console user only; Macs are assumed single-user."
+     },
+     "linux": {
+      "level": "enforced",
+      "writes": "AgentEdict agent"
+     },
+     "windows": {
+      "level": "enforced",
+      "writes": "AgentEdict agent"
+     }
+    },
+    "kiro": {
+     "macos": {
+      "level": "partial",
+      "writes": "AgentEdict agent",
+      "note": "macOS counts the console user only; Macs are assumed single-user."
+     },
+     "linux": {
+      "level": "enforced",
+      "writes": "AgentEdict agent"
+     },
+     "windows": {
+      "level": "enforced",
+      "writes": "AgentEdict agent"
+     }
+    },
+    "windsurf": {
+     "macos": {
+      "level": "partial",
+      "writes": "AgentEdict agent",
+      "note": "macOS counts the console user only; Macs are assumed single-user."
+     },
+     "linux": {
+      "level": "enforced",
+      "writes": "AgentEdict agent"
+     },
+     "windows": {
+      "level": "enforced",
+      "writes": "AgentEdict agent"
+     }
+    },
+    "cline": {
+     "macos": {
+      "level": "partial",
+      "writes": "AgentEdict agent",
+      "note": "macOS counts the console user only; Macs are assumed single-user."
+     },
+     "linux": {
+      "level": "enforced",
+      "writes": "AgentEdict agent"
+     },
+     "windows": {
+      "level": "enforced",
+      "writes": "AgentEdict agent"
+     }
+    }
+   },
+   "sources": [
+    {
+     "title": "AgentEdict role policy guide",
+     "url": "https://github.com/ryandunton/agent-edict/blob/main/docs/role-policy.md"
+    }
+   ],
+   "researched": "2026-10-17"
+  },
+  {
+   "id": "map-sync-wsl",
+   "title": "Sync WSL",
+   "topic": "map",
+   "file": "map",
+   "status": "supported",
+   "yaml_paths": [
+    "sync_wsl"
+   ],
+   "value": {
+    "type": "bool",
+    "default": false
+   },
+   "description": "Version 1 maps could copy policies into WSL. Version 2 maps don't support it, so it must be false or left out.",
+   "reach": {
+    "codex": {
+     "macos": {
+      "level": "not-available",
+      "note": "Must be false in version 2 maps."
+     },
+     "linux": {
+      "level": "not-available",
+      "note": "Must be false in version 2 maps."
+     },
+     "windows": {
+      "level": "not-available",
+      "note": "Must be false in version 2 maps."
+     }
+    },
+    "claude": {
+     "macos": {
+      "level": "not-available",
+      "note": "Must be false in version 2 maps."
+     },
+     "linux": {
+      "level": "not-available",
+      "note": "Must be false in version 2 maps."
+     },
+     "windows": {
+      "level": "not-available",
+      "note": "Must be false in version 2 maps."
+     }
+    },
+    "opencode": {
+     "macos": {
+      "level": "not-available",
+      "note": "Must be false in version 2 maps."
+     },
+     "linux": {
+      "level": "not-available",
+      "note": "Must be false in version 2 maps."
+     },
+     "windows": {
+      "level": "not-available",
+      "note": "Must be false in version 2 maps."
+     }
+    },
+    "gemini": {
+     "macos": {
+      "level": "not-available",
+      "note": "Must be false in version 2 maps."
+     },
+     "linux": {
+      "level": "not-available",
+      "note": "Must be false in version 2 maps."
+     },
+     "windows": {
+      "level": "not-available",
+      "note": "Must be false in version 2 maps."
+     }
+    },
+    "cursor": {
+     "macos": {
+      "level": "not-available",
+      "note": "Must be false in version 2 maps."
+     },
+     "linux": {
+      "level": "not-available",
+      "note": "Must be false in version 2 maps."
+     },
+     "windows": {
+      "level": "not-available",
+      "note": "Must be false in version 2 maps."
+     }
+    },
+    "antigravity": {
+     "macos": {
+      "level": "not-available",
+      "note": "Must be false in version 2 maps."
+     },
+     "linux": {
+      "level": "not-available",
+      "note": "Must be false in version 2 maps."
+     },
+     "windows": {
+      "level": "not-available",
+      "note": "Must be false in version 2 maps."
+     }
+    },
+    "copilot": {
+     "macos": {
+      "level": "not-available",
+      "note": "Must be false in version 2 maps."
+     },
+     "linux": {
+      "level": "not-available",
+      "note": "Must be false in version 2 maps."
+     },
+     "windows": {
+      "level": "not-available",
+      "note": "Must be false in version 2 maps."
+     }
+    },
+    "kiro": {
+     "macos": {
+      "level": "not-available",
+      "note": "Must be false in version 2 maps."
+     },
+     "linux": {
+      "level": "not-available",
+      "note": "Must be false in version 2 maps."
+     },
+     "windows": {
+      "level": "not-available",
+      "note": "Must be false in version 2 maps."
+     }
+    },
+    "windsurf": {
+     "macos": {
+      "level": "not-available",
+      "note": "Must be false in version 2 maps."
+     },
+     "linux": {
+      "level": "not-available",
+      "note": "Must be false in version 2 maps."
+     },
+     "windows": {
+      "level": "not-available",
+      "note": "Must be false in version 2 maps."
+     }
+    },
+    "cline": {
+     "macos": {
+      "level": "not-available",
+      "note": "Must be false in version 2 maps."
+     },
+     "linux": {
+      "level": "not-available",
+      "note": "Must be false in version 2 maps."
+     },
+     "windows": {
+      "level": "not-available",
+      "note": "Must be false in version 2 maps."
+     }
+    }
+   },
+   "sources": [
+    {
+     "title": "AgentEdict role policy guide",
+     "url": "https://github.com/ryandunton/agent-edict/blob/main/docs/role-policy.md"
+    }
+   ],
+   "researched": "2026-10-17"
+  },
+  {
+   "id": "deny-write",
+   "title": "Blocked writes",
+   "topic": "files",
+   "file": "profile",
+   "status": "not-yet-supported",
+   "vendor_key": "filesystem.deny_write",
+   "description": "Paths the agent must never change. AgentEdict's profile format has this field, but it rejects a non-empty list today because no adapter can enforce it on its own. For Codex, use a permission profile with filesystem rules instead.",
+   "reach": {
+    "codex": {
+     "macos": {
+      "level": "not-available"
+     },
+     "linux": {
+      "level": "not-available"
+     },
+     "windows": {
+      "level": "not-available"
+     }
+    },
+    "claude": {
+     "macos": {
+      "level": "not-available"
+     },
+     "linux": {
+      "level": "not-available"
+     },
+     "windows": {
+      "level": "not-available"
+     }
+    },
+    "opencode": {
+     "macos": {
+      "level": "not-available"
+     },
+     "linux": {
+      "level": "not-available"
+     },
+     "windows": {
+      "level": "not-available"
+     }
+    }
+   },
+   "sources": [
+    {
+     "title": "AgentEdict README",
+     "url": "https://github.com/ryandunton/agent-edict/blob/main/README.md"
+    }
+   ],
+   "researched": "2026-10-17"
+  },
+  {
+   "id": "codex-prefer-mxc",
+   "title": "Codex: prefer the MXC sandbox",
+   "topic": "sandbox",
+   "file": "profile",
+   "status": "not-yet-supported",
+   "vendor_key": "features.prefer_mxc",
+   "description": "Makes Codex run Windows commands in Microsoft's newer MXC sandbox when the device supports it. It can be pinned in requirements.toml, but Codex still falls back to the elevated or unelevated sandbox where MXC isn't available, so it can't be required.",
+   "reach": {
+    "codex": {
+     "macos": {
+      "level": "not-applicable",
+      "note": "Windows only."
+     },
+     "linux": {
+      "level": "not-applicable",
+      "note": "Windows only."
+     },
+     "windows": {
+      "level": "partial",
+      "writes": "requirements.toml or config.toml → [features] prefer_mxc",
+      "note": "Windows 11 24H2 or 25H2 with Microsoft's MXC capabilities. Falls back to the older sandboxes elsewhere."
+     }
+    }
+   },
+   "sources": [
+    {
+     "title": "Codex Windows sandbox",
+     "url": "https://learn.chatgpt.com/docs/windows/windows-sandbox"
+    }
+   ],
+   "researched": "2026-10-17"
+  },
+  {
+   "id": "codex-allow-mxc",
+   "title": "Codex: block the MXC sandbox",
+   "topic": "sandbox",
+   "file": "profile",
+   "status": "not-yet-supported",
+   "vendor_key": "[windows] allow_mxc",
+   "description": "Set to false to stop Codex using MXC, whether picked automatically or chosen by the user. The older sandbox rules still apply.",
+   "reach": {
+    "codex": {
+     "macos": {
+      "level": "not-applicable",
+      "note": "Windows only."
+     },
+     "linux": {
+      "level": "not-applicable",
+      "note": "Windows only."
+     },
+     "windows": {
+      "level": "enforced",
+      "writes": "requirements.toml → [windows] allow_mxc"
+     }
+    }
+   },
+   "sources": [
+    {
+     "title": "Codex Windows sandbox",
+     "url": "https://learn.chatgpt.com/docs/windows/windows-sandbox"
+    }
+   ],
+   "researched": "2026-10-17"
+  },
+  {
+   "id": "codex-remote-sandbox",
+   "title": "Codex: sandbox rules per host",
+   "topic": "sandbox",
+   "file": "profile",
+   "status": "not-yet-supported",
+   "vendor_key": "remote_sandbox_config",
+   "description": "Gives machines whose host name matches a pattern different allowed sandbox modes.",
+   "reach": {
+    "codex": {
+     "macos": {
+      "level": "enforced",
+      "writes": "requirements.toml → [[remote_sandbox_config]]"
+     },
+     "linux": {
+      "level": "enforced",
+      "writes": "requirements.toml → [[remote_sandbox_config]]"
+     },
+     "windows": {
+      "level": "enforced",
+      "writes": "requirements.toml → [[remote_sandbox_config]]"
+     }
+    }
+   },
+   "sources": [
+    {
+     "title": "Codex managed configuration",
+     "url": "https://learn.chatgpt.com/docs/enterprise/managed-configuration"
+    }
+   ],
+   "researched": "2026-10-17"
+  },
+  {
+   "id": "codex-managed-network",
+   "title": "Codex: allowed network domains",
+   "topic": "web",
+   "file": "profile",
+   "status": "not-yet-supported",
+   "vendor_key": "experimental_network (enabled, managed_allowed_domains_only, domains)",
+   "description": "A managed list of domains Codex's commands may reach. Codex marks it experimental.",
+   "reach": {
+    "codex": {
+     "macos": {
+      "level": "enforced",
+      "writes": "requirements.toml → [experimental_network]",
+      "note": "Experimental."
+     },
+     "linux": {
+      "level": "enforced",
+      "writes": "requirements.toml → [experimental_network]",
+      "note": "Experimental."
+     },
+     "windows": {
+      "level": "enforced",
+      "writes": "requirements.toml → [experimental_network]",
+      "note": "Experimental."
+     }
+    }
+   },
+   "sources": [
+    {
+     "title": "Codex managed configuration",
+     "url": "https://learn.chatgpt.com/docs/enterprise/managed-configuration"
+    }
+   ],
+   "researched": "2026-10-17"
+  },
+  {
+   "id": "codex-app-network",
+   "title": "Codex app: allowed destinations",
+   "topic": "web",
+   "file": "profile",
+   "status": "not-yet-supported",
+   "vendor_key": "application.network",
+   "description": "Limits which outside destinations the Codex desktop app may contact.",
+   "reach": {
+    "codex": {
+     "macos": {
+      "level": "enforced",
+      "writes": "requirements.toml → [application.network]"
+     },
+     "linux": {
+      "level": "enforced",
+      "writes": "requirements.toml → [application.network]"
+     },
+     "windows": {
+      "level": "enforced",
+      "writes": "requirements.toml → [application.network]"
+     }
+    }
+   },
+   "sources": [
+    {
+     "title": "Codex managed configuration",
+     "url": "https://learn.chatgpt.com/docs/enterprise/managed-configuration"
+    }
+   ],
+   "researched": "2026-10-17"
+  },
+  {
+   "id": "codex-computer-use-apps",
+   "title": "Codex: which apps computer use may control",
+   "topic": "web",
+   "file": "profile",
+   "status": "not-yet-supported",
+   "vendor_key": "computer_use (app access rules)",
+   "description": "Rules for which apps Codex may operate through computer use. AgentEdict writes only allow_locked_computer_use today.",
+   "reach": {
+    "codex": {
+     "macos": {
+      "level": "enforced",
+      "writes": "requirements.toml → [computer_use]"
+     },
+     "linux": {
+      "level": "enforced",
+      "writes": "requirements.toml → [computer_use]"
+     },
+     "windows": {
+      "level": "enforced",
+      "writes": "requirements.toml → [computer_use]"
+     }
+    }
+   },
+   "sources": [
+    {
+     "title": "Codex managed configuration",
+     "url": "https://learn.chatgpt.com/docs/enterprise/managed-configuration"
+    }
+   ],
+   "researched": "2026-10-17"
+  },
+  {
+   "id": "codex-login-methods",
+   "title": "Codex: allowed sign-in methods",
+   "topic": "models",
+   "file": "profile",
+   "status": "not-yet-supported",
+   "vendor_key": "allowed_login_methods",
+   "description": "Limits sign-in to ChatGPT, an API key, or both. Only works from a local file, not the cloud console.",
+   "reach": {
+    "codex": {
+     "macos": {
+      "level": "enforced",
+      "writes": "requirements.toml → allowed_login_methods"
+     },
+     "linux": {
+      "level": "enforced",
+      "writes": "requirements.toml → allowed_login_methods"
+     },
+     "windows": {
+      "level": "enforced",
+      "writes": "requirements.toml → allowed_login_methods"
+     }
+    }
+   },
+   "sources": [
+    {
+     "title": "Codex managed configuration",
+     "url": "https://learn.chatgpt.com/docs/enterprise/managed-configuration"
+    }
+   ],
+   "researched": "2026-10-17"
+  },
+  {
+   "id": "codex-workspaces",
+   "title": "Codex: allowed ChatGPT workspaces",
+   "topic": "models",
+   "file": "profile",
+   "status": "not-yet-supported",
+   "vendor_key": "allowed_chatgpt_workspaces",
+   "description": "Lets users sign in only to approved ChatGPT workspaces. Only works from a local file.",
+   "reach": {
+    "codex": {
+     "macos": {
+      "level": "enforced",
+      "writes": "requirements.toml → allowed_chatgpt_workspaces"
+     },
+     "linux": {
+      "level": "enforced",
+      "writes": "requirements.toml → allowed_chatgpt_workspaces"
+     },
+     "windows": {
+      "level": "enforced",
+      "writes": "requirements.toml → allowed_chatgpt_workspaces"
+     }
+    }
+   },
+   "sources": [
+    {
+     "title": "Codex managed configuration",
+     "url": "https://learn.chatgpt.com/docs/enterprise/managed-configuration"
+    }
+   ],
+   "researched": "2026-10-17"
+  },
+  {
+   "id": "codex-credential-store",
+   "title": "Codex: where sign-in credentials are kept",
+   "topic": "models",
+   "file": "profile",
+   "status": "not-yet-supported",
+   "vendor_key": "cli_auth_credentials_store",
+   "description": "Chooses where Codex stores sign-in credentials. Only works from a local file.",
+   "reach": {
+    "codex": {
+     "macos": {
+      "level": "enforced",
+      "writes": "requirements.toml → cli_auth_credentials_store"
+     },
+     "linux": {
+      "level": "enforced",
+      "writes": "requirements.toml → cli_auth_credentials_store"
+     },
+     "windows": {
+      "level": "enforced",
+      "writes": "requirements.toml → cli_auth_credentials_store"
+     }
+    }
+   },
+   "sources": [
+    {
+     "title": "Codex managed configuration",
+     "url": "https://learn.chatgpt.com/docs/enterprise/managed-configuration"
+    }
+   ],
+   "researched": "2026-10-17"
+  },
+  {
+   "id": "codex-chatgpt-url",
+   "title": "Codex: ChatGPT service address",
+   "topic": "models",
+   "file": "profile",
+   "status": "not-yet-supported",
+   "vendor_key": "chatgpt_base_url",
+   "description": "Points Codex at a different ChatGPT service URL. Only works from a local file.",
+   "reach": {
+    "codex": {
+     "macos": {
+      "level": "enforced",
+      "writes": "requirements.toml → chatgpt_base_url"
+     },
+     "linux": {
+      "level": "enforced",
+      "writes": "requirements.toml → chatgpt_base_url"
+     },
+     "windows": {
+      "level": "enforced",
+      "writes": "requirements.toml → chatgpt_base_url"
+     }
+    }
+   },
+   "sources": [
+    {
+     "title": "Codex managed configuration",
+     "url": "https://learn.chatgpt.com/docs/enterprise/managed-configuration"
+    }
+   ],
+   "researched": "2026-10-17"
+  },
+  {
+   "id": "codex-guardian-config",
+   "title": "Codex: approval reviewer policy",
+   "topic": "approvals",
+   "file": "profile",
+   "status": "not-yet-supported",
+   "vendor_key": "guardian_policy_config",
+   "description": "Replaces the organization-specific part of the automatic reviewer's policy. OpenAI's page now documents this key; AgentEdict writes guardian_extra_policy instead, which needs checking against current Codex.",
+   "reach": {
+    "codex": {
+     "macos": {
+      "level": "configuration-only",
+      "writes": "requirements.toml → guardian_policy_config"
+     },
+     "linux": {
+      "level": "configuration-only",
+      "writes": "requirements.toml → guardian_policy_config"
+     },
+     "windows": {
+      "level": "configuration-only",
+      "writes": "requirements.toml → guardian_policy_config"
+     }
+    }
+   },
+   "sources": [
+    {
+     "title": "Codex managed configuration",
+     "url": "https://learn.chatgpt.com/docs/enterprise/managed-configuration"
+    }
+   ],
+   "researched": "2026-10-17"
+  },
+  {
+   "id": "codex-managed-hooks",
+   "title": "Codex: managed hooks",
+   "topic": "plugins",
+   "file": "profile",
+   "status": "not-yet-supported",
+   "vendor_key": "hooks (managed_dir, windows_managed_dir)",
+   "description": "Lifecycle hooks the administrator installs for every Codex session.",
+   "reach": {
+    "codex": {
+     "macos": {
+      "level": "enforced",
+      "writes": "requirements.toml → [hooks]"
+     },
+     "linux": {
+      "level": "enforced",
+      "writes": "requirements.toml → [hooks]"
+     },
+     "windows": {
+      "level": "enforced",
+      "writes": "requirements.toml → [hooks]"
+     }
+    }
+   },
+   "sources": [
+    {
+     "title": "Codex managed configuration",
+     "url": "https://learn.chatgpt.com/docs/enterprise/managed-configuration"
+    }
+   ],
+   "researched": "2026-10-17"
+  },
+  {
+   "id": "codex-marketplaces",
+   "title": "Codex: plugin marketplaces",
+   "topic": "plugins",
+   "file": "profile",
+   "status": "not-yet-supported",
+   "vendor_key": "marketplaces (restrict_to_allowed_sources, allowed_sources)",
+   "description": "Limits where Codex plugins may come from.",
+   "reach": {
+    "codex": {
+     "macos": {
+      "level": "enforced",
+      "writes": "requirements.toml → [marketplaces]"
+     },
+     "linux": {
+      "level": "enforced",
+      "writes": "requirements.toml → [marketplaces]"
+     },
+     "windows": {
+      "level": "enforced",
+      "writes": "requirements.toml → [marketplaces]"
+     }
+    }
+   },
+   "sources": [
+    {
+     "title": "Codex managed configuration",
+     "url": "https://learn.chatgpt.com/docs/enterprise/managed-configuration"
+    }
+   ],
+   "researched": "2026-10-17"
+  },
+  {
+   "id": "codex-managed-defaults",
+   "title": "Codex: starting defaults",
+   "topic": "sandbox",
+   "file": "profile",
+   "status": "not-yet-supported",
+   "vendor_key": "managed_config.toml: approval_policy, sandbox_mode, [sandbox_workspace_write] network_access",
+   "description": "Starting values, such as the sandbox mode and whether commands get network access. Users can change them during a session; requirements.toml is what limits them.",
+   "reach": {
+    "codex": {
+     "macos": {
+      "level": "configuration-only",
+      "writes": "/etc/codex/managed_config.toml",
+      "note": "Users can change these during a session."
+     },
+     "linux": {
+      "level": "configuration-only",
+      "writes": "/etc/codex/managed_config.toml",
+      "note": "Users can change these during a session."
+     },
+     "windows": {
+      "level": "configuration-only",
+      "writes": "~/.codex/managed_config.toml",
+      "note": "In the user's own folder on Windows, so users can edit it."
+     }
+    }
+   },
+   "sources": [
+    {
+     "title": "Codex managed configuration",
+     "url": "https://learn.chatgpt.com/docs/enterprise/managed-configuration"
+    }
+   ],
+   "researched": "2026-10-17"
+  },
+  {
+   "id": "codex-cloud-requirements",
+   "title": "Codex: cloud-delivered requirements",
+   "topic": "sandbox",
+   "file": "profile",
+   "status": "vendor-console",
+   "vendor_key": "Admin Console → Agent Security",
+   "description": "For users who sign in with ChatGPT Business or Enterprise, Codex can fetch the same requirements and defaults from OpenAI's admin console instead of a local file. Sign-in limits can't be set this way.",
+   "reach": {
+    "codex": {
+     "macos": {
+      "level": "enforced",
+      "writes": "Admin Console"
+     },
+     "linux": {
+      "level": "enforced",
+      "writes": "Admin Console"
+     },
+     "windows": {
+      "level": "enforced",
+      "writes": "Admin Console"
+     }
+    }
+   },
+   "sources": [
+    {
+     "title": "Codex managed configuration",
+     "url": "https://learn.chatgpt.com/docs/enterprise/managed-configuration"
+    }
+   ],
+   "researched": "2026-10-17"
+  },
+  {
+   "id": "claude-permission-mode",
+   "title": "Claude: starting permission mode",
+   "topic": "approvals",
+   "file": "profile",
+   "status": "not-yet-supported",
+   "vendor_key": "permissions.defaultMode, permissions.disableAutoMode",
+   "description": "Chooses the permission mode sessions start in, or removes auto mode.",
+   "reach": {
+    "claude": {
+     "macos": {
+      "level": "enforced",
+      "writes": "managed-settings.json → permissions.defaultMode"
+     },
+     "linux": {
+      "level": "enforced",
+      "writes": "managed-settings.json → permissions.defaultMode"
+     },
+     "windows": {
+      "level": "enforced",
+      "writes": "managed-settings.json → permissions.defaultMode"
+     }
+    }
+   },
+   "sources": [
+    {
+     "title": "Claude Code: set up for your organization",
+     "url": "https://code.claude.com/docs/en/admin-setup"
+    }
+   ],
+   "researched": "2026-10-17"
+  },
+  {
+   "id": "claude-sandbox-domains",
+   "title": "Claude: allowed network domains",
+   "topic": "web",
+   "file": "profile",
+   "status": "not-yet-supported",
+   "vendor_key": "sandbox.network.allowedDomains",
+   "description": "Domains shell commands may reach inside Claude's OS sandbox. AgentEdict writes this only as an empty list, when networking is off.",
+   "reach": {
+    "claude": {
+     "macos": {
+      "level": "enforced",
+      "writes": "managed-settings.json → sandbox.network.allowedDomains"
+     },
+     "linux": {
+      "level": "enforced",
+      "writes": "managed-settings.json → sandbox.network.allowedDomains"
+     },
+     "windows": {
+      "level": "not-applicable",
+      "note": "No Claude sandbox on native Windows."
+     }
+    }
+   },
+   "sources": [
+    {
+     "title": "Claude Code: set up for your organization",
+     "url": "https://code.claude.com/docs/en/admin-setup"
+    }
+   ],
+   "researched": "2026-10-17"
+  },
+  {
+   "id": "claude-managed-claude-md",
+   "title": "Claude: organization instructions file",
+   "topic": "instructions",
+   "file": "profile",
+   "status": "not-yet-supported",
+   "vendor_key": "Managed CLAUDE.md at the managed policy path",
+   "description": "Instructions loaded into every session that users can't exclude.",
+   "reach": {
+    "claude": {
+     "macos": {
+      "level": "configuration-only",
+      "writes": "CLAUDE.md beside managed-settings.json"
+     },
+     "linux": {
+      "level": "configuration-only",
+      "writes": "CLAUDE.md beside managed-settings.json"
+     },
+     "windows": {
+      "level": "configuration-only",
+      "writes": "CLAUDE.md beside managed-settings.json"
+     }
+    }
+   },
+   "sources": [
+    {
+     "title": "Claude Code: set up for your organization",
+     "url": "https://code.claude.com/docs/en/admin-setup"
+    }
+   ],
+   "researched": "2026-10-17"
+  },
+  {
+   "id": "claude-mcp-controls",
+   "title": "Claude: more MCP controls",
+   "topic": "mcp",
+   "file": "profile",
+   "status": "not-yet-supported",
+   "vendor_key": "deniedMcpServers, allowManagedMcpServersOnly, managedMcpServers, managed-mcp.json",
+   "description": "Block named MCP servers, allow only managed ones, or deploy a fixed set of servers to everyone. AgentEdict writes only allowedMcpServers.",
+   "reach": {
+    "claude": {
+     "macos": {
+      "level": "enforced",
+      "writes": "managed-settings.json"
+     },
+     "linux": {
+      "level": "enforced",
+      "writes": "managed-settings.json"
+     },
+     "windows": {
+      "level": "enforced",
+      "writes": "managed-settings.json"
+     }
+    }
+   },
+   "sources": [
+    {
+     "title": "Claude Code: set up for your organization",
+     "url": "https://code.claude.com/docs/en/admin-setup"
+    }
+   ],
+   "researched": "2026-10-17"
+  },
+  {
+   "id": "claude-marketplaces",
+   "title": "Claude: plugin marketplaces",
+   "topic": "plugins",
+   "file": "profile",
+   "status": "not-yet-supported",
+   "vendor_key": "strictKnownMarketplaces, blockedMarketplaces, disableSideloadFlags, disableCommandPluginSources, pluginSuggestionMarketplaces",
+   "description": "Limits where plugins may come from and blocks command-line flags that load plugins, agents or MCP servers for one run.",
+   "reach": {
+    "claude": {
+     "macos": {
+      "level": "enforced",
+      "writes": "managed-settings.json"
+     },
+     "linux": {
+      "level": "enforced",
+      "writes": "managed-settings.json"
+     },
+     "windows": {
+      "level": "enforced",
+      "writes": "managed-settings.json"
+     }
+    }
+   },
+   "sources": [
+    {
+     "title": "Claude Code: set up for your organization",
+     "url": "https://code.claude.com/docs/en/admin-setup"
+    }
+   ],
+   "researched": "2026-10-17"
+  },
+  {
+   "id": "claude-plugin-only",
+   "title": "Claude: customizations only from plugins",
+   "topic": "plugins",
+   "file": "profile",
+   "status": "not-yet-supported",
+   "vendor_key": "strictPluginOnlyCustomization",
+   "description": "Blocks skills, agents, hooks and MCP servers from user and project files, so they can only come from plugins or managed settings.",
+   "reach": {
+    "claude": {
+     "macos": {
+      "level": "enforced",
+      "writes": "managed-settings.json"
+     },
+     "linux": {
+      "level": "enforced",
+      "writes": "managed-settings.json"
+     },
+     "windows": {
+      "level": "enforced",
+      "writes": "managed-settings.json"
+     }
+    }
+   },
+   "sources": [
+    {
+     "title": "Claude Code: set up for your organization",
+     "url": "https://code.claude.com/docs/en/admin-setup"
+    }
+   ],
+   "researched": "2026-10-17"
+  },
+  {
+   "id": "claude-claudeai-sync",
+   "title": "Claude: skills and plugins synced from claude.ai",
+   "topic": "plugins",
+   "file": "profile",
+   "status": "not-yet-supported",
+   "vendor_key": "syncClaudeAiSkills, syncClaudeAiPlugins",
+   "description": "Set to false to stop Claude Code loading the skills and plugins users turned on in claude.ai.",
+   "reach": {
+    "claude": {
+     "macos": {
+      "level": "enforced",
+      "writes": "managed-settings.json"
+     },
+     "linux": {
+      "level": "enforced",
+      "writes": "managed-settings.json"
+     },
+     "windows": {
+      "level": "enforced",
+      "writes": "managed-settings.json"
+     }
+    }
+   },
+   "sources": [
+    {
+     "title": "Claude Code: set up for your organization",
+     "url": "https://code.claude.com/docs/en/admin-setup"
+    }
+   ],
+   "researched": "2026-10-17"
+  },
+  {
+   "id": "claude-hooks",
+   "title": "Claude: managed hooks only",
+   "topic": "plugins",
+   "file": "profile",
+   "status": "not-yet-supported",
+   "vendor_key": "allowManagedHooksOnly, allowedHttpHookUrls",
+   "description": "Runs only hooks the administrator installed, and limits which URLs HTTP hooks may call.",
+   "reach": {
+    "claude": {
+     "macos": {
+      "level": "enforced",
+      "writes": "managed-settings.json"
+     },
+     "linux": {
+      "level": "enforced",
+      "writes": "managed-settings.json"
+     },
+     "windows": {
+      "level": "enforced",
+      "writes": "managed-settings.json"
+     }
+    }
+   },
+   "sources": [
+    {
+     "title": "Claude Code: set up for your organization",
+     "url": "https://code.claude.com/docs/en/admin-setup"
+    }
+   ],
+   "researched": "2026-10-17"
+  },
+  {
+   "id": "claude-login",
+   "title": "Claude: required sign-in method and organization",
+   "topic": "models",
+   "file": "profile",
+   "status": "not-yet-supported",
+   "vendor_key": "forceLoginMethod, forceLoginOrgUUID",
+   "description": "Requires a sign-in method, or a specific Anthropic organization. Sessions using a raw API key are blocked when set.",
+   "reach": {
+    "claude": {
+     "macos": {
+      "level": "enforced",
+      "writes": "managed-settings.json"
+     },
+     "linux": {
+      "level": "enforced",
+      "writes": "managed-settings.json"
+     },
+     "windows": {
+      "level": "enforced",
+      "writes": "managed-settings.json"
+     }
+    }
+   },
+   "sources": [
+    {
+     "title": "Claude Code: set up for your organization",
+     "url": "https://code.claude.com/docs/en/admin-setup"
+    }
+   ],
+   "researched": "2026-10-17"
+  },
+  {
+   "id": "claude-providers",
+   "title": "Claude: allowed API providers",
+   "topic": "models",
+   "file": "profile",
+   "status": "not-yet-supported",
+   "vendor_key": "allowedProviders",
+   "description": "Limits which API providers this machine may use. Needs Claude Code 2.1.285 or later.",
+   "reach": {
+    "claude": {
+     "macos": {
+      "level": "enforced",
+      "writes": "managed-settings.json"
+     },
+     "linux": {
+      "level": "enforced",
+      "writes": "managed-settings.json"
+     },
+     "windows": {
+      "level": "enforced",
+      "writes": "managed-settings.json"
+     }
+    }
+   },
+   "sources": [
+    {
+     "title": "Claude Code: set up for your organization",
+     "url": "https://code.claude.com/docs/en/admin-setup"
+    }
+   ],
+   "researched": "2026-10-17"
+  },
+  {
+   "id": "claude-models",
+   "title": "Claude: allowed models",
+   "topic": "models",
+   "file": "profile",
+   "status": "not-yet-supported",
+   "vendor_key": "availableModels, enforceAvailableModels, model",
+   "description": "Limits the model picker, and optionally the automatic default, to listed models.",
+   "reach": {
+    "claude": {
+     "macos": {
+      "level": "enforced",
+      "writes": "managed-settings.json"
+     },
+     "linux": {
+      "level": "enforced",
+      "writes": "managed-settings.json"
+     },
+     "windows": {
+      "level": "enforced",
+      "writes": "managed-settings.json"
+     }
+    }
+   },
+   "sources": [
+    {
+     "title": "Claude Code: set up for your organization",
+     "url": "https://code.claude.com/docs/en/admin-setup"
+    }
+   ],
+   "researched": "2026-10-17"
+  },
+  {
+   "id": "claude-effort",
+   "title": "Claude: effort cap",
+   "topic": "models",
+   "file": "profile",
+   "status": "not-yet-supported",
+   "vendor_key": "maxEffortLevel",
+   "description": "Caps the effort level for every model or per model.",
+   "reach": {
+    "claude": {
+     "macos": {
+      "level": "enforced",
+      "writes": "managed-settings.json"
+     },
+     "linux": {
+      "level": "enforced",
+      "writes": "managed-settings.json"
+     },
+     "windows": {
+      "level": "enforced",
+      "writes": "managed-settings.json"
+     }
+    }
+   },
+   "sources": [
+    {
+     "title": "Claude Code: set up for your organization",
+     "url": "https://code.claude.com/docs/en/admin-setup"
+    }
+   ],
+   "researched": "2026-10-17"
+  },
+  {
+   "id": "claude-versions",
+   "title": "Claude: allowed versions",
+   "topic": "telemetry",
+   "file": "profile",
+   "status": "not-yet-supported",
+   "vendor_key": "minimumVersion, requiredMinimumVersion, requiredMaximumVersion",
+   "description": "Stops auto-update installing an older version, or refuses to start outside an approved version range.",
+   "reach": {
+    "claude": {
+     "macos": {
+      "level": "enforced",
+      "writes": "managed-settings.json"
+     },
+     "linux": {
+      "level": "enforced",
+      "writes": "managed-settings.json"
+     },
+     "windows": {
+      "level": "enforced",
+      "writes": "managed-settings.json"
+     }
+    }
+   },
+   "sources": [
+    {
+     "title": "Claude Code: set up for your organization",
+     "url": "https://code.claude.com/docs/en/admin-setup"
+    }
+   ],
+   "researched": "2026-10-17"
+  },
+  {
+   "id": "claude-telemetry-optout",
+   "title": "Claude: turn off Anthropic telemetry",
+   "topic": "telemetry",
+   "file": "profile",
+   "status": "not-yet-supported",
+   "vendor_key": "env: CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC=1",
+   "description": "Turns off usage metrics, error reports and surveys sent to Anthropic.",
+   "reach": {
+    "claude": {
+     "macos": {
+      "level": "enforced",
+      "writes": "managed-settings.json → env"
+     },
+     "linux": {
+      "level": "enforced",
+      "writes": "managed-settings.json → env"
+     },
+     "windows": {
+      "level": "enforced",
+      "writes": "managed-settings.json → env"
+     }
+    }
+   },
+   "sources": [
+    {
+     "title": "Claude Code: set up for your organization",
+     "url": "https://code.claude.com/docs/en/admin-setup"
+    }
+   ],
+   "researched": "2026-10-17"
+  },
+  {
+   "id": "claude-agent-view",
+   "title": "Claude: background agents",
+   "topic": "features",
+   "file": "profile",
+   "status": "not-yet-supported",
+   "vendor_key": "disableAgentView, processWrapper",
+   "description": "Turns off background agent sessions, or requires them to start through a corporate launcher.",
+   "reach": {
+    "claude": {
+     "macos": {
+      "level": "enforced",
+      "writes": "managed-settings.json"
+     },
+     "linux": {
+      "level": "enforced",
+      "writes": "managed-settings.json"
+     },
+     "windows": {
+      "level": "enforced",
+      "writes": "managed-settings.json"
+     }
+    }
+   },
+   "sources": [
+    {
+     "title": "Claude Code: set up for your organization",
+     "url": "https://code.claude.com/docs/en/admin-setup"
+    }
+   ],
+   "researched": "2026-10-17"
+  },
+  {
+   "id": "claude-wsl-inherit",
+   "title": "Claude: apply Windows policy inside WSL",
+   "topic": "sandbox",
+   "file": "profile",
+   "status": "not-yet-supported",
+   "vendor_key": "wslInheritsWindowsSettings",
+   "description": "Makes Claude Code inside WSL use the Windows machine's managed settings instead of only /etc/claude-code.",
+   "reach": {
+    "claude": {
+     "macos": {
+      "level": "not-applicable",
+      "note": "Windows only."
+     },
+     "linux": {
+      "level": "not-applicable",
+      "note": "Windows only."
+     },
+     "windows": {
+      "level": "enforced",
+      "writes": "managed-settings.json → wslInheritsWindowsSettings"
+     }
+    }
+   },
+   "sources": [
+    {
+     "title": "Claude Code: set up for your organization",
+     "url": "https://code.claude.com/docs/en/admin-setup"
+    }
+   ],
+   "researched": "2026-10-17"
+  },
+  {
+   "id": "claude-server-managed",
+   "title": "Claude: settings from the admin console",
+   "topic": "sandbox",
+   "file": "profile",
+   "status": "vendor-console",
+   "vendor_key": "claude.ai admin console → server-managed settings",
+   "description": "The same managed settings, delivered from the claude.ai admin console and refreshed hourly. They take priority over a file. Needs a Team or Enterprise plan.",
+   "reach": {
+    "claude": {
+     "macos": {
+      "level": "enforced",
+      "writes": "claude.ai admin console"
+     },
+     "linux": {
+      "level": "enforced",
+      "writes": "claude.ai admin console"
+     },
+     "windows": {
+      "level": "enforced",
+      "writes": "claude.ai admin console"
+     }
+    }
+   },
+   "sources": [
+    {
+     "title": "Claude Code: set up for your organization",
+     "url": "https://code.claude.com/docs/en/admin-setup"
+    },
+    {
+     "title": "Claude Code managed settings",
+     "url": "https://code.claude.com/docs/en/managed-settings"
+    }
+   ],
+   "researched": "2026-10-17"
+  },
+  {
+   "id": "claude-org-models",
+   "title": "Claude: organization model limits",
+   "topic": "models",
+   "file": "profile",
+   "status": "vendor-console",
+   "vendor_key": "claude.ai organization settings → model restrictions, default model, effort limits",
+   "description": "Turn models off, set the default model, and cap effort for the whole organization. Enforced by Anthropic's servers; doesn't reach Bedrock, Vertex or Foundry.",
+   "reach": {
+    "claude": {
+     "macos": {
+      "level": "enforced",
+      "writes": "claude.ai admin settings"
+     },
+     "linux": {
+      "level": "enforced",
+      "writes": "claude.ai admin settings"
+     },
+     "windows": {
+      "level": "enforced",
+      "writes": "claude.ai admin settings"
+     }
+    }
+   },
+   "sources": [
+    {
+     "title": "Claude Code: set up for your organization",
+     "url": "https://code.claude.com/docs/en/admin-setup"
+    }
+   ],
+   "researched": "2026-10-17"
+  },
+  {
+   "id": "claude-spend",
+   "title": "Claude: spend and rate limits",
+   "topic": "models",
+   "file": "profile",
+   "status": "vendor-console",
+   "vendor_key": "Organization settings → spend limits",
+   "description": "Spending and rate limits for the organization.",
+   "reach": {
+    "claude": {
+     "macos": {
+      "level": "enforced",
+      "writes": "claude.ai admin settings"
+     },
+     "linux": {
+      "level": "enforced",
+      "writes": "claude.ai admin settings"
+     },
+     "windows": {
+      "level": "enforced",
+      "writes": "claude.ai admin settings"
+     }
+    }
+   },
+   "sources": [
+    {
+     "title": "Claude Code: set up for your organization",
+     "url": "https://code.claude.com/docs/en/admin-setup"
+    }
+   ],
+   "researched": "2026-10-17"
+  },
+  {
+   "id": "opencode-providers",
+   "title": "OpenCode: allowed providers",
+   "topic": "models",
+   "file": "profile",
+   "status": "not-yet-supported",
+   "vendor_key": "enabled_providers, disabled_providers",
+   "description": "Only the listed providers load, or the listed ones never load. disabled_providers wins.",
+   "reach": {
+    "opencode": {
+     "macos": {
+      "level": "enforced",
+      "writes": "opencode.json"
+     },
+     "linux": {
+      "level": "enforced",
+      "writes": "opencode.json"
+     },
+     "windows": {
+      "level": "enforced",
+      "writes": "opencode.json"
+     }
+    }
+   },
+   "sources": [
+    {
+     "title": "OpenCode config",
+     "url": "https://opencode.ai/docs/config/"
+    }
+   ],
+   "researched": "2026-10-17"
+  },
+  {
+   "id": "opencode-model",
+   "title": "OpenCode: default models",
+   "topic": "models",
+   "file": "profile",
+   "status": "not-yet-supported",
+   "vendor_key": "model, small_model",
+   "description": "The default model, and a smaller model for light tasks such as titles.",
+   "reach": {
+    "opencode": {
+     "macos": {
+      "level": "enforced",
+      "writes": "opencode.json"
+     },
+     "linux": {
+      "level": "enforced",
+      "writes": "opencode.json"
+     },
+     "windows": {
+      "level": "enforced",
+      "writes": "opencode.json"
+     }
+    }
+   },
+   "sources": [
+    {
+     "title": "OpenCode config",
+     "url": "https://opencode.ai/docs/config/"
+    }
+   ],
+   "researched": "2026-10-17"
+  },
+  {
+   "id": "opencode-autoupdate",
+   "title": "OpenCode: automatic updates",
+   "topic": "telemetry",
+   "file": "profile",
+   "status": "not-yet-supported",
+   "vendor_key": "autoupdate",
+   "description": "true, false, or \"notify\".",
+   "reach": {
+    "opencode": {
+     "macos": {
+      "level": "enforced",
+      "writes": "opencode.json"
+     },
+     "linux": {
+      "level": "enforced",
+      "writes": "opencode.json"
+     },
+     "windows": {
+      "level": "enforced",
+      "writes": "opencode.json"
+     }
+    }
+   },
+   "sources": [
+    {
+     "title": "OpenCode config",
+     "url": "https://opencode.ai/docs/config/"
+    }
+   ],
+   "researched": "2026-10-17"
+  },
+  {
+   "id": "opencode-tools",
+   "title": "OpenCode: turn tools on or off",
+   "topic": "features",
+   "file": "profile",
+   "status": "not-yet-supported",
+   "vendor_key": "tools",
+   "description": "Turns individual tools on or off for the model.",
+   "reach": {
+    "opencode": {
+     "macos": {
+      "level": "enforced",
+      "writes": "opencode.json"
+     },
+     "linux": {
+      "level": "enforced",
+      "writes": "opencode.json"
+     },
+     "windows": {
+      "level": "enforced",
+      "writes": "opencode.json"
+     }
+    }
+   },
+   "sources": [
+    {
+     "title": "OpenCode config",
+     "url": "https://opencode.ai/docs/config/"
+    }
+   ],
+   "researched": "2026-10-17"
+  },
+  {
+   "id": "opencode-permission-other",
+   "title": "OpenCode: other permission rules",
+   "topic": "approvals",
+   "file": "profile",
+   "status": "not-yet-supported",
+   "vendor_key": "permission.edit (and other tools)",
+   "description": "Approval rules for tools other than shell commands and web fetch. AgentEdict always writes edit: allow.",
+   "reach": {
+    "opencode": {
+     "macos": {
+      "level": "enforced",
+      "writes": "opencode.json"
+     },
+     "linux": {
+      "level": "enforced",
+      "writes": "opencode.json"
+     },
+     "windows": {
+      "level": "enforced",
+      "writes": "opencode.json"
+     }
+    }
+   },
+   "sources": [
+    {
+     "title": "OpenCode config",
+     "url": "https://opencode.ai/docs/config/"
+    }
+   ],
+   "researched": "2026-10-17"
+  },
+  {
+   "id": "opencode-plugins",
+   "title": "OpenCode: plugins",
+   "topic": "plugins",
+   "file": "profile",
+   "status": "not-yet-supported",
+   "vendor_key": "plugin",
+   "description": "npm plugins OpenCode loads.",
+   "reach": {
+    "opencode": {
+     "macos": {
+      "level": "enforced",
+      "writes": "opencode.json"
+     },
+     "linux": {
+      "level": "enforced",
+      "writes": "opencode.json"
+     },
+     "windows": {
+      "level": "enforced",
+      "writes": "opencode.json"
+     }
+    }
+   },
+   "sources": [
+    {
+     "title": "OpenCode config",
+     "url": "https://opencode.ai/docs/config/"
+    }
+   ],
+   "researched": "2026-10-17"
+  },
+  {
+   "id": "opencode-subagents",
+   "title": "OpenCode: nested agents",
+   "topic": "features",
+   "file": "profile",
+   "status": "not-yet-supported",
+   "vendor_key": "subagent_depth",
+   "description": "How many levels of helper agents may start other helpers (default 1).",
+   "reach": {
+    "opencode": {
+     "macos": {
+      "level": "enforced",
+      "writes": "opencode.json"
+     },
+     "linux": {
+      "level": "enforced",
+      "writes": "opencode.json"
+     },
+     "windows": {
+      "level": "enforced",
+      "writes": "opencode.json"
+     }
+    }
+   },
+   "sources": [
+    {
+     "title": "OpenCode config",
+     "url": "https://opencode.ai/docs/config/"
+    }
+   ],
+   "researched": "2026-10-17"
+  },
+  {
+   "id": "opencode-server",
+   "title": "OpenCode: web server",
+   "topic": "web",
+   "file": "profile",
+   "status": "not-yet-supported",
+   "vendor_key": "server (port, hostname, mdns, cors)",
+   "description": "Settings for opencode serve and opencode web.",
+   "reach": {
+    "opencode": {
+     "macos": {
+      "level": "enforced",
+      "writes": "opencode.json"
+     },
+     "linux": {
+      "level": "enforced",
+      "writes": "opencode.json"
+     },
+     "windows": {
+      "level": "enforced",
+      "writes": "opencode.json"
+     }
+    }
+   },
+   "sources": [
+    {
+     "title": "OpenCode config",
+     "url": "https://opencode.ai/docs/config/"
+    }
+   ],
+   "researched": "2026-10-17"
+  },
+  {
+   "id": "gemini-core-tools",
+   "title": "Gemini: allowed tools list",
+   "topic": "gemini",
+   "file": "native",
+   "status": "not-yet-supported",
+   "vendor_key": "tools.core",
+   "description": "Only the listed tools are available, such as ReadFileTool or ShellTool(ls). Google recommends policy rules, which AgentEdict writes, over this list.",
+   "reach": {
+    "gemini": {
+     "macos": {
+      "level": "enforced",
+      "writes": "settings.json → tools.core",
+      "note": "The GEMINI_CLI_SYSTEM_SETTINGS_PATH variable can point Gemini at another settings file."
+     },
+     "linux": {
+      "level": "enforced",
+      "writes": "settings.json → tools.core",
+      "note": "The GEMINI_CLI_SYSTEM_SETTINGS_PATH variable can point Gemini at another settings file."
+     },
+     "windows": {
+      "level": "enforced",
+      "writes": "settings.json → tools.core",
+      "note": "The GEMINI_CLI_SYSTEM_SETTINGS_PATH variable can point Gemini at another settings file."
+     }
+    }
+   },
+   "sources": [
+    {
+     "title": "Gemini CLI enterprise configuration",
+     "url": "https://geminicli.com/docs/cli/enterprise/"
+    }
+   ],
+   "researched": "2026-10-17"
+  },
+  {
+   "id": "gemini-mcp",
+   "title": "Gemini: allowed MCP servers",
+   "topic": "gemini",
+   "file": "native",
+   "status": "not-yet-supported",
+   "vendor_key": "mcp.allowed, mcpServers (includeTools, excludeTools)",
+   "description": "Lists the MCP servers users may run, and can deploy servers with only some of their tools exposed.",
+   "reach": {
+    "gemini": {
+     "macos": {
+      "level": "enforced",
+      "writes": "settings.json → mcp.allowed, mcpServers",
+      "note": "Settings can be redirected by GEMINI_CLI_SYSTEM_SETTINGS_PATH."
+     },
+     "linux": {
+      "level": "enforced",
+      "writes": "settings.json → mcp.allowed, mcpServers",
+      "note": "Settings can be redirected by GEMINI_CLI_SYSTEM_SETTINGS_PATH."
+     },
+     "windows": {
+      "level": "enforced",
+      "writes": "settings.json → mcp.allowed, mcpServers",
+      "note": "Settings can be redirected by GEMINI_CLI_SYSTEM_SETTINGS_PATH."
+     }
+    }
+   },
+   "sources": [
+    {
+     "title": "Gemini CLI enterprise configuration",
+     "url": "https://geminicli.com/docs/cli/enterprise/"
+    }
+   ],
+   "researched": "2026-10-17"
+  },
+  {
+   "id": "gemini-auth",
+   "title": "Gemini: required sign-in type",
+   "topic": "gemini",
+   "file": "native",
+   "status": "not-yet-supported",
+   "vendor_key": "security.auth.enforcedType",
+   "description": "Requires one sign-in method. Google moved unpaid and Google One users from Gemini CLI to Antigravity CLI on 2026-06-18.",
+   "reach": {
+    "gemini": {
+     "macos": {
+      "level": "enforced",
+      "writes": "settings.json → security.auth.enforcedType"
+     },
+     "linux": {
+      "level": "enforced",
+      "writes": "settings.json → security.auth.enforcedType"
+     },
+     "windows": {
+      "level": "enforced",
+      "writes": "settings.json → security.auth.enforcedType"
+     }
+    }
+   },
+   "sources": [
+    {
+     "title": "Gemini CLI enterprise configuration",
+     "url": "https://geminicli.com/docs/cli/enterprise/"
+    }
+   ],
+   "researched": "2026-10-17"
+  },
+  {
+   "id": "gemini-telemetry",
+   "title": "Gemini: telemetry export",
+   "topic": "gemini",
+   "file": "native",
+   "status": "not-yet-supported",
+   "vendor_key": "telemetry.enabled, telemetry.target, telemetry.otlpEndpoint, telemetry.logPrompts",
+   "description": "Sends Gemini CLI telemetry to your collector. Google recommends logPrompts: false.",
+   "reach": {
+    "gemini": {
+     "macos": {
+      "level": "enforced",
+      "writes": "settings.json → telemetry"
+     },
+     "linux": {
+      "level": "enforced",
+      "writes": "settings.json → telemetry"
+     },
+     "windows": {
+      "level": "enforced",
+      "writes": "settings.json → telemetry"
+     }
+    }
+   },
+   "sources": [
+    {
+     "title": "Gemini CLI enterprise configuration",
+     "url": "https://geminicli.com/docs/cli/enterprise/"
+    }
+   ],
+   "researched": "2026-10-17"
+  },
+  {
+   "id": "gemini-usage-stats",
+   "title": "Gemini: usage statistics",
+   "topic": "gemini",
+   "file": "native",
+   "status": "not-yet-supported",
+   "vendor_key": "privacy.usageStatisticsEnabled",
+   "description": "Set to false to stop sending usage statistics to Google.",
+   "reach": {
+    "gemini": {
+     "macos": {
+      "level": "enforced",
+      "writes": "settings.json → privacy.usageStatisticsEnabled"
+     },
+     "linux": {
+      "level": "enforced",
+      "writes": "settings.json → privacy.usageStatisticsEnabled"
+     },
+     "windows": {
+      "level": "enforced",
+      "writes": "settings.json → privacy.usageStatisticsEnabled"
+     }
+    }
+   },
+   "sources": [
+    {
+     "title": "Gemini CLI enterprise configuration",
+     "url": "https://geminicli.com/docs/cli/enterprise/"
+    }
+   ],
+   "researched": "2026-10-17"
+  },
+  {
+   "id": "gemini-bug-url",
+   "title": "Gemini: where /bug reports go",
+   "topic": "gemini",
+   "file": "native",
+   "status": "not-yet-supported",
+   "vendor_key": "advanced.bugCommand.urlTemplate",
+   "description": "Sends the /bug command to your own ticket system.",
+   "reach": {
+    "gemini": {
+     "macos": {
+      "level": "enforced",
+      "writes": "settings.json → advanced.bugCommand.urlTemplate"
+     },
+     "linux": {
+      "level": "enforced",
+      "writes": "settings.json → advanced.bugCommand.urlTemplate"
+     },
+     "windows": {
+      "level": "enforced",
+      "writes": "settings.json → advanced.bugCommand.urlTemplate"
+     }
+    }
+   },
+   "sources": [
+    {
+     "title": "Gemini CLI enterprise configuration",
+     "url": "https://geminicli.com/docs/cli/enterprise/"
+    }
+   ],
+   "researched": "2026-10-17"
+  },
+  {
+   "id": "cursor-mdm",
+   "title": "Cursor: device policies",
+   "topic": "cursor",
+   "file": "native",
+   "status": "not-yet-supported",
+   "vendor_key": "AllowedExtensions, AllowedTeamId, ExtensionGalleryServiceUrl, NetworkDisableHttp2, UpdateMode, WorkspaceTrustEnabled",
+   "description": "Device policies for allowed extensions, which team may sign in, the extension marketplace, updates and Workspace Trust. Users can't override them.",
+   "reach": {
+    "cursor": {
+     "macos": {
+      "level": "enforced",
+      "writes": "configuration profile (.mobileconfig)"
+     },
+     "windows": {
+      "level": "enforced",
+      "writes": "Group Policy (ADMX)"
+     },
+     "linux": {
+      "level": "partial",
+      "writes": "~/.cursor/policy.json",
+      "note": "In the user's home folder on Linux."
+     }
+    }
+   },
+   "sources": [
+    {
+     "title": "Cursor enterprise deployment patterns",
+     "url": "https://cursor.com/docs/enterprise/deployment-patterns"
+    }
+   ],
+   "researched": "2026-10-17"
+  },
+  {
+   "id": "cursor-permissions-file",
+   "title": "Cursor: auto-run allowlists",
+   "topic": "cursor",
+   "file": "native",
+   "status": "user-setting",
+   "vendor_key": "~/.cursor/permissions.json: terminalAllowlist, mcpAllowlist, autoRun",
+   "description": "Which terminal commands and MCP tools run without asking. The file sits in the user's home folder, so users can edit it, and project files add to it.",
+   "reach": {
+    "cursor": {
+     "macos": {
+      "level": "configuration-only",
+      "writes": "~/.cursor/permissions.json",
+      "note": "Users can change it."
+     },
+     "linux": {
+      "level": "configuration-only",
+      "writes": "~/.cursor/permissions.json",
+      "note": "Users can change it."
+     },
+     "windows": {
+      "level": "configuration-only",
+      "writes": "~/.cursor/permissions.json",
+      "note": "Users can change it."
+     }
+    }
+   },
+   "sources": [
+    {
+     "title": "Cursor enterprise deployment patterns",
+     "url": "https://cursor.com/docs/enterprise/deployment-patterns"
+    },
+    {
+     "title": "Cursor model and integration management",
+     "url": "https://cursor.com/docs/enterprise/model-and-integration-management"
+    }
+   ],
+   "researched": "2026-10-17"
+  },
+  {
+   "id": "cursor-dashboard-run",
+   "title": "Cursor: run mode and allowlists from the dashboard",
+   "topic": "cursor",
+   "file": "native",
+   "status": "vendor-console",
+   "vendor_key": "Team dashboard → Auto Run / Run Mode, MCP allowlist, sandbox network modes",
+   "description": "Admin allowlists and run mode set in Cursor's team dashboard. They replace the local file's lists and users can't override them.",
+   "reach": {
+    "cursor": {
+     "macos": {
+      "level": "enforced",
+      "writes": "Cursor team dashboard"
+     },
+     "linux": {
+      "level": "enforced",
+      "writes": "Cursor team dashboard"
+     },
+     "windows": {
+      "level": "enforced",
+      "writes": "Cursor team dashboard"
+     }
+    }
+   },
+   "sources": [
+    {
+     "title": "Cursor team dashboard",
+     "url": "https://docs.cursor.com/account/teams/dashboard"
+    },
+    {
+     "title": "Cursor model and integration management",
+     "url": "https://cursor.com/docs/enterprise/model-and-integration-management"
+    },
+    {
+     "title": "Cursor security and privacy hardening",
+     "url": "https://cursor.com/docs/enterprise/security-hardening"
+    }
+   ],
+   "researched": "2026-10-17"
+  },
+  {
+   "id": "cursor-privacy-mode",
+   "title": "Cursor: enforce Privacy Mode",
+   "topic": "cursor",
+   "file": "native",
+   "status": "vendor-console",
+   "vendor_key": "Team dashboard → Privacy Mode",
+   "description": "Turns Privacy Mode on for everyone so members can't turn it off.",
+   "reach": {
+    "cursor": {
+     "macos": {
+      "level": "enforced",
+      "writes": "Cursor team dashboard"
+     },
+     "linux": {
+      "level": "enforced",
+      "writes": "Cursor team dashboard"
+     },
+     "windows": {
+      "level": "enforced",
+      "writes": "Cursor team dashboard"
+     }
+    }
+   },
+   "sources": [
+    {
+     "title": "Cursor security and privacy hardening",
+     "url": "https://cursor.com/docs/enterprise/security-hardening"
+    }
+   ],
+   "researched": "2026-10-17"
+  },
+  {
+   "id": "cursor-repo-blocklist",
+   "title": "Cursor: repository blocklist",
+   "topic": "cursor",
+   "file": "native",
+   "status": "vendor-console",
+   "vendor_key": "Team dashboard → Repository Blocklist",
+   "description": "Repositories Cursor refuses to index or work with. Enterprise only.",
+   "reach": {
+    "cursor": {
+     "macos": {
+      "level": "enforced",
+      "writes": "Cursor team dashboard"
+     },
+     "linux": {
+      "level": "enforced",
+      "writes": "Cursor team dashboard"
+     },
+     "windows": {
+      "level": "enforced",
+      "writes": "Cursor team dashboard"
+     }
+    }
+   },
+   "sources": [
+    {
+     "title": "Cursor team dashboard",
+     "url": "https://docs.cursor.com/account/teams/dashboard"
+    },
+    {
+     "title": "Cursor model and integration management",
+     "url": "https://cursor.com/docs/enterprise/model-and-integration-management"
+    }
+   ],
+   "researched": "2026-10-17"
+  },
+  {
+   "id": "cursor-models",
+   "title": "Cursor: model access",
+   "topic": "cursor",
+   "file": "native",
+   "status": "vendor-console",
+   "vendor_key": "Team dashboard → model and integration management",
+   "description": "Which models and integrations members may use.",
+   "reach": {
+    "cursor": {
+     "macos": {
+      "level": "enforced",
+      "writes": "Cursor team dashboard"
+     },
+     "linux": {
+      "level": "enforced",
+      "writes": "Cursor team dashboard"
+     },
+     "windows": {
+      "level": "enforced",
+      "writes": "Cursor team dashboard"
+     }
+    }
+   },
+   "sources": [
+    {
+     "title": "Cursor model and integration management",
+     "url": "https://cursor.com/docs/enterprise/model-and-integration-management"
+    }
+   ],
+   "researched": "2026-10-17"
+  },
+  {
+   "id": "antigravity-terminal-auto",
+   "title": "Antigravity: terminal auto-run",
+   "topic": "antigravity",
+   "file": "native",
+   "status": "user-setting",
+   "vendor_key": "Terminal command auto execution; terminal allowlist and denylist",
+   "description": "Whether terminal commands run without review, with allow and deny lists. Set by each user; Antigravity documents no admin-enforced version.",
+   "reach": {
+    "antigravity": {
+     "macos": {
+      "level": "configuration-only",
+      "writes": "Antigravity settings (per user)",
+      "note": "Users can change it."
+     },
+     "linux": {
+      "level": "configuration-only",
+      "writes": "Antigravity settings (per user)",
+      "note": "Users can change it."
+     },
+     "windows": {
+      "level": "configuration-only",
+      "writes": "Antigravity settings (per user)",
+      "note": "Users can change it."
+     }
+    }
+   },
+   "sources": [
+    {
+     "title": "Antigravity settings",
+     "url": "https://antigravity.google/docs/settings"
+    }
+   ],
+   "researched": "2026-10-17"
+  },
+  {
+   "id": "antigravity-cli-permissions",
+   "title": "Antigravity CLI: tool and review policy",
+   "topic": "antigravity",
+   "file": "native",
+   "status": "user-setting",
+   "vendor_key": "toolPermission, artifactReviewPolicy (~/.gemini/antigravity-cli/settings.json)",
+   "description": "How the CLI asks before using tools (request-review, proceed-in-sandbox, strict, always-proceed) and reviews artifacts.",
+   "reach": {
+    "antigravity": {
+     "macos": {
+      "level": "configuration-only",
+      "writes": "~/.gemini/antigravity-cli/settings.json",
+      "note": "Users can change it."
+     },
+     "linux": {
+      "level": "configuration-only",
+      "writes": "~/.gemini/antigravity-cli/settings.json",
+      "note": "Users can change it."
+     },
+     "windows": {
+      "level": "configuration-only",
+      "writes": "~/.gemini/antigravity-cli/settings.json",
+      "note": "Users can change it."
+     }
+    }
+   },
+   "sources": [
+    {
+     "title": "Antigravity settings",
+     "url": "https://antigravity.google/docs/settings"
+    }
+   ],
+   "researched": "2026-10-17"
+  },
+  {
+   "id": "antigravity-outside-files",
+   "title": "Antigravity: files outside the workspace",
+   "topic": "antigravity",
+   "file": "native",
+   "status": "user-setting",
+   "vendor_key": "allowNonWorkspaceAccess (CLI); outside-of-folder file access policy (App)",
+   "description": "Whether the agent may touch files outside the open folder. Off by default.",
+   "reach": {
+    "antigravity": {
+     "macos": {
+      "level": "configuration-only",
+      "writes": "Antigravity settings (per user)",
+      "note": "Users can change it."
+     },
+     "linux": {
+      "level": "configuration-only",
+      "writes": "Antigravity settings (per user)",
+      "note": "Users can change it."
+     },
+     "windows": {
+      "level": "configuration-only",
+      "writes": "Antigravity settings (per user)",
+      "note": "Users can change it."
+     }
+    }
+   },
+   "sources": [
+    {
+     "title": "Antigravity settings",
+     "url": "https://antigravity.google/docs/settings"
+    }
+   ],
+   "researched": "2026-10-17"
+  },
+  {
+   "id": "antigravity-sandbox",
+   "title": "Antigravity: terminal sandbox",
+   "topic": "antigravity",
+   "file": "native",
+   "status": "user-setting",
+   "vendor_key": "enableTerminalSandbox (CLI); Enable Terminal Sandboxing, Sandbox Allow Network (IDE); Sandbox mode (App)",
+   "description": "Runs terminal commands in a sandbox, optionally with network access. Off by default.",
+   "reach": {
+    "antigravity": {
+     "macos": {
+      "level": "configuration-only",
+      "writes": "Antigravity settings (per user)",
+      "note": "Users can change it."
+     },
+     "linux": {
+      "level": "configuration-only",
+      "writes": "Antigravity settings (per user)",
+      "note": "Users can change it."
+     },
+     "windows": {
+      "level": "configuration-only",
+      "writes": "Antigravity settings (per user)",
+      "note": "Users can change it."
+     }
+    }
+   },
+   "sources": [
+    {
+     "title": "Antigravity settings",
+     "url": "https://antigravity.google/docs/settings"
+    }
+   ],
+   "researched": "2026-10-17"
+  },
+  {
+   "id": "antigravity-strict-mode",
+   "title": "Antigravity: strict mode and browser rules",
+   "topic": "antigravity",
+   "file": "native",
+   "status": "user-setting",
+   "vendor_key": "Strict mode; browser JavaScript execution; browser URL allowlist and denylist",
+   "description": "Strict mode forces reviews and workspace isolation; the browser rules control scripts and which sites the agent may read.",
+   "reach": {
+    "antigravity": {
+     "macos": {
+      "level": "configuration-only",
+      "writes": "Antigravity settings (per user)",
+      "note": "Users can change it."
+     },
+     "linux": {
+      "level": "configuration-only",
+      "writes": "Antigravity settings (per user)",
+      "note": "Users can change it."
+     },
+     "windows": {
+      "level": "configuration-only",
+      "writes": "Antigravity settings (per user)",
+      "note": "Users can change it."
+     }
+    }
+   },
+   "sources": [
+    {
+     "title": "Antigravity settings",
+     "url": "https://antigravity.google/docs/settings"
+    }
+   ],
+   "researched": "2026-10-17"
+  },
+  {
+   "id": "antigravity-telemetry",
+   "title": "Antigravity: telemetry",
+   "topic": "antigravity",
+   "file": "native",
+   "status": "user-setting",
+   "vendor_key": "Enable Telemetry / enableTelemetry",
+   "description": "Whether interaction data is shared with Google.",
+   "reach": {
+    "antigravity": {
+     "macos": {
+      "level": "configuration-only",
+      "writes": "Antigravity settings (per user)",
+      "note": "Users can change it."
+     },
+     "linux": {
+      "level": "configuration-only",
+      "writes": "Antigravity settings (per user)",
+      "note": "Users can change it."
+     },
+     "windows": {
+      "level": "configuration-only",
+      "writes": "Antigravity settings (per user)",
+      "note": "Users can change it."
+     }
+    }
+   },
+   "sources": [
+    {
+     "title": "Antigravity settings",
+     "url": "https://antigravity.google/docs/settings"
+    }
+   ],
+   "researched": "2026-10-17"
+  },
+  {
+   "id": "copilot-model",
+   "title": "Copilot: default model",
+   "topic": "copilot",
+   "file": "native",
+   "status": "not-yet-supported",
+   "vendor_key": "model, autoTier",
+   "description": "The default model for new conversations, and the Auto routing tier.",
+   "reach": {
+    "copilot": {
+     "macos": {
+      "level": "enforced",
+      "writes": "managed-settings.json → model"
+     },
+     "linux": {
+      "level": "enforced",
+      "writes": "managed-settings.json → model"
+     },
+     "windows": {
+      "level": "enforced",
+      "writes": "managed-settings.json → model"
+     }
+    }
+   },
+   "sources": [
+    {
+     "title": "GitHub Copilot enterprise managed settings",
+     "url": "https://docs.github.com/en/copilot/reference/enterprise-administrators/enterprise-managed-settings"
+    }
+   ],
+   "researched": "2026-10-17"
+  },
+  {
+   "id": "copilot-plugins",
+   "title": "Copilot: plugins and marketplaces",
+   "topic": "copilot",
+   "file": "native",
+   "status": "not-yet-supported",
+   "vendor_key": "enabledPlugins, extraKnownMarketplaces, strictKnownMarketplaces",
+   "description": "Turns plugins on or off and limits installs to listed marketplaces.",
+   "reach": {
+    "copilot": {
+     "macos": {
+      "level": "enforced",
+      "writes": "managed-settings.json"
+     },
+     "linux": {
+      "level": "enforced",
+      "writes": "managed-settings.json"
+     },
+     "windows": {
+      "level": "enforced",
+      "writes": "managed-settings.json"
+     }
+    }
+   },
+   "sources": [
+    {
+     "title": "GitHub Copilot enterprise managed settings",
+     "url": "https://docs.github.com/en/copilot/reference/enterprise-administrators/enterprise-managed-settings"
+    }
+   ],
+   "researched": "2026-10-17"
+  },
+  {
+   "id": "copilot-telemetry",
+   "title": "Copilot: telemetry export",
+   "topic": "copilot",
+   "file": "native",
+   "status": "not-yet-supported",
+   "vendor_key": "telemetry",
+   "description": "Sends Copilot usage data to your OpenTelemetry collector.",
+   "reach": {
+    "copilot": {
+     "macos": {
+      "level": "enforced",
+      "writes": "managed-settings.json → telemetry"
+     },
+     "linux": {
+      "level": "enforced",
+      "writes": "managed-settings.json → telemetry"
+     },
+     "windows": {
+      "level": "enforced",
+      "writes": "managed-settings.json → telemetry"
+     }
+    }
+   },
+   "sources": [
+    {
+     "title": "GitHub Copilot enterprise managed settings",
+     "url": "https://docs.github.com/en/copilot/reference/enterprise-administrators/enterprise-managed-settings"
+    }
+   ],
+   "researched": "2026-10-17"
+  },
+  {
+   "id": "copilot-remote-control",
+   "title": "Copilot: remote control",
+   "topic": "copilot",
+   "file": "native",
+   "status": "not-yet-supported",
+   "vendor_key": "remoteControl",
+   "description": "Limits remote control of sessions running on this device.",
+   "reach": {
+    "copilot": {
+     "macos": {
+      "level": "enforced",
+      "writes": "managed-settings.json → remoteControl"
+     },
+     "linux": {
+      "level": "enforced",
+      "writes": "managed-settings.json → remoteControl"
+     },
+     "windows": {
+      "level": "enforced",
+      "writes": "managed-settings.json → remoteControl"
+     }
+    }
+   },
+   "sources": [
+    {
+     "title": "GitHub Copilot enterprise managed settings",
+     "url": "https://docs.github.com/en/copilot/reference/enterprise-administrators/enterprise-managed-settings"
+    }
+   ],
+   "researched": "2026-10-17"
+  },
+  {
+   "id": "copilot-force-refresh",
+   "title": "Copilot: require fresh server settings",
+   "topic": "copilot",
+   "file": "native",
+   "status": "not-yet-supported",
+   "vendor_key": "forceRemoteSettingsRefresh",
+   "description": "Makes Copilot fetch server-managed settings at startup before running.",
+   "reach": {
+    "copilot": {
+     "macos": {
+      "level": "enforced",
+      "writes": "managed-settings.json → forceRemoteSettingsRefresh"
+     },
+     "linux": {
+      "level": "enforced",
+      "writes": "managed-settings.json → forceRemoteSettingsRefresh"
+     },
+     "windows": {
+      "level": "enforced",
+      "writes": "managed-settings.json → forceRemoteSettingsRefresh"
+     }
+    }
+   },
+   "sources": [
+    {
+     "title": "GitHub Copilot enterprise managed settings",
+     "url": "https://docs.github.com/en/copilot/reference/enterprise-administrators/enterprise-managed-settings"
+    }
+   ],
+   "researched": "2026-10-17"
+  },
+  {
+   "id": "copilot-github-policies",
+   "title": "Copilot: policies on github.com",
+   "topic": "copilot",
+   "file": "native",
+   "status": "vendor-console",
+   "vendor_key": "Enterprise or organization settings → Copilot policies (models, MCP registry, content exclusion, CLI access)",
+   "description": "Allowed models, MCP server policy, content exclusion and whether Copilot CLI may be used, set on github.com. Content exclusion doesn't apply to Copilot CLI.",
+   "reach": {
+    "copilot": {
+     "macos": {
+      "level": "enforced",
+      "writes": "github.com enterprise settings"
+     },
+     "linux": {
+      "level": "enforced",
+      "writes": "github.com enterprise settings"
+     },
+     "windows": {
+      "level": "enforced",
+      "writes": "github.com enterprise settings"
+     }
+    }
+   },
+   "sources": [
+    {
+     "title": "GitHub Copilot: supported surfaces for policies",
+     "url": "https://docs.github.com/en/copilot/reference/supported-surfaces-for-policies"
+    },
+    {
+     "title": "Administer Copilot CLI for your enterprise",
+     "url": "https://docs.github.com/en/copilot/how-tos/copilot-cli/administer-copilot-cli-for-your-enterprise"
+    }
+   ],
+   "researched": "2026-10-17"
+  },
+  {
+   "id": "kiro-console",
+   "title": "Kiro: console governance",
+   "topic": "kiro",
+   "file": "native",
+   "status": "vendor-console",
+   "vendor_key": "Kiro console → governance: MCP, models, API keys, web tools",
+   "description": "Turns whole features on or off for the organization, such as MCP servers, models, API keys and web tools.",
+   "reach": {
+    "kiro": {
+     "macos": {
+      "level": "enforced",
+      "writes": "Kiro admin console"
+     },
+     "linux": {
+      "level": "enforced",
+      "writes": "Kiro admin console"
+     },
+     "windows": {
+      "level": "enforced",
+      "writes": "Kiro admin console"
+     }
+    }
+   },
+   "sources": [
+    {
+     "title": "Kiro governance",
+     "url": "https://kiro.dev/docs/enterprise/governance/"
+    },
+    {
+     "title": "Kiro permission policies",
+     "url": "https://kiro.dev/docs/enterprise/governance/permissions/"
+    }
+   ],
+   "researched": "2026-10-17"
+  },
+  {
+   "id": "windsurf-auto-exec",
+   "title": "Windsurf: terminal auto-run ceiling",
+   "topic": "windsurf",
+   "file": "native",
+   "status": "vendor-console",
+   "vendor_key": "Admin Portal → terminal command auto-execution",
+   "description": "The highest auto-run level users may pick, from never to everything except a denylist. In beta.",
+   "reach": {
+    "windsurf": {
+     "macos": {
+      "level": "enforced",
+      "writes": "Windsurf Admin Portal"
+     },
+     "linux": {
+      "level": "enforced",
+      "writes": "Windsurf Admin Portal"
+     },
+     "windows": {
+      "level": "enforced",
+      "writes": "Windsurf Admin Portal"
+     }
+    }
+   },
+   "sources": [
+    {
+     "title": "Windsurf guide for enterprise admins",
+     "url": "https://docs.devin.ai/windsurf/plugins/guide-for-admins"
+    }
+   ],
+   "researched": "2026-10-17"
+  },
+  {
+   "id": "windsurf-mcp",
+   "title": "Windsurf: MCP and approved servers",
+   "topic": "windsurf",
+   "file": "native",
+   "status": "vendor-console",
+   "vendor_key": "Admin Portal → MCP on/off and approved server list",
+   "description": "Turns MCP on or off and keeps the list of servers users may add.",
+   "reach": {
+    "windsurf": {
+     "macos": {
+      "level": "enforced",
+      "writes": "Windsurf Admin Portal"
+     },
+     "linux": {
+      "level": "enforced",
+      "writes": "Windsurf Admin Portal"
+     },
+     "windows": {
+      "level": "enforced",
+      "writes": "Windsurf Admin Portal"
+     }
+    }
+   },
+   "sources": [
+    {
+     "title": "Windsurf guide for enterprise admins",
+     "url": "https://docs.devin.ai/windsurf/plugins/guide-for-admins"
+    }
+   ],
+   "researched": "2026-10-17"
+  },
+  {
+   "id": "windsurf-models",
+   "title": "Windsurf: models",
+   "topic": "windsurf",
+   "file": "native",
+   "status": "vendor-console",
+   "vendor_key": "Admin Portal → Models Configuration",
+   "description": "Which models appear for users.",
+   "reach": {
+    "windsurf": {
+     "macos": {
+      "level": "enforced",
+      "writes": "Windsurf Admin Portal"
+     },
+     "linux": {
+      "level": "enforced",
+      "writes": "Windsurf Admin Portal"
+     },
+     "windows": {
+      "level": "enforced",
+      "writes": "Windsurf Admin Portal"
+     }
+    }
+   },
+   "sources": [
+    {
+     "title": "Windsurf guide for enterprise admins",
+     "url": "https://docs.devin.ai/windsurf/plugins/guide-for-admins"
+    }
+   ],
+   "researched": "2026-10-17"
+  },
+  {
+   "id": "windsurf-features",
+   "title": "Windsurf: feature switches",
+   "topic": "windsurf",
+   "file": "native",
+   "status": "vendor-console",
+   "vendor_key": "Admin Portal → Web Search, MCP, Deploys",
+   "description": "Organization-wide switches for web search, MCP and deploys.",
+   "reach": {
+    "windsurf": {
+     "macos": {
+      "level": "enforced",
+      "writes": "Windsurf Admin Portal"
+     },
+     "linux": {
+      "level": "enforced",
+      "writes": "Windsurf Admin Portal"
+     },
+     "windows": {
+      "level": "enforced",
+      "writes": "Windsurf Admin Portal"
+     }
+    }
+   },
+   "sources": [
+    {
+     "title": "Windsurf guide for enterprise admins",
+     "url": "https://docs.devin.ai/windsurf/plugins/guide-for-admins"
+    }
+   ],
+   "researched": "2026-10-17"
+  },
+  {
+   "id": "cline-remote-config",
+   "title": "Cline: remote configuration",
+   "topic": "cline",
+   "file": "native",
+   "status": "vendor-console",
+   "vendor_key": "app.cline.bot → providers and models, MCP marketplace and servers, rules and workflows, telemetry, account switching",
+   "description": "Organization settings from Cline's hosted admin console. Only the VS Code and JetBrains extensions enforce them; the CLI and Cline Desktop don't. Cline documents its YOLO-mode switch as unsupported in every client.",
+   "reach": {
+    "cline": {
+     "macos": {
+      "level": "partial",
+      "writes": "Cline admin console",
+      "note": "VS Code and JetBrains extensions only."
+     },
+     "linux": {
+      "level": "partial",
+      "writes": "Cline admin console",
+      "note": "VS Code and JetBrains extensions only."
+     },
+     "windows": {
+      "level": "partial",
+      "writes": "Cline admin console",
+      "note": "VS Code and JetBrains extensions only."
+     }
+    }
+   },
+   "sources": [
+    {
+     "title": "Cline remote configuration",
+     "url": "https://docs.cline.bot/enterprise-solutions/configuration/remote-configuration/overview"
+    }
+   ],
+   "researched": "2026-10-17"
+  }
+ ]
+}

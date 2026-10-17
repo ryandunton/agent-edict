@@ -1,0 +1,134 @@
+version: 1
+name: contractor-readonly
+description: "Restricted workspace inspection with no writes or tool network access"
+
+default_permissions: "contractor-readonly"
+
+allowed_permission_profiles:
+  contractor-readonly: true
+
+permissions:
+  contractor-readonly:
+    description: "Read only access to the assigned workspace"
+    filesystem:
+      ":root": "deny"
+      ":minimal": "read"
+      ":tmpdir": "deny"
+      ":slash_tmp": "deny"
+      glob_scan_max_depth: 8
+      ":workspace_roots":
+        ".": "read"
+        "**/.env": "deny"
+        "**/.env.*": "deny"
+        "**/.ssh": "deny"
+        "**/.aws": "deny"
+        "**/.azure": "deny"
+        "**/.kube": "deny"
+        "**/.gnupg": "deny"
+        "**/.netrc": "deny"
+        "**/.npmrc": "deny"
+        "**/.pypirc": "deny"
+        "**/.git-credentials": "deny"
+    network:
+      enabled: false
+
+sandbox:
+  modes: ["read-only"]
+
+# No approval path may elevate this role beyond read-only access.
+approval:
+  policies: ["never"]
+  bypass_mode: "forbidden"
+
+web_search:
+  modes: ["disabled"]
+
+features:
+  apps: false
+  browser_use: false
+  browser_use_external: false
+  browser_use_full_cdp_access: false
+  computer_use: false
+  in_app_browser: false
+  memories: false
+  multi_agent: false
+  plugin_sharing: false
+  plugins: false
+  remote_plugin: false
+
+filesystem:
+  deny_read:
+    common:
+      - "~/.ssh"
+      - "~/.aws"
+      - "~/.azure"
+      - "~/.kube"
+      - "~/.gnupg"
+      - "~/.config/gcloud"
+      - "~/AppData/Roaming/gcloud"
+      - "~/AppData/Roaming/GitHub CLI"
+    windows:
+      - "C:/Windows/System32/config"
+    unix:
+      - "/etc/shadow"
+
+# Command entries express intent across agents. The filesystem and network
+# sandbox are the enforcement boundary for Codex; its command rules cannot
+# implement an exhaustive allowlist or reliably inspect complex shell scripts.
+commands:
+  allow:
+    common:
+      - "git status"
+      - "git diff"
+      - "git log"
+  deny:
+    common:
+      - "git push"
+      - "git commit"
+      - "git reset"
+      - "git clean"
+      - "git checkout"
+      - "git switch"
+      - "npm test"
+      - "go test"
+    windows:
+      - "Remove-Item"
+      - "del"
+      - "erase"
+      - "Invoke-WebRequest"
+      - "iwr"
+      - "curl.exe"
+      - "icacls"
+      - "takeown"
+      - "reg"
+      - "sc.exe"
+      - "wsl -u root"
+    unix:
+      - "rm"
+      - "curl"
+      - "wget"
+      - "ssh"
+      - "sudo"
+      - "su"
+      - "chmod"
+      - "chown"
+
+mcp_servers: {}
+
+# Replace this nonworking public placeholder in the private deployment.
+# Codex OTEL settings belong in managed config.toml, not requirements.toml.
+otel:
+  enabled: true
+  endpoint: "https://telemetry.example.invalid/v1/logs"
+  log_user_prompt: false
+
+feedback:
+  enabled: false
+
+flags:
+  allow_appshots: false
+  allow_browser_and_computer_use: false
+  allow_login_shell: false
+  allow_managed_hooks_only: true
+  allow_remote_control: false
+  disable_auto_update: false

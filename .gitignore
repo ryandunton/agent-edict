@@ -1,0 +1,56 @@
+# Binaries
+bin/
+dist/
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+
+# Test and coverage artifacts
+*.test
+*.out
+coverage.html
+coverage.txt
+.coverage/
+
+# Cryptographic Keys (Never commit private keys)
+keys/
+*.pem
+*.sig
+
+# OS artifacts
+.DS_Store
+Thumbs.db
+
+# IDEs and Editors
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Local Development & Work Notes
+CODE_REVIEW_*.md
+REMEDIATION_*.md
+PROJECT_STATUS.md
+*.local
+*.local.yaml
+*.local.yml
+*.local.json
+.env
+.env.*
+!.env.example
+tmp/
+temp/
+scratch/
+build-checks/
+*.tmp
+*.temp
+
+# Superpowers scratch (plan ledgers, brainstorm mockups)
+.superpowers/
+
+# Configuration builder build output (built by `make builder` and CI)
+public/builder/edict.wasm
+public/builder/edict.wasm.gz
+public/builder/wasm_exec.js

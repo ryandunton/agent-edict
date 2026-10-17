@@ -1,0 +1,98 @@
+version: 1
+name: "principal-eng"
+description: "Principal / Staff Engineers - Less restrictive execution and expanded MCP access"
+
+sandbox:
+  modes: ["read-only", "workspace-write"]
+
+approval:
+  policies: ["untrusted", "on-request", "never"]
+  bypass_mode: "forbidden"
+
+web_search:
+  modes: ["cached", "live"]
+
+filesystem:
+  deny_read:
+    common:
+      - "~/.ssh"
+      - "~/.aws"
+      - "~/.azure"
+    windows:
+      - "C:/Windows/System32/config"
+      - "C:/ProgramData/AgentEdict/.vault"
+    unix:
+      - "/etc/shadow"
+
+commands:
+  allow:
+    common:
+      - "git status"
+      - "git diff"
+      - "git log"
+      - "npm test"
+      - "go test"
+      - "git push"
+  prompt:
+    windows:
+      - "Remove-Item"
+      - "del"
+      - "Invoke-WebRequest"
+    unix:
+      - "rm -rf"
+      - "curl"
+  deny:
+    windows:
+      - "icacls"
+      - "takeown"
+      - "reg"
+      - "sc.exe"
+      - "Stop-Service"
+    unix:
+      - "chmod"
+      - "chown"
+      - "chattr"
+
+mcp_servers:
+  internal-docs:
+    windows:
+      command: "C:\\Program Files\\Company\\MCP\\company-docs-mcp.exe"
+    unix:
+      command: "/usr/local/bin/company-docs-mcp"
+    trust: true
+  gitlab:
+    url: "https://gitlab.internal.example.com/api/v4/mcp"
+    trust: true
+  docker:
+    windows:
+      command: "docker"
+      args: ["run", "-i", "--rm", "mcp/docker"]
+    unix:
+      command: "docker"
+      args: ["run", "-i", "--rm", "mcp/docker"]
+    trust: true
+
+otel:
+  enabled: true
+  endpoint: "https://otel.internal.example.com:4318"
+  log_user_prompt: false
+
+feedback:
+  enabled: false
+
+windows_platform:
+  allowed_sandbox_implementations: ["unelevated"]
+
+flags:
+  allow_login_shell: false
+  allow_managed_hooks_only: true
+  allow_remote_control: false
+  disable_auto_update: true
+
+# Claude blocks deny_read paths (and, where set, command networking) in shell
+# commands only with its OS sandbox, which native Windows lacks.
+# See docs/role-policy.md.
+claude:
+  sandbox:
+    unix: required
+    windows: tools-only

@@ -1,0 +1,12 @@
+version: 1
+name: engineering
+# Cursor hook policy for engineers: a wider exact-command allowlist.
+cursor:
+  hooks:
+    version: 1
+    tools_allow: []
+    shell:
+      allow: ["git status", "git diff", "git log", "go test ./..."]
+      ask: ["git push"]
+      deny: []
+    mcp: []

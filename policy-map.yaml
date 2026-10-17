@@ -1,0 +1,74 @@
+# AgentEdict sample policy map (version 2). CI compiles, validates and signs
+# this map with the profiles in profiles/. Replace the example groups with
+# your own before deploying. See docs/role-policy.md.
+#
+# Each managed agent is matched separately, and the lowest priority number
+# wins across everyone logged in. Policy files are machine-wide, so rules are
+# ordered strictest first: on a shared machine the stricter user's policy
+# applies to everyone.
+#
+# Gemini and OpenCode are not managed: Gemini needs a native declaration, and
+# OpenCode cannot enforce the filesystem.deny_read every profile uses.
+version: 2
+managed_agents: [codex, claude]
+sync_wsl: false
+
+# Anyone not in a group below gets the knowledge-worker policy.
+standard:
+  profile: knowledge-worker
+  priority: 100
+
+rules:
+  - priority: 10
+    profile: contractor-readonly
+    description: "Contractors - read-only Codex (Claude cannot enforce read-only)"
+    agents: [codex]
+    match_groups:
+      windows: ['CORP\SG-Contractors']
+      linux: [sg-codex-contractors]
+      darwin: [com.example.codex.contractors]
+
+  - priority: 11
+    profile: contractor-claude
+    description: "Contractors - Claude without MCP servers or shell networking"
+    agents: [claude]
+    match_groups:
+      windows: ['CORP\SG-Contractors']
+      linux: [sg-codex-contractors]
+      darwin: [com.example.codex.contractors]
+
+  - priority: 20
+    profile: knowledge-worker
+    description: "Knowledge workers and operations - documents, research, guarded browser use"
+    agents: [all]
+    match_groups:
+      windows: ['CORP\SG-Knowledge-Workers', 'CORP\SG-Business-Ops', 'S-1-5-21-3623811015-3361044348-30300820-1106']
+      linux: [sg-knowledge-workers]
+      darwin: [com.example.codex.workers]
+
+  - priority: 30
+    profile: senior-dev
+    description: "Developers - approved enterprise MCPs, workspace-write, command guardrails"
+    agents: [all]
+    match_groups:
+      windows: ['CORP\SG-Codex-Devs', 'CORP\SG-Developers', 'S-1-5-21-3623811015-3361044348-30300820-1105']
+      linux: [sg-codex-devs, developers]
+      darwin: [com.example.codex.devs]
+
+  - priority: 40
+    profile: engineering
+    description: "Engineering - workspace write, guarded boundary crossing, credential protection"
+    agents: [all]
+    match_groups:
+      windows: ['CORP\SG-Engineers', 'CORP\SG-Software-Engineering', 'S-1-5-21-3623811015-3361044348-30300820-1107']
+      linux: [sg-engineers, engineers]
+      darwin: [com.example.codex.engineering, engineering]
+
+  - priority: 50
+    profile: principal-eng
+    description: "Principal and staff engineers - on-request approval, expanded MCP access"
+    agents: [all]
+    match_groups:
+      windows: ['CORP\SG-Codex-Principal', 'CORP\SG-AI-Principal', 'S-1-5-21-3623811015-3361044348-30300820-1104']
+      linux: [sg-codex-principal]
+      darwin: [com.example.codex.principal]

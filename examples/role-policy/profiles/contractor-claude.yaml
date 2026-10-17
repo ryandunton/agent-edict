@@ -1,0 +1,62 @@
+version: 1
+name: contractor-claude
+description: "Contractors - Claude with no MCP servers, no shell networking, and credential paths blocked"
+
+# Claude has no permission profiles to switch between, so only the default
+# profile's network setting applies to it.
+default_permissions: "contractor"
+
+allowed_permission_profiles:
+  contractor: true
+
+permissions:
+  contractor:
+    description: "Workspace access without command networking"
+    extends: ":workspace"
+    network:
+      enabled: false
+
+sandbox:
+  modes: ["workspace-write"]
+
+approval:
+  policies: ["on-request"]
+  bypass_mode: "forbidden"
+
+web_search:
+  modes: ["disabled"]
+
+filesystem:
+  deny_read:
+    common:
+      - "~/.ssh"
+      - "~/.aws"
+      - "~/.azure"
+      - "~/.kube"
+      - "~/.gnupg"
+    unix:
+      - "~/.config/gcloud"
+    windows:
+      - "~/AppData/Roaming/gcloud"
+
+commands:
+  deny:
+    common:
+      - "curl"
+      - "wget"
+      - "ssh"
+      - "scp"
+      - "git push"
+    windows:
+      - "Invoke-WebRequest"
+      - "Invoke-RestMethod"
+
+mcp_servers: {}
+
+# required: Claude's OS sandbox blocks the paths above for shell commands and
+# keeps shell traffic off the network. Native Windows has no Claude sandbox,
+# so there both settings are enforced only in Claude's own tools.
+claude:
+  sandbox:
+    unix: required
+    windows: tools-only

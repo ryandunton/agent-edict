@@ -1,0 +1,152 @@
+stages:
+  - validate
+  - build-and-sign
+  - publish
+
+variables:
+  PACKAGE_VERSION: "1.0.${CI_PIPELINE_IID}"
+  PACKAGE_REGISTRY_URL: "${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/generic/agent-edict-bundle/${PACKAGE_VERSION}"
+  LATEST_REGISTRY_URL: "${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/generic/agent-edict-bundle/latest"
+  GOFLAGS: "-mod=readonly"
+  GOTOOLCHAIN: "local"
+  # bundle compiles a version 2 map (POLICY_MAP_FILE) with the profiles in
+  # POLICY_SOURCE. unified and native build a version 1 machine policy.
+  POLICY_BUILD_MODE: "bundle"
+  POLICY_SOURCE: "profiles/"
+  POLICY_MAP_FILE: "policy-map.yaml"
+  UNIFIED_AGENT: "all"
+
+# Keep the reviewed dependency graph and checksums intact in every Go job.
+.go-verified:
+  image: golang:1.27.2
+  before_script:
+    - go mod download
+    - go mod verify
+    - git diff --exit-code -- go.mod go.sum
+
+# Native Linux tests plus compile checks for every supported OS/architecture.
+# Cross-compilation does not execute Windows or macOS integration tests.
+verify-code:
+  extends: .go-verified
+  stage: validate
+  script:
+    - go test -mod=readonly ./...
+    - go test -mod=readonly -race ./...
+    - go vet -mod=readonly ./...
+    - |
+      set -eu
+      mkdir -p build-checks
+      for target in windows/amd64 linux/amd64 darwin/amd64 darwin/arm64; do
+        target_os="${target%/*}"
+        target_arch="${target#*/}"
+        CGO_ENABLED=0 GOOS="$target_os" GOARCH="$target_arch" \
+          go build -mod=readonly -o "build-checks/edict-$target_os-$target_arch" ./cmd/edict
+        for package in ./cmd/edict ./internal/agent ./internal/compiler ./internal/platform ./internal/cursorhook ./internal/antigravityhook ./internal/windsurfhook ./internal/clinehook ./internal/hookjson; do
+          package_name="${package##*/}"
+          CGO_ENABLED=0 GOOS="$target_os" GOARCH="$target_arch" \
+            go test -mod=readonly -c -o "build-checks/test-$target_os-$target_arch-$package_name" "$package"
+        done
+      done
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+
+# Compile every role the version 2 example can select and validate each OS.
+# Signing stays tied to POLICY_MAP_FILE; this job checks the example only.
+validate-role-example:
+  extends: .go-verified
+  stage: validate
+  script:
+    - go build -mod=readonly -o /usr/local/bin/edict ./cmd/edict
+    - edict compile-bundle -map examples/role-policy/policy-map.yaml -profiles-dir examples/role-policy/profiles -target-os all -output-dir dist-role
+    - edict validate-bundle -dir dist-role -target-os all
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+
+# Builds the deployment bundle and validates every policy it can select. A
+# profile an agent cannot enforce fails here; never bypass it with a partial bundle.
+validate-policies:
+  extends: .go-verified
+  stage: validate
+  script:
+    - go build -mod=readonly -o /usr/local/bin/edict ./cmd/edict
+    - |
+      case "$POLICY_BUILD_MODE" in
+        bundle) edict compile-bundle -map "$POLICY_MAP_FILE" -profiles-dir "$POLICY_SOURCE" -target-os all -output-dir dist ;;
+        unified) edict compile --profiles-dir "$POLICY_SOURCE" --agent "$UNIFIED_AGENT" --target-os all --output-dir dist/profiles ;;
+        native) edict compile-native --profile "$POLICY_SOURCE" --target-os all --output-dir dist/profiles ;;
+        *) echo "Unsupported POLICY_BUILD_MODE" >&2; exit 1 ;;
+      esac
+    # compile-bundle writes the map itself; version 1 modes copy it in.
+    - if [ "$POLICY_BUILD_MODE" != "bundle" ]; then cp "$POLICY_MAP_FILE" dist/policy-map.yaml; fi
+    - edict validate-bundle -dir dist -target-os all
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+
+# A release is signed only after tests and the complete declared scope validate.
+sign-bundle:
+  extends: .go-verified
+  stage: build-and-sign
+  script:
+    - apt-get update
+    - apt-get install -y --no-install-recommends openssl
+    - go build -mod=readonly -o /usr/local/bin/edict ./cmd/edict
+    - |
+      case "$POLICY_BUILD_MODE" in
+        bundle) edict compile-bundle -map "$POLICY_MAP_FILE" -profiles-dir "$POLICY_SOURCE" -target-os all -output-dir dist ;;
+        unified) edict compile --profiles-dir "$POLICY_SOURCE" --agent "$UNIFIED_AGENT" --target-os all --output-dir dist/profiles ;;
+        native) edict compile-native --profile "$POLICY_SOURCE" --target-os all --output-dir dist/profiles ;;
+        *) echo "Unsupported POLICY_BUILD_MODE" >&2; exit 1 ;;
+      esac
+    # compile-bundle writes the map itself; version 1 modes copy it in.
+    - if [ "$POLICY_BUILD_MODE" != "bundle" ]; then cp "$POLICY_MAP_FILE" dist/policy-map.yaml; fi
+    - edict validate-bundle -dir dist -target-os all
+    - tar -czf policy-bundle.tar.gz -C dist policy-map.yaml profiles
+    - |
+      set +x
+      set -eu
+      umask 077
+      signing_key=$(mktemp)
+      trap 'rm -f "$signing_key"' EXIT
+      trap 'exit 1' HUP INT TERM
+      printf '%s' "$EDICT_SIGNING_PRIVATE_KEY" | base64 --decode > "$signing_key"
+      openssl pkeyutl -sign -inkey "$signing_key" -rawin \
+        -in policy-bundle.tar.gz -out policy-bundle.tar.gz.sig
+      # umask 077 protects the key file but also makes the signature root-only;
+      # publish-registry runs as a non-root user and must be able to read it.
+      chmod 0644 policy-bundle.tar.gz.sig
+  artifacts:
+    paths:
+      - policy-bundle.tar.gz
+      - policy-bundle.tar.gz.sig
+  rules:
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+
+publish-registry:
+  stage: publish
+  image: curlimages/curl:latest
+  dependencies:
+    - sign-bundle
+  script:
+    - |
+      curl --fail --retry 3 --retry-delay 2 --header "JOB-TOKEN: ${CI_JOB_TOKEN}" \
+           --upload-file policy-bundle.tar.gz \
+           "${PACKAGE_REGISTRY_URL}/policy-bundle.tar.gz"
+      sleep 1
+      curl --fail --retry 3 --retry-delay 2 --header "JOB-TOKEN: ${CI_JOB_TOKEN}" \
+           --upload-file policy-bundle.tar.gz.sig \
+           "${PACKAGE_REGISTRY_URL}/policy-bundle.tar.gz.sig"
+    - |
+      sleep 1
+      curl --fail --retry 3 --retry-delay 2 --header "JOB-TOKEN: ${CI_JOB_TOKEN}" \
+           --upload-file policy-bundle.tar.gz \
+           "${LATEST_REGISTRY_URL}/policy-bundle.tar.gz"
+      sleep 1
+      curl --fail --retry 3 --retry-delay 2 --header "JOB-TOKEN: ${CI_JOB_TOKEN}" \
+           --upload-file policy-bundle.tar.gz.sig \
+           "${LATEST_REGISTRY_URL}/policy-bundle.tar.gz.sig"
+  rules:
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+

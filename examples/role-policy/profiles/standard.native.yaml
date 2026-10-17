@@ -1,0 +1,13 @@
+version: 1
+name: standard
+# Cursor hook policy for every user. Unlisted shell commands, tools and MCP
+# servers are denied by the hook.
+cursor:
+  hooks:
+    version: 1
+    tools_allow: []
+    shell:
+      allow: ["git status", "git diff"]
+      ask: []
+      deny: []
+    mcp: []

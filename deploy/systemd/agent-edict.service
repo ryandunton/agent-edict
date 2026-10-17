@@ -1,0 +1,27 @@
+[Unit]
+Description=AgentEdict Universal AI Policy Enforcer
+Documentation=https://github.com/ryandunton/agent-edict
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=exec
+ExecStart=/usr/local/bin/edict daemon -bundle-url "${EDICT_BUNDLE_URL}" -deploy-token-file "${EDICT_DEPLOY_TOKEN_FILE}" -interval "${EDICT_SYNC_INTERVAL}"
+# The installer's --sync-interval-minutes writes EDICT_SYNC_INTERVAL to the
+# environment file, which overrides this default.
+Environment=EDICT_SYNC_INTERVAL=15m
+EnvironmentFile=-/etc/default/agent-edict
+Restart=always
+RestartSec=5s
+
+# Hardened systemd sandboxing
+User=root
+Group=root
+CapabilityBoundingSet=CAP_CHOWN CAP_FOWNER CAP_DAC_OVERRIDE CAP_LINUX_IMMUTABLE
+ProtectSystem=strict
+ReadWritePaths=-/etc/codex -/etc/claude-code -/etc/gemini-cli -/etc/opencode -/etc/cursor -/etc/github-copilot -/etc/kiro -/etc/devin -/etc/windsurf -/etc/agent-edict -/var/lib/agent-edict
+ProtectHome=read-only
+NoNewPrivileges=false
+
+[Install]
+WantedBy=multi-user.target

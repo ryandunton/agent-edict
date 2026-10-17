@@ -1,0 +1,7 @@
+# Optional managed config.toml defaults. Replace the endpoint privately before
+# deployment; OTEL exporter settings do not belong in requirements.toml.
+
+[otel]
+environment = "contractor-readonly"
+log_user_prompt = false
+exporter = { otlp-http = { endpoint = "https://telemetry.example.invalid/v1/logs", protocol = "binary" } }

@@ -1,0 +1,30 @@
+version: 1
+name: team-guardrails
+description: "Developers: workspace-write, approvals on request, no bypass mode"
+
+sandbox:
+  modes: ["read-only", "workspace-write"]
+
+approval:
+  policies: ["on-request"]
+  bypass_mode: "forbidden"
+
+web_search:
+  modes: ["cached"]
+
+commands:
+  allow:
+    common: ["git status", "git diff", "npm test"]
+  prompt:
+    unix: ["git push", "curl"]
+  deny:
+    unix: ["sudo", "chmod"]
+
+mcp_servers:
+  gitlab:
+    url: "https://gitlab.example.com/api/v4/mcp"
+    trust: true
+
+flags:
+  allow_managed_hooks_only: true
+  allow_remote_control: false

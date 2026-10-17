@@ -1,0 +1,85 @@
+# Codex managed requirements for the contractor-readonly policy.
+# Permission profiles require Codex 0.138.0 or later.
+
+default_permissions = "contractor-readonly"
+allowed_sandbox_modes = ["read-only"] # Legacy sandbox-mode compatibility.
+allowed_approval_policies = ["never"]
+allowed_web_search_modes = [] # An empty allowlist permits only disabled web search.
+
+allow_appshots = false
+allow_browser_and_computer_use = false
+allow_login_shell = false
+allow_managed_hooks_only = true
+allow_remote_control = false
+
+# An empty managed allowlist disables locally configured MCP servers.
+mcp_servers = {}
+
+[allowed_permission_profiles]
+contractor-readonly = true
+
+[permissions.contractor-readonly]
+description = "Read only access to the assigned workspace"
+
+[permissions.contractor-readonly.filesystem]
+":root" = "deny"
+":minimal" = "read"
+":tmpdir" = "deny"
+":slash_tmp" = "deny"
+glob_scan_max_depth = 8
+
+[permissions.contractor-readonly.filesystem.":workspace_roots"]
+"." = "read"
+"**/.env" = "deny"
+"**/.env.*" = "deny"
+"**/.ssh" = "deny"
+"**/.aws" = "deny"
+"**/.azure" = "deny"
+"**/.kube" = "deny"
+"**/.gnupg" = "deny"
+"**/.netrc" = "deny"
+"**/.npmrc" = "deny"
+"**/.pypirc" = "deny"
+"**/.git-credentials" = "deny"
+
+[permissions.contractor-readonly.network]
+enabled = false
+
+# These denials also apply to direct file tools. OS-specific paths outside the
+# workspace are already covered by :root = "deny" in this profile.
+[permissions.filesystem]
+deny_read = [
+  "~/.ssh",
+  "~/.aws",
+  "~/.azure",
+  "~/.kube",
+  "~/.gnupg",
+  "~/.config/gcloud",
+  "~/AppData/Roaming/gcloud",
+  "~/AppData/Roaming/GitHub CLI",
+]
+
+# Supplemental direct-command denials. Read-only filesystem and disabled
+# command networking remain the primary enforcement boundaries.
+[rules]
+prefix_rules = [
+  { pattern = [{ token = "git" }, { any_of = ["push", "commit", "reset", "clean", "checkout", "switch"] }], decision = "forbidden", justification = "This role cannot change repository state." },
+  { pattern = [{ any_of = ["rm", "curl", "wget", "ssh", "sudo", "su", "chmod", "chown"] }], decision = "forbidden", justification = "This role is limited to offline read-only inspection." },
+  { pattern = [{ any_of = ["Remove-Item", "del", "erase", "Invoke-WebRequest", "iwr", "curl.exe", "icacls", "takeown", "reg", "sc.exe"] }], decision = "forbidden", justification = "This role cannot write files, access the network, or alter system settings." },
+]
+
+[features]
+apps = false
+browser_use = false
+browser_use_external = false
+browser_use_full_cdp_access = false
+computer_use = false
+in_app_browser = false
+memories = false
+multi_agent = false
+plugin_sharing = false
+plugins = false
+remote_plugin = false
+
+[feedback]
+enabled = false

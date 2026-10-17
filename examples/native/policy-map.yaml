@@ -1,0 +1,4 @@
+version: 1
+machine_profile: local-guardrails
+managed_agents: [gemini, cursor, antigravity, copilot, kiro, windsurf, cline]
+sync_wsl: false
