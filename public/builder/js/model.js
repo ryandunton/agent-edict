@@ -29,10 +29,11 @@ function reaches(setting, tools, oses) {
     Object.entries(perOS).some(([os, r]) => (oses.length === 0 || oses.includes(os)) && !OFF.has(r.level)));
 }
 
-// Every word of the query must appear in the title, description, vendor key
-// or YAML paths, ignoring case.
+// Every word of the query must appear in the title, description, vendor key,
+// YAML paths or the native keys it writes, ignoring case.
 function matches(setting, words) {
-  const text = [setting.title, setting.description, setting.vendor_key, ...(setting.yaml_paths ?? [])].join(" ").toLowerCase();
+  const writes = Object.values(setting.reach ?? {}).flatMap(perOS => Object.values(perOS).map(r => r.writes));
+  const text = [setting.title, setting.description, setting.vendor_key, ...(setting.yaml_paths ?? []), ...writes].join(" ").toLowerCase();
   return words.every(w => text.includes(w));
 }
 

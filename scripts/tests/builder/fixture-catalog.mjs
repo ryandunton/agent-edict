@@ -15,7 +15,7 @@ export const fixture = {
       yaml_paths: ["filesystem.deny_read.common", "filesystem.deny_read.unix", "filesystem.deny_read.windows"],
       value: { type: "os-string-list" },
       reach: { codex: all("enforced"), opencode: all("not-available"),
-               claude: { macos: { level: "enforced" }, linux: { level: "enforced" }, windows: { level: "partial" } } } },
+               claude: { macos: { level: "enforced", writes: "managed-settings.json → permissions.deny Read(...)" }, linux: { level: "enforced" }, windows: { level: "partial" } } } },
     { id: "mcp-servers", file: "profile", status: "supported",
       yaml_paths: ["mcp_servers.*.url", "mcp_servers.*.unix.command"], value: { type: "map", values: { type: "object", fields: [] } },
       reach: { codex: all("enforced") } },
