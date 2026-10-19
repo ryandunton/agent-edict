@@ -190,6 +190,7 @@ test("test_searchSettings", () => {
   assert.deepEqual(find("PREFER_MXC"), ["codex-prefer-mxc"], "matches the vendor key, ignoring case");
   assert.deepEqual(find("sudo"), ["commands-deny"], "matches the description");
   assert.deepEqual(find("deny_read"), ["deny-read"], "matches the YAML path");
+  assert.deepEqual(find("permissions.deny"), ["deny-read"], "matches the native key a setting writes");
   assert.deepEqual(find("deny commands"), ["commands-deny"], "every word must match");
   assert.deepEqual(find("deny nothing-like-this"), []);
   assert.deepEqual(find("  "), ids(filterSettings(fixture, { file: "profile" })), "blank searches show everything");
