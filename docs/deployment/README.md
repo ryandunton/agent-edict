@@ -35,7 +35,7 @@ Policies live in this repository:
 - `profiles/` holds one file per profile: `<name>.yaml` for Codex, Claude Code and OpenCode, and `<name>.native.yaml` for the other seven tools.
 - `policy-map.yaml` says which profile each managed agent gets, a standard for everyone plus group rules. See the [role policy guide](../role-policy.md).
 
-The [configuration builder](https://ryandunton.github.io/agent-edict/builder/) builds and checks these files in the browser. To check them locally the same way the pipeline does:
+The [configuration builder](https://agent-edict.com/builder/) builds and checks these files in the browser. To check them locally the same way the pipeline does:
 
 ```bash
 go build -o bin/edict ./cmd/edict
