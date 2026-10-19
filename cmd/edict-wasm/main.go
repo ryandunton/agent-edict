@@ -62,7 +62,10 @@ func main() {
 			out, err := builder.ConvertV1Map([]byte(a[0]))
 			return string(out), err
 		}),
-		"pasteNotes": export(1, func(a []string) (any, error) { return builder.PasteNotes([]byte(a[0])), nil }),
+		"parsePasted": export(1, func(a []string) (any, error) {
+			pasted, err := builder.ParsePasted([]byte(a[0]))
+			return pasted, err
+		}),
 		"preview": export(4, func(a []string) (any, error) {
 			return builder.Preview(a[0], []byte(a[1]), a[2], a[3]), nil
 		}),

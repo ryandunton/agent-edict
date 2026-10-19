@@ -24,6 +24,13 @@ type UnifiedPolicy struct {
 	AdditionalDeveloperInstructions string                     `yaml:"additional_developer_instructions,omitempty"`
 	GuardianExtraPolicy             string                     `yaml:"guardian_extra_policy,omitempty"`
 	Claude                          *ClaudeConfig              `yaml:"claude,omitempty"`
+	Login                           *LoginConfig               `yaml:"login,omitempty"`
+	ModelProvider                   string                     `yaml:"model_provider,omitempty"`
+	ModelProviders                  map[string]ModelProvider   `yaml:"model_providers,omitempty"`
+	ApplicationNetwork              *ApplicationNetworkConfig  `yaml:"application_network,omitempty"`
+	// Plugins approves the MCP servers Codex plugins bundle; an empty map
+	// approves none, and nil leaves plugin servers unrestricted.
+	Plugins map[string]PluginPolicy `yaml:"plugins"`
 }
 
 type SandboxConfig struct {
@@ -92,6 +99,7 @@ type FeaturesConfig struct {
 	Plugins                 *bool `yaml:"plugins,omitempty"`
 	RemotePlugin            *bool `yaml:"remote_plugin,omitempty"`
 	GuardianApproval        *bool `yaml:"guardian_approval,omitempty"`
+	PreferMXC               *bool `yaml:"prefer_mxc,omitempty"`
 }
 
 type FeedbackConfig struct {
@@ -100,6 +108,40 @@ type FeedbackConfig struct {
 
 type WindowsPlatformConfig struct {
 	AllowedSandboxImplementations []string `yaml:"allowed_sandbox_implementations"`
+	AllowMXC                      *bool    `yaml:"allow_mxc,omitempty"`
+}
+
+// LoginConfig limits how users sign in to Codex: "chatgpt", "api" or both.
+type LoginConfig struct {
+	Methods []string `yaml:"methods"`
+}
+
+// ModelProvider is a Codex model provider that replaces any provider of the
+// same name users configure.
+type ModelProvider struct {
+	Name               string `yaml:"name,omitempty"`
+	BaseURL            string `yaml:"base_url,omitempty"`
+	WireAPI            string `yaml:"wire_api,omitempty"`
+	EnvKey             string `yaml:"env_key,omitempty"`
+	RequiresOpenAIAuth *bool  `yaml:"requires_openai_auth,omitempty"`
+}
+
+// ApplicationNetworkConfig limits the Codex desktop app's own outbound
+// destinations to exact host names. Unlisted hosts are blocked.
+type ApplicationNetworkConfig struct {
+	Enabled bool              `yaml:"enabled"`
+	Domains map[string]string `yaml:"domains"`
+}
+
+// PluginPolicy lists the MCP servers one Codex plugin may run.
+type PluginPolicy struct {
+	MCPServers map[string]PluginMCPServer `yaml:"mcp_servers"`
+}
+
+// PluginMCPServer identifies a plugin's MCP server by URL or by launch command.
+type PluginMCPServer struct {
+	URL     string `yaml:"url,omitempty"`
+	Command string `yaml:"command,omitempty"`
 }
 
 type PathGroup struct {

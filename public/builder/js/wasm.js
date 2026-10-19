@@ -1,6 +1,6 @@
 // Loads AgentEdict's checks (Go compiled to WebAssembly) the first time the
 // page needs them: paste, check or preview.
-const NAMES = ["yamlToJSON", "lintProfile", "lintNative", "lintMap", "convertV1Map", "pasteNotes", "preview", "version"];
+const NAMES = ["yamlToJSON", "lintProfile", "lintNative", "lintMap", "convertV1Map", "parsePasted", "preview", "version"];
 let loading;
 
 function loadScript(src) {
