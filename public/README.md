@@ -4,7 +4,7 @@ This is a dependency-free static site: `index.html`, the icons in `assets/`, and
 
 ## Publishing
 
-The `pages` workflow (`.github/workflows/pages.yml`) builds the builder's WebAssembly and publishes this folder to GitHub Pages on every push to `main`, so changes go live when they merge. Review project facts, links, and CLI captures before merging.
+The `pages` workflow (`.github/workflows/pages.yml`) builds the builder's WebAssembly and publishes this folder to GitHub Pages on every push to `main`, so changes go live when they merge. GitHub Pages serves it at https://agent-edict.com, set as the repository's custom domain. Review project facts, links, and CLI captures before merging.
 
 To publish elsewhere, such as Cloudflare Pages, set the build command to `make builder` and the output directory to `public`. See Cloudflare's [Git integration](https://developers.cloudflare.com/pages/configuration/git-integration/) and [Direct Upload](https://developers.cloudflare.com/pages/get-started/direct-upload/) guides.
 

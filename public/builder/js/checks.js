@@ -19,7 +19,7 @@ export function createChecks(ctx) {
 
   async function edict() {
     try { return await loadEdict(); }
-    catch (err) { showPanel([h("p", { class: "error", text: `AgentEdict's checks didn't load: ${err.message}` })]); throw err; }
+    catch (err) { showPanel([h("p", { class: "error", text: `AgentEdict's checks didn't load: ${err.message}. The site needs builder/edict.wasm and builder/wasm_exec.js, which make builder creates.` })]); throw err; }
   }
 
   function showPanel(children) {

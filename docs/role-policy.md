@@ -4,7 +4,7 @@ A version 2 policy map lets one signed bundle carry a **standard** policy for ev
 
 Version 1 maps (`machine_profile`) keep working exactly as before. A machine follows whichever version its signed bundle carries.
 
-To build a map, or the profiles it names, without writing YAML by hand, use the [configuration builder](https://ryandunton.github.io/agent-edict/builder/). Its **Policy map** tab checks the map with the same code as `edict compile-bundle` and explains each Windows group entry as you type it.
+To build a map, or the profiles it names, without writing YAML by hand, use the [configuration builder](https://agent-edict.com/builder/). Its **Policy map** tab checks the map with the same code as `edict compile-bundle` and explains each Windows group entry as you type it.
 
 ## The map
 
