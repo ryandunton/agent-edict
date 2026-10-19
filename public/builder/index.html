@@ -31,12 +31,17 @@
       <h1>Build a policy</h1>
       <p class="lede">Drag settings into your file, or use <strong>Add</strong>. Hover over a setting's <strong>?</strong> to see what it does for each agent on each OS. Copy the YAML into your policy repository when you're done.</p>
     </div>
-    <div class="notice" id="boot-error" role="alert" hidden>
+    <div class="notice" id="boot-file" role="alert" hidden>
       <h2>The builder can't run from a file on disk</h2>
       <p>Browsers block this page's scripts when it's opened straight from disk (a <code>file://</code> address), so the settings library stays empty. Open it through a web server instead. From the repository:</p>
       <pre class="code">make builder
 python3 -m http.server --directory public 8000</pre>
       <p>Then go to <a href="http://localhost:8000/builder/">http://localhost:8000/builder/</a>, or use the published copy at <a href="https://ryandunton.github.io/agent-edict/builder/">ryandunton.github.io/agent-edict/builder</a>.</p>
+    </div>
+    <div class="notice" id="boot-server" role="alert" hidden>
+      <h2>Some of the builder's files are missing</h2>
+      <p>This site is missing scripts the builder needs, so the settings library can't start. Publish the whole <code>public/</code> folder with its subfolders, including <code>builder/js/</code>, and run <code>make builder</code> first: it creates <code>builder/edict.wasm</code>, <code>edict.wasm.gz</code> and <code>wasm_exec.js</code>. Uploading files one by one often skips some, so deploy from a build instead.</p>
+      <p>The published copy is at <a href="https://ryandunton.github.io/agent-edict/builder/">ryandunton.github.io/agent-edict/builder</a>.</p>
     </div>
     <div class="tabs" role="tablist" aria-label="File to build" id="tabs"></div>
     <div class="toolbar" id="toolbar"></div>
@@ -63,6 +68,6 @@ python3 -m http.server --directory public 8000</pre>
     <p class="sr-only" id="status" role="status" aria-live="polite"></p>
     <noscript><p class="error">The builder needs JavaScript.</p></noscript>
   </main>
-  <script type="module" src="js/app.js" onerror="document.getElementById('boot-error').hidden = false"></script>
+  <script type="module" src="js/app.js" onerror="document.getElementById(location.protocol === 'file:' ? 'boot-file' : 'boot-server').hidden = false"></script>
 </body>
 </html>

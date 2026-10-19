@@ -24,10 +24,12 @@ const send = (method, params = {}, sessionId) => new Promise(resolve => {
   pending.set(msg.id, resolve);
   toChrome.write(JSON.stringify(msg) + "\0");
 });
+// Paths to answer with 404, to check how the page behaves when a host is missing files.
+const missing = new Set();
 function serve(params, sessionId) {
   const url = new URL(params.request.url);
   const file = path.join(repoRoot, "public", decodeURIComponent(url.pathname));
-  if (!file.startsWith(path.join(repoRoot, "public")) || !existsSync(file)) {
+  if (missing.has(url.pathname) || !file.startsWith(path.join(repoRoot, "public")) || !existsSync(file)) {
     send("Fetch.fulfillRequest", { requestId: params.requestId, responseCode: 404, body: "" }, sessionId);
     return;
   }
@@ -274,12 +276,19 @@ try {
     writeFileSync(path.join(process.env.SMOKE_SHOTS, "help-1280-light.png"), Buffer.from(light.result.data, "base64"));
     await send("Emulation.setEmulatedMedia", { features: [] }, s);
   }
+  // A host missing one of the builder's scripts must say files are missing, not blame file://.
+  missing.add("/builder/js/checks.js");
+  await send("Page.navigate", { url: `${ORIGIN}/builder/index.html` }, s);
+  await sleep(1500);
+  const partial = await evalJS(`({ server: !document.getElementById("boot-server").hidden, file: !document.getElementById("boot-file").hidden, items: document.querySelectorAll(".lib-item").length })`);
+  check(partial.server && !partial.file && partial.items === 0, `missing script: server notice=${partial.server} file notice=${partial.file}`);
+  missing.clear();
   // Opened straight from disk, browsers block the module scripts; the page must say so.
   await send("Page.navigate", { url: `file://${path.join(repoRoot, "public", "builder", "index.html")}` }, s);
   await sleep(1500);
-  const fromDisk = await evalJS(`({ shown: !document.getElementById("boot-error").hidden, items: document.querySelectorAll(".lib-item").length })`);
-  check(fromDisk.shown && fromDisk.items === 0, `file:// page: message shown=${fromDisk.shown}`);
-  events.length = 0; // the blocked-script errors there are expected
+  const fromDisk = await evalJS(`({ file: !document.getElementById("boot-file").hidden, server: !document.getElementById("boot-server").hidden, items: document.querySelectorAll(".lib-item").length })`);
+  check(fromDisk.file && !fromDisk.server && fromDisk.items === 0, `file:// page: file notice=${fromDisk.file} server notice=${fromDisk.server}`);
+  events.length = 0; // the failed-load errors in both checks are expected
 } catch (err) {
   failures.push(`page script failed: ${err.message}`);
 }
