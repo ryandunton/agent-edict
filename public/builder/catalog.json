@@ -659,7 +659,7 @@
      "elevated"
     ]
    },
-   "description": "Which of Codex's Windows sandbox types users may run. elevated isolates network access better than unelevated. This doesn't control Codex's newer MXC sandbox; see the Codex MXC entries.",
+   "description": "Which of Codex's Windows sandbox types users may run. elevated isolates network access better than unelevated. This doesn't control Codex's newer MXC sandbox; see Allow the MXC sandbox.",
    "reach": {
     "codex": {
      "macos": {
@@ -684,6 +684,44 @@
     {
      "title": "AgentEdict README",
      "url": "https://github.com/ryandunton/agent-edict/blob/main/README.md"
+    }
+   ],
+   "researched": "2026-10-17"
+  },
+  {
+   "id": "windows-allow-mxc",
+   "title": "Allow the MXC sandbox",
+   "topic": "sandbox",
+   "file": "profile",
+   "status": "supported",
+   "yaml_paths": [
+    "windows_platform.allow_mxc"
+   ],
+   "value": {
+    "type": "bool",
+    "default": false
+   },
+   "description": "Set to false to stop Codex using Microsoft's MXC sandbox on Windows, whether Codex picks it automatically or a user chooses it. The Windows sandbox types setting still applies.",
+   "reach": {
+    "codex": {
+     "macos": {
+      "level": "not-applicable",
+      "note": "Windows only."
+     },
+     "linux": {
+      "level": "not-applicable",
+      "note": "Windows only."
+     },
+     "windows": {
+      "level": "enforced",
+      "writes": "requirements.toml → [windows] allow_mxc"
+     }
+    }
+   },
+   "sources": [
+    {
+     "title": "Codex Windows sandbox",
+     "url": "https://learn.chatgpt.com/docs/windows/windows-sandbox"
     }
    ],
    "researched": "2026-10-17"
@@ -1418,10 +1456,9 @@
         "type": "enum",
         "options": [
          "allow",
-         "ask",
          "deny"
         ],
-        "default": "ask",
+        "default": "deny",
         "key": "access",
         "label": "Visit sites"
        },
@@ -1429,7 +1466,6 @@
         "type": "enum",
         "options": [
          "allow",
-         "ask",
          "deny"
         ],
         "default": "deny",
@@ -1440,10 +1476,9 @@
         "type": "enum",
         "options": [
          "allow",
-         "ask",
          "deny"
         ],
-        "default": "ask",
+        "default": "deny",
         "key": "downloads",
         "label": "Download files"
        },
@@ -1451,7 +1486,6 @@
         "type": "enum",
         "options": [
          "allow",
-         "ask",
          "deny"
         ],
         "default": "deny",
@@ -1467,10 +1501,9 @@
        {
         "type": "enum",
         "options": [
-         "thread",
-         "session"
+         "turn",
+         "thread"
         ],
-        "default": "thread",
         "key": "access_approval_lifetime",
         "label": "Approval lasts for"
        }
@@ -1480,7 +1513,7 @@
      }
     ]
    },
-   "description": "What Codex may do in a browser on any site: visiting, uploading, downloading, full browser control, and how long approvals last.",
+   "description": "What Codex may do in a browser on any site: visiting, uploading, downloading and full browser control, each allow or deny, and whether a site approval lasts for one turn or the whole thread. Leave a choice unset to keep Codex's default.",
    "reach": {
     "codex": {
      "macos": {
@@ -1494,6 +1527,67 @@
      "windows": {
       "level": "enforced",
       "writes": "requirements.toml → [browser_use]"
+     }
+    }
+   },
+   "sources": [
+    {
+     "title": "Codex managed configuration",
+     "url": "https://learn.chatgpt.com/docs/enterprise/managed-configuration"
+    }
+   ],
+   "researched": "2026-10-17"
+  },
+  {
+   "id": "app-network",
+   "title": "Codex app: allowed hosts",
+   "topic": "web",
+   "file": "profile",
+   "status": "supported",
+   "yaml_paths": [
+    "application_network.enabled",
+    "application_network.domains"
+   ],
+   "value": {
+    "type": "object",
+    "fields": [
+     {
+      "type": "bool",
+      "default": true,
+      "key": "enabled",
+      "label": "Limit the app to these hosts"
+     },
+     {
+      "type": "map",
+      "values": {
+       "type": "enum",
+       "options": [
+        "allow",
+        "deny"
+       ],
+       "default": "allow"
+      },
+      "key_label": "Host name",
+      "default": {},
+      "key": "domains",
+      "label": "Hosts"
+     }
+    ]
+   },
+   "description": "Limits which hosts the Codex desktop app itself may contact, for example only your model gateway. Hosts not listed are blocked. Use exact host names such as gateway.example.com, without https://, a port or wildcards. It doesn't cover commands Codex runs or the processes they start; use Permission profiles for those.",
+   "reach": {
+    "codex": {
+     "macos": {
+      "level": "enforced",
+      "writes": "requirements.toml → [application.network]"
+     },
+     "linux": {
+      "level": "enforced",
+      "writes": "requirements.toml → [application.network]"
+     },
+     "windows": {
+      "level": "enforced",
+      "writes": "requirements.toml → [application.network]"
      }
     }
    },
@@ -1790,6 +1884,73 @@
     {
      "title": "OpenCode config",
      "url": "https://opencode.ai/docs/config/"
+    }
+   ],
+   "researched": "2026-10-17"
+  },
+  {
+   "id": "plugin-mcp-servers",
+   "title": "Plugin MCP servers",
+   "topic": "plugins",
+   "file": "profile",
+   "status": "supported",
+   "yaml_paths": [
+    "plugins.*.mcp_servers.*.url",
+    "plugins.*.mcp_servers.*.command"
+   ],
+   "value": {
+    "type": "map",
+    "values": {
+     "type": "object",
+     "fields": [
+      {
+       "type": "map",
+       "values": {
+        "type": "object",
+        "fields": [
+         {
+          "type": "string",
+          "key": "url",
+          "label": "Remote server URL"
+         },
+         {
+          "type": "string",
+          "key": "command",
+          "label": "Launch command"
+         }
+        ]
+       },
+       "key_label": "Server name",
+       "default": {},
+       "key": "mcp_servers",
+       "label": "MCP servers it may run"
+      }
+     ]
+    },
+    "key_label": "Plugin name",
+    "default": {}
+   },
+   "description": "The MCP servers each Codex plugin may run, matched by URL or launch command. A plugin listed with no servers may run none, and an empty list allows no plugin servers at all. Give each server a URL or a command, not both.",
+   "reach": {
+    "codex": {
+     "macos": {
+      "level": "enforced",
+      "writes": "requirements.toml → [plugins.<plugin>.mcp_servers.<server>] identity"
+     },
+     "linux": {
+      "level": "enforced",
+      "writes": "requirements.toml → [plugins.<plugin>.mcp_servers.<server>] identity"
+     },
+     "windows": {
+      "level": "enforced",
+      "writes": "requirements.toml → [plugins.<plugin>.mcp_servers.<server>] identity"
+     }
+    }
+   },
+   "sources": [
+    {
+     "title": "Codex managed configuration",
+     "url": "https://learn.chatgpt.com/docs/enterprise/managed-configuration"
     }
    ],
    "researched": "2026-10-17"
@@ -2239,6 +2400,208 @@
      "windows": {
       "level": "enforced",
       "writes": "requirements.toml → [features] guardian_approval"
+     }
+    }
+   },
+   "sources": [
+    {
+     "title": "Codex managed configuration",
+     "url": "https://learn.chatgpt.com/docs/enterprise/managed-configuration"
+    }
+   ],
+   "researched": "2026-10-17"
+  },
+  {
+   "id": "feature-prefer-mxc",
+   "title": "Prefer the MXC sandbox",
+   "topic": "features",
+   "file": "profile",
+   "status": "supported",
+   "yaml_paths": [
+    "features.prefer_mxc"
+   ],
+   "value": {
+    "type": "bool",
+    "default": false
+   },
+   "description": "Whether Codex runs Windows commands in Microsoft's newer MXC sandbox when the device supports it. Codex still falls back to the elevated or unelevated sandbox where MXC isn't available, so this can't require MXC. To block MXC, use Allow the MXC sandbox.",
+   "reach": {
+    "codex": {
+     "macos": {
+      "level": "not-applicable",
+      "note": "Windows only."
+     },
+     "linux": {
+      "level": "not-applicable",
+      "note": "Windows only."
+     },
+     "windows": {
+      "level": "partial",
+      "writes": "requirements.toml → [features] prefer_mxc",
+      "note": "Windows 11 24H2 or 25H2 with Microsoft's MXC capabilities. Falls back to the older sandboxes elsewhere."
+     }
+    }
+   },
+   "sources": [
+    {
+     "title": "Codex Windows sandbox",
+     "url": "https://learn.chatgpt.com/docs/windows/windows-sandbox"
+    }
+   ],
+   "researched": "2026-10-17"
+  },
+  {
+   "id": "login-methods",
+   "title": "Sign-in methods",
+   "topic": "models",
+   "file": "profile",
+   "status": "supported",
+   "yaml_paths": [
+    "login.methods"
+   ],
+   "value": {
+    "type": "string-list",
+    "options": [
+     "chatgpt",
+     "api"
+    ],
+    "default": [
+     "chatgpt"
+    ]
+   },
+   "description": "How users may sign in to Codex: chatgpt (a ChatGPT account), api (an API key), or both. Codex reads this only from a local requirements.toml, not from the cloud console.",
+   "reach": {
+    "codex": {
+     "macos": {
+      "level": "enforced",
+      "writes": "requirements.toml → allowed_login_methods"
+     },
+     "linux": {
+      "level": "enforced",
+      "writes": "requirements.toml → allowed_login_methods"
+     },
+     "windows": {
+      "level": "enforced",
+      "writes": "requirements.toml → allowed_login_methods"
+     }
+    }
+   },
+   "sources": [
+    {
+     "title": "Codex managed configuration",
+     "url": "https://learn.chatgpt.com/docs/enterprise/managed-configuration"
+    }
+   ],
+   "researched": "2026-10-17"
+  },
+  {
+   "id": "model-provider",
+   "title": "Model provider",
+   "topic": "models",
+   "file": "profile",
+   "status": "supported",
+   "yaml_paths": [
+    "model_provider"
+   ],
+   "value": {
+    "type": "string",
+    "default": "",
+    "suggestions": [
+     "openai"
+    ]
+   },
+   "description": "The model provider Codex must use, overriding what users and sessions choose: a built-in one such as openai, or one you define under Model providers.",
+   "reach": {
+    "codex": {
+     "macos": {
+      "level": "enforced",
+      "writes": "requirements.toml → model_provider"
+     },
+     "linux": {
+      "level": "enforced",
+      "writes": "requirements.toml → model_provider"
+     },
+     "windows": {
+      "level": "enforced",
+      "writes": "requirements.toml → model_provider"
+     }
+    }
+   },
+   "sources": [
+    {
+     "title": "Codex managed configuration",
+     "url": "https://learn.chatgpt.com/docs/enterprise/managed-configuration"
+    }
+   ],
+   "researched": "2026-10-17"
+  },
+  {
+   "id": "model-providers",
+   "title": "Model providers",
+   "topic": "models",
+   "file": "profile",
+   "status": "supported",
+   "yaml_paths": [
+    "model_providers.*.name",
+    "model_providers.*.base_url",
+    "model_providers.*.wire_api",
+    "model_providers.*.env_key",
+    "model_providers.*.requires_openai_auth"
+   ],
+   "value": {
+    "type": "map",
+    "values": {
+     "type": "object",
+     "fields": [
+      {
+       "type": "string",
+       "key": "name",
+       "label": "Display name"
+      },
+      {
+       "type": "string",
+       "key": "base_url",
+       "label": "Base URL"
+      },
+      {
+       "type": "enum",
+       "options": [
+        "responses"
+       ],
+       "default": "responses",
+       "key": "wire_api",
+       "label": "API"
+      },
+      {
+       "type": "string",
+       "key": "env_key",
+       "label": "Environment variable with the API key"
+      },
+      {
+       "type": "bool",
+       "default": false,
+       "key": "requires_openai_auth",
+       "label": "Needs an OpenAI sign-in"
+      }
+     ]
+    },
+    "key_label": "Provider ID",
+    "default": {}
+   },
+   "description": "Model providers Codex may use, such as a company gateway. Each replaces any provider with the same ID that users set up. Name the environment variable that holds the API key; never put the key itself in this file.",
+   "reach": {
+    "codex": {
+     "macos": {
+      "level": "enforced",
+      "writes": "requirements.toml → [model_providers.<id>]"
+     },
+     "linux": {
+      "level": "enforced",
+      "writes": "requirements.toml → [model_providers.<id>]"
+     },
+     "windows": {
+      "level": "enforced",
+      "writes": "requirements.toml → [model_providers.<id>]"
      }
     }
    },
@@ -4683,71 +5046,6 @@
    "researched": "2026-10-17"
   },
   {
-   "id": "codex-prefer-mxc",
-   "title": "Codex: prefer the MXC sandbox",
-   "topic": "sandbox",
-   "file": "profile",
-   "status": "not-yet-supported",
-   "vendor_key": "features.prefer_mxc",
-   "description": "Makes Codex run Windows commands in Microsoft's newer MXC sandbox when the device supports it. It can be pinned in requirements.toml, but Codex still falls back to the elevated or unelevated sandbox where MXC isn't available, so it can't be required.",
-   "reach": {
-    "codex": {
-     "macos": {
-      "level": "not-applicable",
-      "note": "Windows only."
-     },
-     "linux": {
-      "level": "not-applicable",
-      "note": "Windows only."
-     },
-     "windows": {
-      "level": "partial",
-      "writes": "requirements.toml or config.toml → [features] prefer_mxc",
-      "note": "Windows 11 24H2 or 25H2 with Microsoft's MXC capabilities. Falls back to the older sandboxes elsewhere."
-     }
-    }
-   },
-   "sources": [
-    {
-     "title": "Codex Windows sandbox",
-     "url": "https://learn.chatgpt.com/docs/windows/windows-sandbox"
-    }
-   ],
-   "researched": "2026-10-17"
-  },
-  {
-   "id": "codex-allow-mxc",
-   "title": "Codex: block the MXC sandbox",
-   "topic": "sandbox",
-   "file": "profile",
-   "status": "not-yet-supported",
-   "vendor_key": "[windows] allow_mxc",
-   "description": "Set to false to stop Codex using MXC, whether picked automatically or chosen by the user. The older sandbox rules still apply.",
-   "reach": {
-    "codex": {
-     "macos": {
-      "level": "not-applicable",
-      "note": "Windows only."
-     },
-     "linux": {
-      "level": "not-applicable",
-      "note": "Windows only."
-     },
-     "windows": {
-      "level": "enforced",
-      "writes": "requirements.toml → [windows] allow_mxc"
-     }
-    }
-   },
-   "sources": [
-    {
-     "title": "Codex Windows sandbox",
-     "url": "https://learn.chatgpt.com/docs/windows/windows-sandbox"
-    }
-   ],
-   "researched": "2026-10-17"
-  },
-  {
    "id": "codex-remote-sandbox",
    "title": "Codex: sandbox rules per host",
    "topic": "sandbox",
@@ -4815,38 +5113,6 @@
    "researched": "2026-10-17"
   },
   {
-   "id": "codex-app-network",
-   "title": "Codex app: allowed destinations",
-   "topic": "web",
-   "file": "profile",
-   "status": "not-yet-supported",
-   "vendor_key": "application.network",
-   "description": "Limits which outside destinations the Codex desktop app may contact.",
-   "reach": {
-    "codex": {
-     "macos": {
-      "level": "enforced",
-      "writes": "requirements.toml → [application.network]"
-     },
-     "linux": {
-      "level": "enforced",
-      "writes": "requirements.toml → [application.network]"
-     },
-     "windows": {
-      "level": "enforced",
-      "writes": "requirements.toml → [application.network]"
-     }
-    }
-   },
-   "sources": [
-    {
-     "title": "Codex managed configuration",
-     "url": "https://learn.chatgpt.com/docs/enterprise/managed-configuration"
-    }
-   ],
-   "researched": "2026-10-17"
-  },
-  {
    "id": "codex-computer-use-apps",
    "title": "Codex: which apps computer use may control",
    "topic": "web",
@@ -4867,38 +5133,6 @@
      "windows": {
       "level": "enforced",
       "writes": "requirements.toml → [computer_use]"
-     }
-    }
-   },
-   "sources": [
-    {
-     "title": "Codex managed configuration",
-     "url": "https://learn.chatgpt.com/docs/enterprise/managed-configuration"
-    }
-   ],
-   "researched": "2026-10-17"
-  },
-  {
-   "id": "codex-login-methods",
-   "title": "Codex: allowed sign-in methods",
-   "topic": "models",
-   "file": "profile",
-   "status": "not-yet-supported",
-   "vendor_key": "allowed_login_methods",
-   "description": "Limits sign-in to ChatGPT, an API key, or both. Only works from a local file, not the cloud console.",
-   "reach": {
-    "codex": {
-     "macos": {
-      "level": "enforced",
-      "writes": "requirements.toml → allowed_login_methods"
-     },
-     "linux": {
-      "level": "enforced",
-      "writes": "requirements.toml → allowed_login_methods"
-     },
-     "windows": {
-      "level": "enforced",
-      "writes": "requirements.toml → allowed_login_methods"
      }
     }
    },

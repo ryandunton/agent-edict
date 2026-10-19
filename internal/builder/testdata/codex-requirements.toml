@@ -1,0 +1,91 @@
+# Example enterprise requirements for the import test.
+allowed_login_methods = ["api"]
+model_provider = "gateway"
+default_permissions = "workspace_only"
+allowed_sandbox_modes = ["read-only", "workspace-write"]
+allowed_approval_policies = ["on-request"]
+allowed_approvals_reviewers = ["auto_review"]
+allowed_web_search_modes = ["disabled"]
+allow_browser_and_computer_use = false
+allow_remote_control = false
+allow_appshots = true
+allow_login_shell = false
+allow_managed_hooks_only = true
+remote_sandbox_config = []
+
+[allowed_permission_profiles]
+workspace_only = true
+
+[permissions.workspace_only]
+description = "Workspace and temporary-directory writes; routine commands offline"
+extends = ":workspace"
+
+[permissions.workspace_only.network]
+enabled = false
+
+[permissions.filesystem]
+deny_read = ["~/.ssh"]
+
+[windows]
+allowed_sandbox_implementations = ["unelevated"]
+allow_mxc = false
+sandbox_private_desktop = true
+
+[features]
+browser_use = false
+browser_use_external = false
+browser_use_full_cdp_access = false
+computer_use = false
+in_app_browser = false
+prefer_mxc = false
+apps = false
+plugins = false
+plugin_sharing = false
+remote_plugin = false
+memories = false
+multi_agent = true
+guardian_approval = true
+
+[browser_use]
+allow_history_access = false
+allow_global_persistent_approval = false
+
+[browser_use.default_origin_policy]
+access = "deny"
+uploads = "deny"
+downloads = "deny"
+full_cdp_access = "deny"
+persistent_approval = false
+
+[computer_use]
+allow_locked_computer_use = false
+
+[application.network]
+enabled = true
+
+[application.network.domains]
+"gateway.example.com" = "allow"
+
+[[rules.prefix_rules]]
+pattern = [{ token = "git" }, { token = "push" }]
+decision = "prompt"
+
+[[rules.prefix_rules]]
+pattern = [{ token = "sudo" }]
+decision = "forbidden"
+
+[mcp_servers.docs]
+identity = { url = "https://mcp.example.com/docs" }
+
+[plugins.reviewer.mcp_servers.search]
+identity = { command = "C:\\Program Files\\Reviewer\\search-mcp.exe" }
+
+[model_providers.gateway]
+name = "Example gateway"
+base_url = "https://gateway.example.com/v1"
+wire_api = "responses"
+env_key = "GATEWAY_API_KEY"
+requires_openai_auth = false
+
+[feedback]
+enabled = false

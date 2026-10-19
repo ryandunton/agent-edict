@@ -77,7 +77,7 @@ export function createChecks(ctx) {
     if (fixId === "map-convert-v1") {
       const api = await edict();
       const converted = api.convertV1Map(ctx.currentYAML());
-      loadText(api, converted, "map");
+      loadTree(api.yamlToJSON(converted), "map");
     } else {
       ctx.setModel(applyFix(ctx.model(), fixId, ctx.app.catalog));
     }
@@ -92,8 +92,8 @@ export function createChecks(ctx) {
   }
 
   // ---- Paste ----
-  function loadText(api, text, file) {
-    const { model } = treeToModel(api.yamlToJSON(text), ctx.app.catalog, file);
+  function loadTree(tree, file) {
+    const { model } = treeToModel(tree, ctx.app.catalog, file);
     if (ctx.app.state.tab !== file) ctx.switchTab(file);
     ctx.setModel(model);
   }
@@ -109,21 +109,23 @@ export function createChecks(ctx) {
       out.replaceChildren(h("p", { class: "hint", text: "Checking…" }));
       const text = area.value;
       if (new Blob([text]).size > MAX_INPUT) { out.replaceChildren(h("p", { class: "error", text: "The file is over the 1 MiB limit." })); return; }
-      let api, tree;
-      try { api = await edict(); tree = api.yamlToJSON(text); }
-      catch (err) { out.replaceChildren(h("p", { class: "error", text: `This isn't valid YAML: ${err.message}` })); return; }
-      const kind = detectKind(tree);
+      let api, pasted;
+      try { api = await edict(); pasted = api.parsePasted(text); }
+      catch (err) { out.replaceChildren(h("p", { class: "error", text: `This file can't be read: ${err.message}` })); return; }
+      const tree = pasted.tree;
+      // A Codex requirements.toml always becomes a profile.
+      const kind = pasted.format === "codex-requirements" ? "profile" : detectKind(tree);
       if (kind === "map" && tree?.version === 1) {
         out.replaceChildren(h("p", { text: "This is a version 1 policy map. The builder edits version 2 maps, where the old machine_profile becomes the standard policy." }),
           h("button", { type: "button", class: "btn primary", text: "Convert to version 2 and load", onclick: () => {
-            try { loadText(api, api.convertV1Map(text), "map"); close(); ctx.announce("Converted and loaded the policy map."); check({ quiet: true }); }
+            try { loadTree(api.yamlToJSON(api.convertV1Map(text)), "map"); close(); ctx.announce("Converted and loaded the policy map."); check({ quiet: true }); }
             catch (err) { out.append(h("p", { class: "error", text: err.message })); }
           } }));
         return;
       }
       const { unknown } = treeToModel(tree, ctx.app.catalog, kind);
-      const notes = api.pasteNotes(text);
-      const doLoad = () => { loadText(api, text, kind); close(); ctx.announce(`Loaded into ${FILE_LABEL[kind]}.`); check({ quiet: true }); };
+      const notes = pasted.notes;
+      const doLoad = () => { loadTree(tree, kind); close(); ctx.announce(`Loaded into ${FILE_LABEL[kind]}.`); check({ quiet: true }); };
       const parts = [];
       if (kind !== file) parts.push(h("p", { text: `This looks like a ${FILE_LABEL[kind].toLowerCase()}, so it will load into the ${FILE_LABEL[kind]} tab.` }));
       if (unknown.length) parts.push(h("p", { class: "error", text: "These keys aren't AgentEdict settings and won't be loaded:" }),
@@ -137,7 +139,7 @@ export function createChecks(ctx) {
     };
     dialog.append(
       h("h2", { id: "paste-h", text: "Paste a file" }),
-      h("p", { class: "hint", text: "Paste a profile, native profile or policy map. It's read in your browser by AgentEdict's own code and never leaves this page." }),
+      h("p", { class: "hint", text: "Paste a profile, native profile or policy map, or a Codex requirements.toml to turn into a profile. It's read in your browser by AgentEdict's own code and never leaves this page." }),
       area, out,
       h("div", { class: "dialog-actions" },
         h("button", { type: "button", class: "btn primary", text: "Load", onclick: load }),

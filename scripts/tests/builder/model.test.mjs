@@ -134,8 +134,18 @@ test("test_storageFallsBackWhenUnavailable", () => {
 
 test("test_pasteWarnsAboutComments", async () => {
   const edict = await loadEdict();
-  assert.equal(edict.pasteNotes("a: 1 # note\n").length, 1);
-  assert.equal(edict.pasteNotes('url: "x#y"\n').length, 0);
+  assert.equal(edict.parsePasted("a: 1 # note\n").notes.length, 1);
+  assert.equal(edict.parsePasted('url: "x#y"\n').notes.length, 0);
+});
+
+test("test_pasteConvertsCodexRequirements", async () => {
+  const edict = await loadEdict();
+  const pasted = edict.parsePasted('# managed\nallowed_login_methods = ["api"]\n\n[windows]\nallow_mxc = false\n');
+  assert.equal(pasted.format, "codex-requirements");
+  assert.deepEqual(pasted.tree.login, { methods: ["api"] });
+  assert.deepEqual(pasted.tree.windows_platform, { allow_mxc: false });
+  assert.match(pasted.notes.join("\n"), /Comments won't be kept/);
+  assert.throws(() => edict.parsePasted("[features]\nbrowser_use =\n"), /looks like TOML/);
 });
 
 const mapModel = rules => setValue(setValue(emptyModel("map"), "map-standard", { profile: "standard", priority: 100 }), "map-rules", rules);

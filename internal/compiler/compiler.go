@@ -43,6 +43,9 @@ func ParsePolicy(data []byte) (*UnifiedPolicy, error) {
 
 var policyNamePattern = regexp.MustCompile(`^[a-zA-Z0-9_-]+$`)
 
+// dnsName matches the exact host names Codex accepts in [application.network.domains].
+var dnsName = regexp.MustCompile(`^[a-z0-9]([a-z0-9-]{0,61}[a-z0-9])?(\.[a-z0-9]([a-z0-9-]{0,61}[a-z0-9])?)*$`)
+
 func validatePolicy(p *UnifiedPolicy) error {
 	if p == nil {
 		return fmt.Errorf("policy is required")
@@ -55,6 +58,65 @@ func validatePolicy(p *UnifiedPolicy) error {
 	}
 	if len(p.Filesystem.DenyWrite.Common)+len(p.Filesystem.DenyWrite.Windows)+len(p.Filesystem.DenyWrite.Unix) > 0 {
 		return fmt.Errorf("filesystem.deny_write is unsupported by the current adapters; use an explicit Codex permission profile instead")
+	}
+	return validateCodexRequirements(p)
+}
+
+// validateCodexRequirements checks the Codex-only enterprise controls.
+func validateCodexRequirements(p *UnifiedPolicy) error {
+	if p.Login != nil {
+		seen := map[string]bool{}
+		for _, method := range p.Login.Methods {
+			if (method != "chatgpt" && method != "api") || seen[method] {
+				return fmt.Errorf("login.methods must list chatgpt, api or both, each once; %q is not allowed", method)
+			}
+			seen[method] = true
+		}
+		if len(seen) == 0 {
+			return fmt.Errorf("login.methods must list chatgpt, api or both")
+		}
+	}
+	if n := p.ApplicationNetwork; n != nil {
+		seen := map[string]string{}
+		for host, decision := range n.Domains {
+			if decision != "allow" && decision != "deny" {
+				return fmt.Errorf("application_network.domains.%s must be allow or deny", host)
+			}
+			// Codex compares hosts this way and refuses the whole file over one bad name.
+			normalized := strings.ToLower(strings.TrimSuffix(host, "."))
+			if len(normalized) > 253 || !dnsName.MatchString(normalized) {
+				return fmt.Errorf("application_network.domains: %q must be an exact host name, without a scheme, port, path or wildcard", host)
+			}
+			if other, dup := seen[normalized]; dup {
+				return fmt.Errorf("application_network.domains: %q and %q are the same host", other, host)
+			}
+			seen[normalized] = host
+		}
+	}
+	policy := p.BrowserUse
+	if policy == nil {
+		policy = &BrowserUseConfig{}
+	}
+	for key, value := range map[string]string{"access": policy.DefaultOriginPolicy.Access, "uploads": policy.DefaultOriginPolicy.Uploads,
+		"downloads": policy.DefaultOriginPolicy.Downloads, "full_cdp_access": policy.DefaultOriginPolicy.FullCDPAccess} {
+		if value != "" && value != "allow" && value != "deny" {
+			return fmt.Errorf("browser_use.default_origin_policy.%s must be allow or deny, not %q", key, value)
+		}
+	}
+	if l := policy.DefaultOriginPolicy.AccessApprovalLifetime; l != "" && l != "turn" && l != "thread" {
+		return fmt.Errorf("browser_use.default_origin_policy.access_approval_lifetime must be turn or thread, not %q", l)
+	}
+	for name, provider := range p.ModelProviders {
+		if provider.WireAPI != "" && provider.WireAPI != "responses" {
+			return fmt.Errorf("model_providers.%s.wire_api must be responses, the only API Codex speaks", name)
+		}
+	}
+	for plugin, policy := range p.Plugins {
+		for server, srv := range policy.MCPServers {
+			if (srv.URL == "") == (srv.Command == "") {
+				return fmt.Errorf("plugins.%s.mcp_servers.%s needs exactly one of url or command", plugin, server)
+			}
+		}
 	}
 	return nil
 }
@@ -290,6 +352,12 @@ func compileCodex(p *UnifiedPolicy, isWindows bool) (string, error) {
 	} else if len(p.WebSearch.Modes) > 0 {
 		b.WriteString(fmt.Sprintf("allowed_web_search_modes = %s\n", formatTOMLStringSlice(p.WebSearch.Modes)))
 	}
+	if p.Login != nil {
+		b.WriteString(fmt.Sprintf("allowed_login_methods = %s\n", formatTOMLStringSlice(p.Login.Methods)))
+	}
+	if p.ModelProvider != "" {
+		b.WriteString(fmt.Sprintf("model_provider = %s\n", tomlString(p.ModelProvider)))
+	}
 
 	if p.Flags.AllowAppshots != nil {
 		b.WriteString(fmt.Sprintf("allow_appshots = %t\n", *p.Flags.AllowAppshots))
@@ -310,6 +378,9 @@ func compileCodex(p *UnifiedPolicy, isWindows bool) (string, error) {
 	}
 	if p.MCPServers != nil && len(p.MCPServers) == 0 {
 		b.WriteString("mcp_servers = {}\n")
+	}
+	if p.Plugins != nil && len(p.Plugins) == 0 {
+		b.WriteString("plugins = {}\n")
 	}
 
 	if strings.TrimSpace(p.AdditionalDeveloperInstructions) != "" {
@@ -386,13 +457,20 @@ func compileCodex(p *UnifiedPolicy, isWindows bool) (string, error) {
 		b.WriteString(fmt.Sprintf("allow_history_access = %t\n", p.BrowserUse.AllowHistoryAccess))
 		b.WriteString(fmt.Sprintf("allow_global_persistent_approval = %t\n", p.BrowserUse.AllowGlobalPersistentApproval))
 
+		// Unset origin fields are left out so Codex applies its own defaults.
+		policy := p.BrowserUse.DefaultOriginPolicy
 		b.WriteString("\n[browser_use.default_origin_policy]\n")
-		b.WriteString(fmt.Sprintf("access = %s\n", tomlString(p.BrowserUse.DefaultOriginPolicy.Access)))
-		b.WriteString(fmt.Sprintf("uploads = %s\n", tomlString(p.BrowserUse.DefaultOriginPolicy.Uploads)))
-		b.WriteString(fmt.Sprintf("downloads = %s\n", tomlString(p.BrowserUse.DefaultOriginPolicy.Downloads)))
-		b.WriteString(fmt.Sprintf("full_cdp_access = %s\n", tomlString(p.BrowserUse.DefaultOriginPolicy.FullCDPAccess)))
-		b.WriteString(fmt.Sprintf("persistent_approval = %t\n", p.BrowserUse.DefaultOriginPolicy.PersistentApproval))
-		b.WriteString(fmt.Sprintf("access_approval_lifetime = %s\n", tomlString(p.BrowserUse.DefaultOriginPolicy.AccessApprovalLifetime)))
+		for _, field := range []struct{ key, value string }{
+			{"access", policy.Access}, {"uploads", policy.Uploads}, {"downloads", policy.Downloads}, {"full_cdp_access", policy.FullCDPAccess},
+		} {
+			if field.value != "" {
+				b.WriteString(fmt.Sprintf("%s = %s\n", field.key, tomlString(field.value)))
+			}
+		}
+		b.WriteString(fmt.Sprintf("persistent_approval = %t\n", policy.PersistentApproval))
+		if policy.AccessApprovalLifetime != "" {
+			b.WriteString(fmt.Sprintf("access_approval_lifetime = %s\n", tomlString(policy.AccessApprovalLifetime)))
+		}
 	}
 
 	if p.ComputerUse != nil {
@@ -438,6 +516,9 @@ func compileCodex(p *UnifiedPolicy, isWindows bool) (string, error) {
 		if p.Features.GuardianApproval != nil {
 			b.WriteString(fmt.Sprintf("guardian_approval = %t\n", *p.Features.GuardianApproval))
 		}
+		if p.Features.PreferMXC != nil {
+			b.WriteString(fmt.Sprintf("prefer_mxc = %t\n", *p.Features.PreferMXC))
+		}
 	}
 
 	if p.Feedback != nil {
@@ -445,9 +526,32 @@ func compileCodex(p *UnifiedPolicy, isWindows bool) (string, error) {
 		b.WriteString(fmt.Sprintf("enabled = %t\n", p.Feedback.Enabled))
 	}
 
-	if isWindows && p.WindowsPlatform != nil && len(p.WindowsPlatform.AllowedSandboxImplementations) > 0 {
+	if w := p.WindowsPlatform; isWindows && w != nil && (len(w.AllowedSandboxImplementations) > 0 || w.AllowMXC != nil) {
 		b.WriteString("\n[windows]\n")
-		b.WriteString(fmt.Sprintf("allowed_sandbox_implementations = %s\n", formatTOMLStringSlice(p.WindowsPlatform.AllowedSandboxImplementations)))
+		if len(w.AllowedSandboxImplementations) > 0 {
+			b.WriteString(fmt.Sprintf("allowed_sandbox_implementations = %s\n", formatTOMLStringSlice(w.AllowedSandboxImplementations)))
+		}
+		if w.AllowMXC != nil {
+			b.WriteString(fmt.Sprintf("allow_mxc = %t\n", *w.AllowMXC))
+		}
+	}
+
+	if n := p.ApplicationNetwork; n != nil {
+		b.WriteString("\n[application.network]\n")
+		b.WriteString(fmt.Sprintf("enabled = %t\n", n.Enabled))
+		if n.Domains != nil && len(n.Domains) == 0 {
+			b.WriteString("domains = {}\n")
+		} else if len(n.Domains) > 0 {
+			hosts := make([]string, 0, len(n.Domains))
+			for host := range n.Domains {
+				hosts = append(hosts, host)
+			}
+			sort.Strings(hosts)
+			b.WriteString("\n[application.network.domains]\n")
+			for _, host := range hosts {
+				b.WriteString(fmt.Sprintf("%s = %s\n", tomlString(host), tomlString(n.Domains[host])))
+			}
+		}
 	}
 
 	denyReadPaths := getPathList(p.Filesystem.DenyRead, isWindows)
@@ -506,6 +610,53 @@ func compileCodex(p *UnifiedPolicy, isWindows bool) (string, error) {
 			b.WriteString(fmt.Sprintf("identity = { command = %s }\n", tomlString(srv.Windows.Command)))
 		} else if !isWindows && srv.Unix != nil && srv.Unix.Command != "" {
 			b.WriteString(fmt.Sprintf("identity = { command = %s }\n", tomlString(srv.Unix.Command)))
+		}
+	}
+
+	plugins := make([]string, 0, len(p.Plugins))
+	for name := range p.Plugins {
+		plugins = append(plugins, name)
+	}
+	sort.Strings(plugins)
+	for _, plugin := range plugins {
+		servers := p.Plugins[plugin].MCPServers
+		if len(servers) == 0 {
+			b.WriteString(fmt.Sprintf("\n[plugins.%s]\nmcp_servers = {}\n", tomlKey(plugin)))
+			continue
+		}
+		names := make([]string, 0, len(servers))
+		for name := range servers {
+			names = append(names, name)
+		}
+		sort.Strings(names)
+		for _, name := range names {
+			srv := servers[name]
+			b.WriteString(fmt.Sprintf("\n[plugins.%s.mcp_servers.%s]\n", tomlKey(plugin), tomlKey(name)))
+			if srv.URL != "" {
+				b.WriteString(fmt.Sprintf("identity = { url = %s }\n", tomlString(srv.URL)))
+			} else {
+				b.WriteString(fmt.Sprintf("identity = { command = %s }\n", tomlString(srv.Command)))
+			}
+		}
+	}
+
+	providers := make([]string, 0, len(p.ModelProviders))
+	for name := range p.ModelProviders {
+		providers = append(providers, name)
+	}
+	sort.Strings(providers)
+	for _, name := range providers {
+		provider := p.ModelProviders[name]
+		b.WriteString(fmt.Sprintf("\n[model_providers.%s]\n", tomlKey(name)))
+		for _, field := range []struct{ key, value string }{
+			{"name", provider.Name}, {"base_url", provider.BaseURL}, {"wire_api", provider.WireAPI}, {"env_key", provider.EnvKey},
+		} {
+			if field.value != "" {
+				b.WriteString(fmt.Sprintf("%s = %s\n", field.key, tomlString(field.value)))
+			}
+		}
+		if provider.RequiresOpenAIAuth != nil {
+			b.WriteString(fmt.Sprintf("requires_openai_auth = %t\n", *provider.RequiresOpenAIAuth))
 		}
 	}
 

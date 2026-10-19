@@ -20,7 +20,7 @@ export async function loadEdict() {
     if (!reply.ok) throw new Error(reply.error);
     return reply.value;
   };
-  api = Object.fromEntries(["yamlToJSON", "lintProfile", "lintNative", "lintMap", "convertV1Map", "pasteNotes", "preview", "version"].map(n => [n, call(n)]));
+  api = Object.fromEntries(["yamlToJSON", "lintProfile", "lintNative", "lintMap", "convertV1Map", "parsePasted", "preview", "version"].map(n => [n, call(n)]));
   return api;
 }
 
