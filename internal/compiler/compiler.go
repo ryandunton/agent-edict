@@ -5,11 +5,13 @@ import (
 	"encoding/json"
 	"fmt"
 	"io"
+	"net/url"
 	"os"
 	"regexp"
 	"sort"
 	"strings"
 
+	"github.com/pelletier/go-toml/v2"
 	"gopkg.in/yaml.v3"
 )
 
@@ -42,6 +44,7 @@ func ParsePolicy(data []byte) (*UnifiedPolicy, error) {
 }
 
 var policyNamePattern = regexp.MustCompile(`^[a-zA-Z0-9_-]+$`)
+var envKeyPattern = regexp.MustCompile(`^[A-Z_][A-Z0-9_]*$`)
 
 // dnsName matches the exact host names Codex accepts in [application.network.domains].
 var dnsName = regexp.MustCompile(`^[a-z0-9]([a-z0-9-]{0,61}[a-z0-9])?(\.[a-z0-9]([a-z0-9-]{0,61}[a-z0-9])?)*$`)
@@ -106,10 +109,8 @@ func validateCodexRequirements(p *UnifiedPolicy) error {
 	if l := policy.DefaultOriginPolicy.AccessApprovalLifetime; l != "" && l != "turn" && l != "thread" {
 		return fmt.Errorf("browser_use.default_origin_policy.access_approval_lifetime must be turn or thread, not %q", l)
 	}
-	for name, provider := range p.ModelProviders {
-		if provider.WireAPI != "" && provider.WireAPI != "responses" {
-			return fmt.Errorf("model_providers.%s.wire_api must be responses, the only API Codex speaks", name)
-		}
+	if err := validateCodexGateway(p.ModelProvider, p.CodexModel, p.ModelProviders); err != nil {
+		return err
 	}
 	for plugin, policy := range p.Plugins {
 		for server, srv := range policy.MCPServers {
@@ -119,6 +120,76 @@ func validateCodexRequirements(p *UnifiedPolicy) error {
 		}
 	}
 	return nil
+}
+
+func validateCodexGateway(selected string, model *string, providers map[string]ModelProvider) error {
+	if model != nil && strings.TrimSpace(*model) == "" {
+		return fmt.Errorf("codex_model must be nonempty")
+	}
+	if model != nil && selected == "" {
+		return fmt.Errorf("codex_model requires model_provider")
+	}
+	if selected != "" && selected != "openai" && selected != "ollama" && selected != "lmstudio" && selected != "amazon-bedrock" {
+		if _, ok := providers[selected]; !ok {
+			return fmt.Errorf("model_provider must name a configured model_providers entry")
+		}
+	}
+	for name, provider := range providers {
+		if !policyNamePattern.MatchString(name) || name == "openai" || name == "ollama" || name == "lmstudio" || name == "amazon-bedrock" {
+			return fmt.Errorf("model_providers contains an invalid or reserved provider ID")
+		}
+		if provider.WireAPI != "" && provider.WireAPI != "responses" {
+			return fmt.Errorf("model_providers.%s.wire_api must be responses, the only API Codex speaks", name)
+		}
+		u, err := url.Parse(provider.BaseURL)
+		if err != nil || u.Scheme != "https" || u.Hostname() == "" || u.User != nil || u.RawQuery != "" || u.Fragment != "" || u.Opaque != "" {
+			return fmt.Errorf("model_providers.%s.base_url must be an HTTPS URL without credentials, query, or fragment", name)
+		}
+		if provider.RequiresOpenAIAuth != nil && *provider.RequiresOpenAIAuth && provider.EnvKey != "" {
+			return fmt.Errorf("model_providers.%s.requires_openai_auth cannot be true when env_key is used", name)
+		}
+		if (provider.RequiresOpenAIAuth == nil || !*provider.RequiresOpenAIAuth) && !envKeyPattern.MatchString(provider.EnvKey) {
+			return fmt.Errorf("model_providers.%s.env_key must name an uppercase environment variable", name)
+		}
+	}
+	return nil
+}
+
+// ValidateCodexGatewayTOML checks compiled provider settings again when a
+// signed bundle is validated, including bundles edited after compilation.
+func ValidateCodexGatewayTOML(data []byte) error {
+	var raw map[string]any
+	if err := toml.Unmarshal(data, &raw); err != nil {
+		return err
+	}
+	if providers, ok := raw["model_providers"].(map[string]any); ok {
+		for name, definition := range providers {
+			fields, ok := definition.(map[string]any)
+			if !ok {
+				return fmt.Errorf("model_providers.%s must be a table", name)
+			}
+			for field := range fields {
+				switch field {
+				case "name", "base_url", "wire_api", "env_key", "requires_openai_auth":
+				default:
+					return fmt.Errorf("model_providers.%s.%s is unsupported", name, field)
+				}
+			}
+		}
+	}
+	var parsed struct {
+		ModelProvider  string                   `toml:"model_provider"`
+		ModelProviders map[string]ModelProvider `toml:"model_providers"`
+		Models         struct {
+			NewThread struct {
+				Model *string `toml:"model"`
+			} `toml:"new_thread"`
+		} `toml:"models"`
+	}
+	if err := toml.Unmarshal(data, &parsed); err != nil {
+		return fmt.Errorf("invalid Codex gateway setting type")
+	}
+	return validateCodexGateway(parsed.ModelProvider, parsed.Models.NewThread.Model, parsed.ModelProviders)
 }
 
 func validateTargetOS(targetOS string) error {
@@ -658,6 +729,9 @@ func compileCodex(p *UnifiedPolicy, isWindows bool) (string, error) {
 		if provider.RequiresOpenAIAuth != nil {
 			b.WriteString(fmt.Sprintf("requires_openai_auth = %t\n", *provider.RequiresOpenAIAuth))
 		}
+	}
+	if p.CodexModel != nil {
+		b.WriteString(fmt.Sprintf("\n[models.new_thread]\nmodel = %s\n", tomlString(*p.CodexModel)))
 	}
 
 	return b.String(), nil

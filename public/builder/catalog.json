@@ -2495,6 +2495,44 @@
    "researched": "2026-10-17"
   },
   {
+   "id": "codex-model",
+   "title": "Codex model for new threads",
+   "topic": "models",
+   "file": "profile",
+   "status": "supported",
+   "yaml_paths": [
+    "codex_model"
+   ],
+   "value": {
+    "type": "string",
+    "default": ""
+   },
+   "description": "Default Codex model for new threads. Requires model_provider. Explicit client model or reasoning overrides can replace this default; custom aliases need matching model catalog metadata.",
+   "reach": {
+    "codex": {
+     "macos": {
+      "level": "configuration-only",
+      "writes": "requirements.toml → [models.new_thread].model"
+     },
+     "linux": {
+      "level": "configuration-only",
+      "writes": "requirements.toml → [models.new_thread].model"
+     },
+     "windows": {
+      "level": "configuration-only",
+      "writes": "requirements.toml → [models.new_thread].model"
+     }
+    }
+   },
+   "sources": [
+    {
+     "title": "Codex configuration reference",
+     "url": "https://learn.chatgpt.com/docs/config-file/config-reference"
+    }
+   ],
+   "researched": "2026-10-31"
+  },
+  {
    "id": "model-provider",
    "title": "Model provider",
    "topic": "models",

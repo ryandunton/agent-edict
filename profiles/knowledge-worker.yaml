@@ -2,6 +2,18 @@ version: 1
 name: "knowledge-worker"
 description: "Standard Knowledge Worker - Documents, calendars, web research, strict external communication and browser controls"
 
+# Public example: keep these placeholders; deploy real values from a private source.
+# Claude keeps its existing provider and model.
+model_provider: company-gateway
+codex_model: company-coding-model
+model_providers:
+  company-gateway:
+    name: Company AI Gateway
+    base_url: https://aigateway.internal.company.com/v1
+    wire_api: responses
+    env_key: AI_GATEWAY_API_KEY
+    requires_openai_auth: false
+
 default_permissions: "standard"
 
 allowed_permission_profiles:

@@ -10,6 +10,7 @@ import (
 	"testing"
 
 	"github.com/ryandunton/agent-edict/internal/agent"
+	"github.com/ryandunton/agent-edict/internal/compiler"
 )
 
 var exampleDir = filepath.Join("..", "..", "examples", "role-policy")
@@ -73,6 +74,83 @@ func TestCompileBundleExample(t *testing.T) {
 	declaration, _ := os.ReadFile(filepath.Join(out, "profiles/linux/engineering.native.yaml"))
 	if !strings.Contains(string(declaration), "cursor:") || strings.Contains(string(declaration), "windsurf:") {
 		t.Errorf("native declaration must hold exactly the selected products:\n%s", declaration)
+	}
+}
+
+func TestKnowledgeWorkerGatewayBundle(t *testing.T) {
+	profile, err := compiler.LoadPolicy(filepath.Join("..", "..", "profiles", "knowledge-worker.yaml"))
+	if err != nil {
+		t.Fatal(err)
+	}
+	provider, ok := profile.ModelProviders["company-gateway"]
+	if profile.ModelProvider != "company-gateway" ||
+		profile.CodexModel == nil || *profile.CodexModel != "company-coding-model" ||
+		len(profile.ModelProviders) != 1 || !ok ||
+		provider.Name != "Company AI Gateway" ||
+		provider.BaseURL != "https://aigateway.internal.company.com/v1" ||
+		provider.WireAPI != "responses" ||
+		provider.EnvKey != "AI_GATEWAY_API_KEY" ||
+		provider.RequiresOpenAIAuth == nil || *provider.RequiresOpenAIAuth {
+		t.Fatal("public knowledge-worker profile must keep the generic gateway example; use a private policy source for deployment values")
+	}
+	guide, err := os.ReadFile(filepath.Join("..", "..", "docs", "codex-gateway.md"))
+	if err != nil {
+		t.Fatal(err)
+	}
+	if strings.Count(string(guide), "https://") != 2 || strings.Count(string(guide), "https://aigateway.internal.company.com/v1") != 2 || strings.Contains(string(guide), "http://") {
+		t.Fatal("public gateway guide must contain only the generic example URL")
+	}
+	out, _, err := runCompileBundle(t, filepath.Join("..", "..", "policy-map.yaml"), filepath.Join("..", "..", "profiles"))
+	if err != nil {
+		t.Fatal(err)
+	}
+	if err := agent.ValidateBundleDirectory(out, "windows"); err != nil {
+		t.Fatal(err)
+	}
+	for _, osName := range []string{"windows", "linux", "darwin"} {
+		codex, err := os.ReadFile(filepath.Join(out, "profiles", osName, "knowledge-worker.codex.toml"))
+		if err != nil {
+			t.Fatal(err)
+		}
+		for _, want := range []string{`model_provider = "company-gateway"`, `base_url = "https://aigateway.internal.company.com/v1"`, `wire_api = "responses"`, `env_key = "AI_GATEWAY_API_KEY"`, `model = "company-coding-model"`} {
+			if !bytes.Contains(codex, []byte(want)) {
+				t.Errorf("%s Codex settings missing %s", osName, want)
+			}
+		}
+		claude, err := os.ReadFile(filepath.Join(out, "profiles", osName, "knowledge-worker.claude.json"))
+		if err != nil {
+			t.Fatal(err)
+		}
+		if bytes.Contains(claude, []byte("aigateway.internal.company.com")) || bytes.Contains(claude, []byte("company-coding-model")) || bytes.Contains(claude, []byte("AI_GATEWAY_API_KEY")) {
+			t.Errorf("%s Claude settings contain Codex gateway configuration", osName)
+		}
+	}
+}
+
+func TestBundleRejectsInvalidCodexGateway(t *testing.T) {
+	out, _, err := runCompileBundle(t, filepath.Join("..", "..", "policy-map.yaml"), filepath.Join("..", "..", "profiles"))
+	if err != nil {
+		t.Fatal(err)
+	}
+	file := filepath.Join(out, "profiles", "windows", "knowledge-worker.codex.toml")
+	content, err := os.ReadFile(file)
+	if err != nil {
+		t.Fatal(err)
+	}
+	content = bytes.Replace(content, []byte(`env_key = "AI_GATEWAY_API_KEY"`), []byte(`env_key = "not-a-variable"`), 1)
+	if err := os.WriteFile(file, content, 0600); err != nil {
+		t.Fatal(err)
+	}
+	if err := agent.ValidateBundleDirectory(out, "windows"); err == nil || !strings.Contains(err.Error(), "env_key") {
+		t.Fatalf("invalid gateway bundle validation = %v", err)
+	}
+	content = bytes.Replace(content, []byte(`env_key = "not-a-variable"`), []byte(`env_key = "AI_GATEWAY_API_KEY"`), 1)
+	content = bytes.Replace(content, []byte(`wire_api = "responses"`), []byte("api_key = \"secret-sentinel\"\nwire_api = \"responses\""), 1)
+	if err := os.WriteFile(file, content, 0600); err != nil {
+		t.Fatal(err)
+	}
+	if err := agent.ValidateBundleDirectory(out, "windows"); err == nil || !strings.Contains(err.Error(), "api_key") || strings.Contains(err.Error(), "secret-sentinel") {
+		t.Fatalf("unsupported secret field validation = %v", err)
 	}
 }
 

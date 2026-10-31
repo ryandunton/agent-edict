@@ -20,6 +20,7 @@ import (
 	"time"
 
 	"github.com/pelletier/go-toml/v2"
+	"github.com/ryandunton/agent-edict/internal/compiler"
 	"github.com/ryandunton/agent-edict/internal/platform"
 )
 
@@ -299,6 +300,11 @@ func checkProfileFile(snapshot, osKey, profile string, target platform.PolicyTar
 		var value map[string]any
 		if err := toml.Unmarshal(data, &value); err != nil || len(value) == 0 {
 			return fmt.Errorf("invalid or empty TOML profile %s.%s", profile, target.BundleExt)
+		}
+		if target.BundleExt == "codex.toml" {
+			if err := compiler.ValidateCodexGatewayTOML(data); err != nil {
+				return fmt.Errorf("invalid Codex gateway settings in %s.%s: %w", profile, target.BundleExt, err)
+			}
 		}
 	} else if !strings.HasSuffix(target.BundleExt, ".instructions.md") {
 		return fmt.Errorf("unsupported profile format %s", target.BundleExt)

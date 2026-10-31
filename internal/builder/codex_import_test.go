@@ -95,3 +95,17 @@ func TestImportNamesProfileFromAgentEdictHeader(t *testing.T) {
 		t.Fatalf("tree should start with version and name: %s", pasted.Tree[:60])
 	}
 }
+
+func TestImportCodexGatewayModelDefault(t *testing.T) {
+	pasted, err := ParsePasted([]byte("model_provider = \"gateway\"\n[model_providers.gateway]\nbase_url = \"https://gateway.example.com/v1\"\nwire_api = \"responses\"\nenv_key = \"GATEWAY_API_KEY\"\n[models.new_thread]\nmodel = \"gateway-model\"\n"))
+	if err != nil {
+		t.Fatal(err)
+	}
+	var tree map[string]any
+	if err := json.Unmarshal(pasted.Tree, &tree); err != nil {
+		t.Fatal(err)
+	}
+	if tree["codex_model"] != "gateway-model" {
+		t.Fatalf("codex_model = %v, notes = %v", tree["codex_model"], pasted.Notes)
+	}
+}

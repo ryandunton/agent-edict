@@ -213,6 +213,27 @@ func importCodexRequirements(doc map[string]any, raw []byte) (*object, []string)
 	if v, ok := take(doc, "model_providers"); ok {
 		im.modelProviders(p, v)
 	}
+	if v, ok := take(doc, "models"); ok {
+		if models, ok := table(v); ok {
+			if v, ok := take(models, "new_thread"); ok {
+				if defaults, ok := table(v); ok {
+					if v, ok := take(defaults, "model"); ok {
+						if model, ok := v.(string); ok {
+							p.set("codex_model", model)
+						} else {
+							im.wrongType("models.new_thread.model")
+						}
+					}
+					im.leftovers("models.new_thread.", defaults)
+				} else {
+					im.wrongType("models.new_thread")
+				}
+			}
+			im.leftovers("models.", models)
+		} else {
+			im.wrongType("models")
+		}
+	}
 	im.strings(p, doc, "", "default_permissions")
 	if v, ok := take(doc, "allowed_permission_profiles"); ok {
 		p.set("allowed_permission_profiles", v)
