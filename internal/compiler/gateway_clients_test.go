@@ -41,6 +41,9 @@ func TestCompileClientGateways(t *testing.T) {
 		if env["ANTHROPIC_BASE_URL"] != "https://aigateway.internal.company.com/anthropic" || claudeJSON["model"] != "company-claude-model" {
 			t.Errorf("%s Claude gateway = %v", osName, claudeJSON)
 		}
+		if allowed, ok := claudeJSON["allowedProviders"].([]any); !ok || len(allowed) != 1 || allowed[0] != "customEndpoint" {
+			t.Errorf("%s Claude gateway must pin the custom endpoint: %v", osName, claudeJSON["allowedProviders"])
+		}
 		if _, ok := env["ANTHROPIC_AUTH_TOKEN"]; ok {
 			t.Error("Claude secret value must not enter managed settings")
 		}
@@ -111,9 +114,11 @@ func TestValidateClientGatewayArtifacts(t *testing.T) {
 		name, data, want string
 		validate         func([]byte) error
 	}{
-		{"Claude valid", `{"env":{"ANTHROPIC_BASE_URL":"https://gateway.example.com/anthropic"},"model":"example-claude-model"}`, "", ValidateClaudeGatewayJSON},
-		{"Claude insecure URL", `{"env":{"ANTHROPIC_BASE_URL":"http://gateway.example.com"}}`, "ANTHROPIC_BASE_URL", ValidateClaudeGatewayJSON},
-		{"Claude embedded credential", `{"env":{"ANTHROPIC_BASE_URL":"https://gateway.example.com","ANTHROPIC_AUTH_TOKEN":"secret-sentinel"}}`, "ANTHROPIC_AUTH_TOKEN", ValidateClaudeGatewayJSON},
+		{"Claude valid", `{"allowedProviders":["customEndpoint"],"env":{"ANTHROPIC_BASE_URL":"https://gateway.example.com/anthropic"},"model":"example-claude-model"}`, "", ValidateClaudeGatewayJSON},
+		{"Claude missing provider pin", `{"env":{"ANTHROPIC_BASE_URL":"https://gateway.example.com/anthropic"}}`, "allowedProviders", ValidateClaudeGatewayJSON},
+		{"Claude permits another provider", `{"allowedProviders":["customEndpoint","anthropic"],"env":{"ANTHROPIC_BASE_URL":"https://gateway.example.com/anthropic"}}`, "allowedProviders", ValidateClaudeGatewayJSON},
+		{"Claude insecure URL", `{"allowedProviders":["customEndpoint"],"env":{"ANTHROPIC_BASE_URL":"http://gateway.example.com"}}`, "ANTHROPIC_BASE_URL", ValidateClaudeGatewayJSON},
+		{"Claude embedded credential", `{"allowedProviders":["customEndpoint"],"env":{"ANTHROPIC_BASE_URL":"https://gateway.example.com","ANTHROPIC_AUTH_TOKEN":"secret-sentinel"}}`, "ANTHROPIC_AUTH_TOKEN", ValidateClaudeGatewayJSON},
 		{"Claude unmanaged helper", `{"apiKeyHelper":"/tmp/helper"}`, "apiKeyHelper", ValidateClaudeGatewayJSON},
 		{"Claude model without route", `{"model":"example-claude-model"}`, "ANTHROPIC_BASE_URL", ValidateClaudeGatewayJSON},
 		{"OpenCode valid", `{"provider":{"gateway":{"npm":"@ai-sdk/openai","name":"Gateway","options":{"baseURL":"https://gateway.example.com/v1","apiKey":"{env:GATEWAY_API_KEY}"},"models":{"example-model":{"name":"example-model"}}}},"enabled_providers":["gateway"],"model":"gateway/example-model","small_model":"gateway/example-model"}`, "", ValidateOpenCodeGatewayJSON},

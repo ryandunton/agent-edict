@@ -94,6 +94,9 @@ func ValidateClaudeGatewayJSON(data []byte) error {
 		if _, hasModel := settings["model"]; hasModel {
 			return fmt.Errorf("Claude gateway model requires env.ANTHROPIC_BASE_URL")
 		}
+		if _, hasPin := settings["allowedProviders"]; hasPin {
+			return fmt.Errorf("Claude gateway allowedProviders requires env.ANTHROPIC_BASE_URL")
+		}
 		return nil
 	}
 	env, ok := value.(map[string]any)
@@ -114,6 +117,10 @@ func ValidateClaudeGatewayJSON(data []byte) error {
 	}
 	if err := validateGatewayURL("Claude gateway env.ANTHROPIC_BASE_URL", baseURL); err != nil {
 		return err
+	}
+	allowed, ok := settings["allowedProviders"].([]any)
+	if !ok || len(allowed) != 1 || allowed[0] != "customEndpoint" {
+		return fmt.Errorf("Claude gateway allowedProviders must contain only customEndpoint")
 	}
 	if model, hasModel := settings["model"]; hasModel {
 		modelID, ok := model.(string)

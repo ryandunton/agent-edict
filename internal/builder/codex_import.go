@@ -358,12 +358,13 @@ func (im *importer) permissions(p *object, v any) {
 		}
 		prefix := "permissions." + name + "."
 		// AgentEdict writes filesystem.deny_read as [permissions.filesystem].
-		if deny, hasDeny := def["deny_read"]; name == "filesystem" && hasDeny {
-			delete(def, "deny_read")
-			if paths, isList := stringList(deny); isList {
-				p.child("filesystem").child("deny_read").set("common", paths)
-			} else {
-				im.wrongType(prefix + "deny_read")
+		if name == "filesystem" {
+			if deny, hasDeny := take(def, "deny_read"); hasDeny {
+				if paths, isList := stringList(deny); isList {
+					p.child("filesystem").child("deny_read").set("common", paths)
+				} else {
+					im.wrongType(prefix + "deny_read")
+				}
 			}
 			im.leftovers(prefix, def)
 			continue
