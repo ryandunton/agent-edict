@@ -2533,6 +2533,96 @@
    "researched": "2026-10-31"
   },
   {
+   "id": "claude-gateway",
+   "title": "Claude Code gateway",
+   "topic": "models",
+   "file": "profile",
+   "status": "supported",
+   "yaml_paths": [
+    "claude.gateway.base_url",
+    "claude.gateway.credential_env",
+    "claude.gateway.model"
+   ],
+   "value": {
+    "type": "object",
+    "fields": [
+     {
+      "type": "string",
+      "key": "base_url",
+      "label": "Anthropic-compatible gateway URL",
+      "default": "https://aigateway.internal.company.com/anthropic"
+     },
+     {
+      "type": "enum",
+      "key": "credential_env",
+      "label": "Client credential variable",
+      "options": ["ANTHROPIC_AUTH_TOKEN", "ANTHROPIC_API_KEY"],
+      "default": "ANTHROPIC_AUTH_TOKEN"
+     },
+     {
+      "type": "string",
+      "key": "model",
+      "label": "Default Claude model alias",
+      "default": "company-claude-model"
+     }
+    ],
+    "default": {}
+   },
+   "description": "Routes Claude Code CLI requests to an Anthropic-compatible gateway. The model is an initial selection, not a lock. Deliver the named credential variable to each client process through a secret manager; no credential value enters the profile or bundle. Claude Desktop uses separate inference settings.",
+   "reach": {
+    "claude": {
+     "macos": {"level": "enforced", "writes": "managed-settings.json → env.ANTHROPIC_BASE_URL and model"},
+     "linux": {"level": "enforced", "writes": "managed-settings.json → env.ANTHROPIC_BASE_URL and model"},
+     "windows": {"level": "enforced", "writes": "managed-settings.json → env.ANTHROPIC_BASE_URL and model"}
+    }
+   },
+   "sources": [
+    {"title": "Claude Code gateway rollout", "url": "https://code.claude.com/docs/en/llm-gateway-rollout"},
+    {"title": "Claude Code model configuration", "url": "https://code.claude.com/docs/en/model-config"}
+   ],
+   "researched": "2026-10-31"
+  },
+  {
+   "id": "opencode-gateway",
+   "title": "OpenCode gateway",
+   "topic": "models",
+   "file": "profile",
+   "status": "supported",
+   "yaml_paths": [
+    "opencode.gateway.provider",
+    "opencode.gateway.name",
+    "opencode.gateway.base_url",
+    "opencode.gateway.wire_api",
+    "opencode.gateway.env_key",
+    "opencode.gateway.model"
+   ],
+   "value": {
+    "type": "object",
+    "fields": [
+     {"type": "string", "key": "provider", "label": "Provider ID", "default": "company-gateway"},
+     {"type": "string", "key": "name", "label": "Display name", "default": "Company AI Gateway"},
+     {"type": "string", "key": "base_url", "label": "Gateway URL", "default": "https://aigateway.internal.company.com/v1"},
+     {"type": "enum", "key": "wire_api", "label": "API", "options": ["responses", "chat_completions"], "default": "responses"},
+     {"type": "string", "key": "env_key", "label": "Client credential variable", "default": "AI_GATEWAY_API_KEY"},
+     {"type": "string", "key": "model", "label": "Model alias", "default": "company-coding-model"}
+    ],
+    "default": {}
+   },
+   "description": "Defines one managed OpenCode provider and allowlists it for model requests. The generated API key is an environment-variable reference, never a value. Requires a profile OpenCode can enforce; profiles with filesystem.deny_read are rejected. This targets OpenCode's current v1 config schema.",
+   "reach": {
+    "opencode": {
+     "macos": {"level": "enforced", "writes": "opencode.json → provider, enabled_providers, model, small_model"},
+     "linux": {"level": "enforced", "writes": "opencode.json → provider, enabled_providers, model, small_model"},
+     "windows": {"level": "enforced", "writes": "opencode.json → provider, enabled_providers, model, small_model"}
+    }
+   },
+   "sources": [
+    {"title": "OpenCode providers", "url": "https://opencode.ai/docs/providers"},
+    {"title": "OpenCode managed settings", "url": "https://opencode.ai/docs/config/"}
+   ],
+   "researched": "2026-10-31"
+  },
+  {
    "id": "model-provider",
    "title": "Model provider",
    "topic": "models",

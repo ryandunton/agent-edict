@@ -2,6 +2,8 @@
 
 AgentEdict's native integrations target endpoint applications without a cloud administration credential or enterprise license dependency. Use `compile-native` and an explicit signed machine assignment. The unified compiler continues to reject restrictions that its adapters cannot preserve.
 
+For model API routing across these and the unified clients, see [gateway support by client](../gateway-support.md). Native tool controls and model gateway settings have separate client contracts.
+
 | Application | Mechanism | Verified here | Remaining boundary |
 | --- | --- | --- | --- |
 | [Gemini CLI](gemini.md) | Protected admin TOML policy plus system settings | v0.64.0 source and generated TOML/JSON tests | Tool decisions do not prevent MCP startup or mandate an OS sandbox. |

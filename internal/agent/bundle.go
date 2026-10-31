@@ -296,6 +296,16 @@ func checkProfileFile(snapshot, osKey, profile string, target platform.PolicyTar
 		if err := json.Unmarshal(data, &value); err != nil || value == nil {
 			return fmt.Errorf("invalid JSON profile %s.%s", profile, target.BundleExt)
 		}
+		switch target.BundleExt {
+		case "claude.json":
+			if err := compiler.ValidateClaudeGatewayJSON(data); err != nil {
+				return fmt.Errorf("invalid Claude gateway settings in %s.%s: %w", profile, target.BundleExt, err)
+			}
+		case "opencode.json":
+			if err := compiler.ValidateOpenCodeGatewayJSON(data); err != nil {
+				return fmt.Errorf("invalid OpenCode gateway settings in %s.%s: %w", profile, target.BundleExt, err)
+			}
+		}
 	} else if strings.HasSuffix(target.BundleExt, ".toml") {
 		var value map[string]any
 		if err := toml.Unmarshal(data, &value); err != nil || len(value) == 0 {

@@ -5,7 +5,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"io"
-	"net/url"
 	"os"
 	"regexp"
 	"sort"
@@ -62,7 +61,10 @@ func validatePolicy(p *UnifiedPolicy) error {
 	if len(p.Filesystem.DenyWrite.Common)+len(p.Filesystem.DenyWrite.Windows)+len(p.Filesystem.DenyWrite.Unix) > 0 {
 		return fmt.Errorf("filesystem.deny_write is unsupported by the current adapters; use an explicit Codex permission profile instead")
 	}
-	return validateCodexRequirements(p)
+	if err := validateCodexRequirements(p); err != nil {
+		return err
+	}
+	return validateClientGateways(p)
 }
 
 // validateCodexRequirements checks the Codex-only enterprise controls.
@@ -141,9 +143,8 @@ func validateCodexGateway(selected string, model *string, providers map[string]M
 		if provider.WireAPI != "" && provider.WireAPI != "responses" {
 			return fmt.Errorf("model_providers.%s.wire_api must be responses, the only API Codex speaks", name)
 		}
-		u, err := url.Parse(provider.BaseURL)
-		if err != nil || u.Scheme != "https" || u.Hostname() == "" || u.User != nil || u.RawQuery != "" || u.Fragment != "" || u.Opaque != "" {
-			return fmt.Errorf("model_providers.%s.base_url must be an HTTPS URL without credentials, query, or fragment", name)
+		if err := validateGatewayURL("model_providers."+name+".base_url", provider.BaseURL); err != nil {
+			return err
 		}
 		if provider.RequiresOpenAIAuth != nil && *provider.RequiresOpenAIAuth && provider.EnvKey != "" {
 			return fmt.Errorf("model_providers.%s.requires_openai_auth cannot be true when env_key is used", name)
@@ -821,6 +822,12 @@ func compileClaude(p *UnifiedPolicy, isWindows bool, sandboxMode string) (string
 		"allowManagedPermissionRulesOnly": true,
 		"allowedMcpServers":               allowedMcp,
 	}
+	if p.Claude != nil && p.Claude.Gateway != nil {
+		data["env"] = map[string]string{"ANTHROPIC_BASE_URL": p.Claude.Gateway.BaseURL}
+		if p.Claude.Gateway.Model != nil {
+			data["model"] = *p.Claude.Gateway.Model
+		}
+	}
 	if sandboxMode == ClaudeSandboxRequired && !isWindows {
 		// The sandbox covers shell commands; the Read rules above cover Claude's
 		// own file tools. Together they block reads of the denied paths.
@@ -945,6 +952,29 @@ func compileOpenCode(p *UnifiedPolicy, targetOS string) (string, error) {
 			"bash":     bashRules,
 		},
 		"mcp": mcpMap,
+	}
+	if p.OpenCode != nil && p.OpenCode.Gateway != nil {
+		g := p.OpenCode.Gateway
+		pack := "@ai-sdk/openai-compatible"
+		if g.WireAPI == "responses" {
+			pack = "@ai-sdk/openai"
+		}
+		name := g.Name
+		if name == "" {
+			name = g.Provider
+		}
+		data["provider"] = map[string]interface{}{g.Provider: map[string]interface{}{
+			"npm":  pack,
+			"name": name,
+			"options": map[string]string{
+				"baseURL": g.BaseURL,
+				"apiKey":  "{env:" + g.EnvKey + "}",
+			},
+			"models": map[string]interface{}{g.Model: map[string]string{"name": g.Model}},
+		}}
+		data["enabled_providers"] = []string{g.Provider}
+		data["model"] = g.Provider + "/" + g.Model
+		data["small_model"] = data["model"]
 	}
 	var instructionsPath string
 	switch targetOS {

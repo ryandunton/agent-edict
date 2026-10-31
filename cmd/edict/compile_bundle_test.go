@@ -154,6 +154,60 @@ func TestBundleRejectsInvalidCodexGateway(t *testing.T) {
 	}
 }
 
+func TestCompileBundleClientGateways(t *testing.T) {
+	profiles := t.TempDir()
+	profile := `version: 1
+name: gateway-example
+model_provider: company-gateway
+codex_model: company-coding-model
+model_providers:
+  company-gateway:
+    name: Company AI Gateway
+    base_url: https://aigateway.internal.company.com/v1
+    wire_api: responses
+    env_key: AI_GATEWAY_API_KEY
+    requires_openai_auth: false
+claude:
+  gateway:
+    base_url: https://aigateway.internal.company.com/anthropic
+    credential_env: ANTHROPIC_AUTH_TOKEN
+    model: company-claude-model
+opencode:
+  gateway:
+    provider: company-gateway
+    base_url: https://aigateway.internal.company.com/v1
+    wire_api: responses
+    env_key: AI_GATEWAY_API_KEY
+    model: company-coding-model
+`
+	if err := os.WriteFile(filepath.Join(profiles, "gateway-example.yaml"), []byte(profile), 0600); err != nil {
+		t.Fatal(err)
+	}
+	mapPath := writeMap(t, "version: 2\nmanaged_agents: [codex, claude, opencode]\nstandard:\n  profile: gateway-example\n  priority: 100\n")
+	out, _, err := runCompileBundle(t, mapPath, profiles)
+	if err != nil {
+		t.Fatal(err)
+	}
+	for _, osName := range []string{"windows", "linux", "darwin"} {
+		if err := agent.ValidateBundleDirectory(out, osName); err != nil {
+			t.Errorf("%s: %v", osName, err)
+		}
+		for _, tc := range []struct{ suffix, want string }{
+			{"codex.toml", `model_provider = "company-gateway"`},
+			{"claude.json", `"ANTHROPIC_BASE_URL": "https://aigateway.internal.company.com/anthropic"`},
+			{"opencode.json", `"apiKey": "{env:AI_GATEWAY_API_KEY}"`},
+		} {
+			data, err := os.ReadFile(filepath.Join(out, "profiles", osName, "gateway-example."+tc.suffix))
+			if err != nil {
+				t.Fatal(err)
+			}
+			if !bytes.Contains(data, []byte(tc.want)) {
+				t.Errorf("%s %s missing %s", osName, tc.suffix, tc.want)
+			}
+		}
+	}
+}
+
 func TestCompileBundleRejectsUnsupportedPairing(t *testing.T) {
 	example, err := os.ReadFile(filepath.Join(exampleDir, "policy-map.yaml"))
 	if err != nil {

@@ -24,6 +24,7 @@ type UnifiedPolicy struct {
 	AdditionalDeveloperInstructions string                     `yaml:"additional_developer_instructions,omitempty"`
 	GuardianExtraPolicy             string                     `yaml:"guardian_extra_policy,omitempty"`
 	Claude                          *ClaudeConfig              `yaml:"claude,omitempty"`
+	OpenCode                        *OpenCodeConfig            `yaml:"opencode,omitempty"`
 	Login                           *LoginConfig               `yaml:"login,omitempty"`
 	ModelProvider                   string                     `yaml:"model_provider,omitempty"`
 	CodexModel                      *string                    `yaml:"codex_model,omitempty"`

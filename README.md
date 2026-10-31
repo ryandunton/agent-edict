@@ -76,7 +76,7 @@ The repository's `policy-map.yaml` is a [version 2](#role-based-policies-version
 - Group rules are ordered strictest first.
 - Everyone else gets the knowledge-worker policy.
 
-The tracked [knowledge-worker Codex gateway configuration](docs/codex-gateway.md) is a public example using `company-coding-model`. Keep real gateway hosts and aliases in a private policy source, never in this repository. The profile contains only the credential variable name; each Codex client must receive its own secret outside AgentEdict. Claude retains its existing route.
+The tracked [knowledge-worker Codex gateway configuration](docs/codex-gateway.md) is a public example using `company-coding-model`; it does not define the project's client coverage. [Gateway support by client](docs/gateway-support.md) documents the optional Claude Code and OpenCode routes, their credential delivery, and the native adapter limits. Keep real gateway hosts and aliases in a private policy source, never in this repository. Clients receive their own secrets outside AgentEdict. Claude retains its existing route in the tracked example.
 
 Replace its example groups before deploying. Gemini and OpenCode aren't in it: Gemini needs a native declaration, and OpenCode can't enforce the `filesystem.deny_read` every profile uses. Agents omitted from `managed_agents` are outside the declared scope and are not reported as verified. To build a version 1 bundle instead, set `POLICY_BUILD_MODE` to `unified` or `native`. Removing files from a bundle is never a valid way to narrow its scope.
 
