@@ -824,6 +824,7 @@ func compileClaude(p *UnifiedPolicy, isWindows bool, sandboxMode string) (string
 	}
 	if p.Claude != nil && p.Claude.Gateway != nil {
 		data["env"] = map[string]string{"ANTHROPIC_BASE_URL": p.Claude.Gateway.BaseURL}
+		data["allowedProviders"] = []string{"customEndpoint"}
 		if p.Claude.Gateway.Model != nil {
 			data["model"] = *p.Claude.Gateway.Model
 		}

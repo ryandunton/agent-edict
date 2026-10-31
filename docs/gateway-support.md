@@ -5,7 +5,7 @@ AgentEdict routes a client only when its selected profile has a gateway section 
 | Client AgentEdict targets | Client gateway mechanism | AgentEdict coverage |
 | --- | --- | --- |
 | Codex | Managed `model_provider`, Responses API, and `env_key` | Compiles and validates `requirements.toml`; see [Codex example](codex-gateway.md). |
-| Claude Code CLI | Managed `env.ANTHROPIC_BASE_URL`; credential supplied to the client as `ANTHROPIC_AUTH_TOKEN` or `ANTHROPIC_API_KEY` | Compiles and validates gateway URL and optional initial `model` in `managed-settings.json`. Claude Desktop has a separate third-party inference configuration that AgentEdict does not generate. [Claude gateway rollout](https://code.claude.com/docs/en/llm-gateway-rollout), [model configuration](https://code.claude.com/docs/en/model-config). |
+| Claude Code CLI | Managed `env.ANTHROPIC_BASE_URL` and `allowedProviders: ["customEndpoint"]`; credential supplied to the client as `ANTHROPIC_AUTH_TOKEN` or `ANTHROPIC_API_KEY` | Compiles and validates the gateway URL, provider pin, and optional initial `model` in `managed-settings.json`. The pin requires Claude Code v2.1.285 or later. Claude Desktop has a separate third-party inference configuration that AgentEdict does not generate. [Claude gateway routing](https://code.claude.com/docs/en/llm-gateway), [model configuration](https://code.claude.com/docs/en/model-config). |
 | OpenCode v1 | Managed custom provider with `options.baseURL`, an environment-variable key reference, and a model | Compiles and validates `opencode.json`, allows only the managed provider, and uses its model for main and light tasks. Existing profiles with `filesystem.deny_read` still cannot be compiled for OpenCode. [Provider configuration](https://opencode.ai/docs/providers), [managed settings](https://opencode.ai/docs/config/). OpenCode v2 has a different provider schema and is not covered. |
 | Gemini CLI | `GOOGLE_GEMINI_BASE_URL` in the client environment for Gemini API-key authentication | The current native adapter manages tool policy and system settings, but no documented managed base-URL setting. AgentEdict cannot guarantee delivery of this client environment variable. The endpoint must speak Gemini API, not Codex Responses. [Gemini CLI configuration](https://geminicli.com/docs/reference/configuration/). |
 | GitHub Copilot CLI | `COPILOT_PROVIDER_*` environment variables or user `providers.json` | The managed-settings file AgentEdict installs has no provider URL key. `providers.json` stores credential values in plain text and does not expand `$ENV` references; AgentEdict does not generate it. [Copilot CLI configuration](https://docs.github.com/en/copilot/reference/copilot-cli-reference/cli-config-dir-reference). |
@@ -33,11 +33,12 @@ The relevant generated managed settings are:
 ```json
 {
   "env": {"ANTHROPIC_BASE_URL": "https://aigateway.internal.company.com/anthropic"},
+  "allowedProviders": ["customEndpoint"],
   "model": "company-claude-model"
 }
 ```
 
-`credential_env` accepts only `ANTHROPIC_AUTH_TOKEN` (Bearer) or `ANTHROPIC_API_KEY` (`x-api-key`). Its **name** is validated but not emitted with a value. Provision the credential to each Claude Code CLI process through a client-side secret manager or managed launcher. A shell variable may not reach a separately launched application. Managed settings take precedence for the base URL of model API requests; the gateway should enforce any required model allowlist and map Claude's background-model requests. Verify `/status` and a real request before deployment. The [Claude gateway guide](https://code.claude.com/docs/en/llm-gateway-connect) describes credential precedence, surface coverage, and verification.
+`allowedProviders` pins the configured custom endpoint as the only Claude API provider. Bundle validation rejects a gateway file without that exact pin or one that also allows another provider. `credential_env` accepts only `ANTHROPIC_AUTH_TOKEN` (Bearer) or `ANTHROPIC_API_KEY` (`x-api-key`). Its **name** is validated but not emitted with a value. Provision the credential to each Claude Code CLI process through a client-side secret manager or managed launcher. A shell variable may not reach a separately launched application. The gateway should enforce any required model allowlist and map Claude's background-model requests. Verify `/status` and a real request before deployment. The [Claude gateway guide](https://code.claude.com/docs/en/llm-gateway-connect) describes credential precedence, surface coverage, and verification.
 
 ## OpenCode v1
 
@@ -79,6 +80,6 @@ For a Chat Completions gateway, set `wire_api: chat_completions`; AgentEdict sel
 
 ## Validation and rollout
 
-The YAML parser rejects unknown and malformed gateway fields. Bundle validation rechecks the generated Claude and OpenCode gateway URLs, credential references, model selection, and OpenCode provider allowlist; it rejects embedded credential values. It cannot test DNS, TLS, gateway protocol behavior, model capabilities, or whether a launched client inherited its credential. The installer copies the selected managed artifact; it does not copy secrets or change a client's process environment.
+The YAML parser rejects unknown and malformed gateway fields. Bundle validation rechecks the generated Claude and OpenCode gateway URLs, Claude provider pin, credential references, model selection, and OpenCode provider allowlist; it rejects embedded credential values. It cannot test DNS, TLS, gateway protocol behavior, model capabilities, or whether a launched client inherited its credential. The installer copies the selected managed artifact; it does not copy secrets or change a client's process environment.
 
 When adding another client gateway, first verify its current official configuration and API format, whether AgentEdict's managed artifact is actually consumed, and how a client-side credential reaches that process. Add only a route the compiler and bundle validator can represent without dropping existing policy restrictions. Update this matrix, the builder catalog, tests, and client integration guide together.

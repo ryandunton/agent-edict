@@ -2568,16 +2568,16 @@
     ],
     "default": {}
    },
-   "description": "Routes Claude Code CLI requests to an Anthropic-compatible gateway. The model is an initial selection, not a lock. Deliver the named credential variable to each client process through a secret manager; no credential value enters the profile or bundle. Claude Desktop uses separate inference settings.",
+   "description": "Routes Claude Code CLI requests to an Anthropic-compatible gateway and pins it as the only API provider. Requires Claude Code v2.1.285 or later. The model is an initial selection, not a lock. Deliver the named credential variable to each client process through a secret manager; no credential value enters the profile or bundle. Claude Desktop uses separate inference settings.",
    "reach": {
     "claude": {
-     "macos": {"level": "enforced", "writes": "managed-settings.json → env.ANTHROPIC_BASE_URL and model"},
-     "linux": {"level": "enforced", "writes": "managed-settings.json → env.ANTHROPIC_BASE_URL and model"},
-     "windows": {"level": "enforced", "writes": "managed-settings.json → env.ANTHROPIC_BASE_URL and model"}
+     "macos": {"level": "enforced", "writes": "managed-settings.json → env.ANTHROPIC_BASE_URL, allowedProviders, and model"},
+     "linux": {"level": "enforced", "writes": "managed-settings.json → env.ANTHROPIC_BASE_URL, allowedProviders, and model"},
+     "windows": {"level": "enforced", "writes": "managed-settings.json → env.ANTHROPIC_BASE_URL, allowedProviders, and model"}
     }
    },
    "sources": [
-    {"title": "Claude Code gateway rollout", "url": "https://code.claude.com/docs/en/llm-gateway-rollout"},
+    {"title": "Claude Code gateway routing", "url": "https://code.claude.com/docs/en/llm-gateway"},
     {"title": "Claude Code model configuration", "url": "https://code.claude.com/docs/en/model-config"}
    ],
    "researched": "2026-10-31"

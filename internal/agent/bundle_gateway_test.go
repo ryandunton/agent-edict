@@ -11,8 +11,10 @@ import (
 
 func TestCheckProfileFileRejectsClientGatewayTampering(t *testing.T) {
 	for _, tc := range []struct{ ext, content, want string }{
-		{"claude.json", `{"env":{"ANTHROPIC_BASE_URL":"http://gateway.example.com"}}`, "ANTHROPIC_BASE_URL"},
-		{"claude.json", `{"env":{"ANTHROPIC_BASE_URL":"https://gateway.example.com","ANTHROPIC_AUTH_TOKEN":"secret-sentinel"}}`, "ANTHROPIC_AUTH_TOKEN"},
+		{"claude.json", `{"allowedProviders":["customEndpoint"],"env":{"ANTHROPIC_BASE_URL":"http://gateway.example.com"}}`, "ANTHROPIC_BASE_URL"},
+		{"claude.json", `{"allowedProviders":["customEndpoint"],"env":{"ANTHROPIC_BASE_URL":"https://gateway.example.com","ANTHROPIC_AUTH_TOKEN":"secret-sentinel"}}`, "ANTHROPIC_AUTH_TOKEN"},
+		{"claude.json", `{"env":{"ANTHROPIC_BASE_URL":"https://gateway.example.com"}}`, "allowedProviders"},
+		{"claude.json", `{"allowedProviders":["customEndpoint","anthropic"],"env":{"ANTHROPIC_BASE_URL":"https://gateway.example.com"}}`, "allowedProviders"},
 		{"opencode.json", `{"provider":{"gateway":{"npm":"@ai-sdk/openai","name":"Gateway","options":{"baseURL":"https://gateway.example.com/v1","apiKey":"secret-sentinel"},"models":{"example-model":{"name":"example-model"}}}},"enabled_providers":["gateway"],"model":"gateway/example-model","small_model":"gateway/example-model"}`, "apiKey"},
 	} {
 		dir := t.TempDir()

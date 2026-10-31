@@ -109,3 +109,20 @@ func TestImportCodexGatewayModelDefault(t *testing.T) {
 		t.Fatalf("codex_model = %v, notes = %v", tree["codex_model"], pasted.Notes)
 	}
 }
+
+func TestImportCodexReservedFilesystemWithoutDenyRead(t *testing.T) {
+	pasted, err := ParsePasted([]byte("[permissions.filesystem]\nunsupported_rule = true\n"))
+	if err != nil {
+		t.Fatal(err)
+	}
+	var tree map[string]any
+	if err := json.Unmarshal(pasted.Tree, &tree); err != nil {
+		t.Fatal(err)
+	}
+	if _, exists := tree["permissions"]; exists {
+		t.Fatalf("reserved table became a custom permission profile: %s", pasted.Tree)
+	}
+	if !strings.Contains(strings.Join(pasted.Notes, "\n"), "permissions.filesystem.unsupported_rule") {
+		t.Fatalf("unsupported key was not reported: %v", pasted.Notes)
+	}
+}
