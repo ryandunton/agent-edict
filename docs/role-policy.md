@@ -149,7 +149,7 @@ tar -czf policy-bundle.tar.gz -C dist policy-map.yaml profiles
 ```
 
 - **What gets compiled.** `compile-bundle` compiles every profile-agent pair the map can select, for every OS, including rules nobody currently matches.
-- **Where sources come from.** Unified agents (Codex, Claude, OpenCode) read `<profile>.yaml`. Native agents read `<profile>.native.yaml` from the same directory.
+- **Where sources come from.** Unified agents (Codex, Claude, OpenCode) read `<profile>.yaml`. Native agents read `<profile>.native.yaml` from the same directory. Gateway configuration is client-specific; [gateway support](gateway-support.md) lists the supported routes and their limits. The tracked profiles are examples, not a coverage boundary.
 - **All or nothing.** Nothing is written unless everything compiles, and the output directory must be new or empty so an earlier bundle's files can't be signed with this one.
 - **Validation.** `validate-bundle` checks every pair's files and exact native bytes before signing, and endpoints check them again before activating.
 - **CI.** The pipeline signs the repository's `policy-map.yaml` with `profiles/` this way (`POLICY_BUILD_MODE: bundle`). Point `POLICY_MAP_FILE` and `POLICY_SOURCE` at your own map and profiles to sign those instead.

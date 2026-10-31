@@ -16,7 +16,8 @@ const (
 
 // ClaudeConfig holds Claude-specific choices that the profile author makes.
 type ClaudeConfig struct {
-	Sandbox ClaudeSandbox `yaml:"sandbox"`
+	Sandbox ClaudeSandbox  `yaml:"sandbox"`
+	Gateway *ClaudeGateway `yaml:"gateway,omitempty"`
 }
 
 // ClaudeSandbox is written once for every OS or split as {unix, windows}.

@@ -13,6 +13,7 @@ name: enterprise
 login:
   methods: [api]
 model_provider: gateway
+codex_model: gateway-model
 model_providers:
   gateway:
     name: Example gateway
@@ -62,6 +63,7 @@ func TestCodexWritesEnterpriseRequirements(t *testing.T) {
 	want := map[string]any{
 		"allowed_login_methods": []any{"api"},
 		"model_provider":        "gateway",
+		"models":                map[string]any{"new_thread": map[string]any{"model": "gateway-model"}},
 		"model_providers": map[string]any{"gateway": map[string]any{"name": "Example gateway", "base_url": "https://gateway.example.com/v1",
 			"wire_api": "responses", "env_key": "GATEWAY_API_KEY", "requires_openai_auth": false}},
 		"windows":     map[string]any{"allowed_sandbox_implementations": []any{"unelevated"}, "allow_mxc": false},
@@ -120,11 +122,34 @@ func TestEnterpriseRequirementsValidation(t *testing.T) {
 		{"browser_use:\n  default_origin_policy:\n    access: ask\n", "browser_use.default_origin_policy.access"},
 		{"browser_use:\n  default_origin_policy:\n    access_approval_lifetime: session\n", "browser_use.default_origin_policy.access_approval_lifetime"},
 		{"model_providers:\n  gw:\n    wire_api: chat\n", "model_providers.gw.wire_api"},
+		{"codex_model: gateway-model\n", "codex_model requires model_provider"},
+		{"codex_model: ''\nmodel_provider: openai\n", "codex_model"},
+		{"model_provider: missing\n", "model_provider"},
+		{"model_provider: gw\nmodel_providers:\n  gw:\n    wire_api: responses\n    env_key: GATEWAY_API_KEY\n", "model_providers.gw.base_url"},
+		{"model_provider: gw\nmodel_providers:\n  gw:\n    base_url: http://gateway.example.com/v1\n    wire_api: responses\n    env_key: GATEWAY_API_KEY\n", "model_providers.gw.base_url"},
+		{"model_provider: gw\nmodel_providers:\n  gw:\n    base_url: https://secret@gateway.example.com/v1\n    wire_api: responses\n    env_key: GATEWAY_API_KEY\n", "model_providers.gw.base_url"},
+		{"model_provider: gw\nmodel_providers:\n  gw:\n    base_url: https://gateway.example.com/v1\n    wire_api: responses\n    env_key: not-a-variable\n", "model_providers.gw.env_key"},
+		{"model_provider: gw\nmodel_providers:\n  gw:\n    base_url: https://gateway.example.com/v1\n    wire_api: responses\n", "model_providers.gw.env_key"},
+		{"model_provider: gw\nmodel_providers:\n  gw:\n    base_url: https://gateway.example.com/v1\n    wire_api: responses\n    env_key: GATEWAY_API_KEY\n    requires_openai_auth: true\n", "model_providers.gw.requires_openai_auth"},
 		{"plugins:\n  p:\n    mcp_servers:\n      s: {}\n", "plugins.p.mcp_servers.s"},
 		{"plugins:\n  p:\n    mcp_servers:\n      s:\n        url: https://a.example.com\n        command: /bin/a\n", "plugins.p.mcp_servers.s"},
 	} {
 		if _, err := ParsePolicy([]byte("version: 1\nname: x\n" + tc.yaml)); err == nil || !strings.Contains(err.Error(), tc.want) {
 			t.Errorf("%q: error %v, want one mentioning %s", tc.yaml, err, tc.want)
 		}
+	}
+}
+
+func TestCodexBuiltinProviderRemainsValid(t *testing.T) {
+	for _, name := range []string{"openai", "amazon-bedrock"} {
+		if _, err := ParsePolicy([]byte("version: 1\nname: x\nmodel_provider: " + name + "\ncodex_model: gpt-5\n")); err != nil {
+			t.Fatal(err)
+		}
+	}
+}
+
+func TestCodexResponsesWireAPIDefaultRemainsValid(t *testing.T) {
+	if _, err := ParsePolicy([]byte("version: 1\nname: x\nmodel_provider: gateway\nmodel_providers:\n  gateway:\n    base_url: https://gateway.example.com/v1\n    env_key: GATEWAY_API_KEY\n")); err != nil {
+		t.Fatal(err)
 	}
 }

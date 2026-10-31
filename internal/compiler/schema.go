@@ -24,8 +24,10 @@ type UnifiedPolicy struct {
 	AdditionalDeveloperInstructions string                     `yaml:"additional_developer_instructions,omitempty"`
 	GuardianExtraPolicy             string                     `yaml:"guardian_extra_policy,omitempty"`
 	Claude                          *ClaudeConfig              `yaml:"claude,omitempty"`
+	OpenCode                        *OpenCodeConfig            `yaml:"opencode,omitempty"`
 	Login                           *LoginConfig               `yaml:"login,omitempty"`
 	ModelProvider                   string                     `yaml:"model_provider,omitempty"`
+	CodexModel                      *string                    `yaml:"codex_model,omitempty"`
 	ModelProviders                  map[string]ModelProvider   `yaml:"model_providers,omitempty"`
 	ApplicationNetwork              *ApplicationNetworkConfig  `yaml:"application_network,omitempty"`
 	// Plugins approves the MCP servers Codex plugins bundle; an empty map
@@ -119,11 +121,11 @@ type LoginConfig struct {
 // ModelProvider is a Codex model provider that replaces any provider of the
 // same name users configure.
 type ModelProvider struct {
-	Name               string `yaml:"name,omitempty"`
-	BaseURL            string `yaml:"base_url,omitempty"`
-	WireAPI            string `yaml:"wire_api,omitempty"`
-	EnvKey             string `yaml:"env_key,omitempty"`
-	RequiresOpenAIAuth *bool  `yaml:"requires_openai_auth,omitempty"`
+	Name               string `yaml:"name,omitempty" toml:"name"`
+	BaseURL            string `yaml:"base_url,omitempty" toml:"base_url"`
+	WireAPI            string `yaml:"wire_api,omitempty" toml:"wire_api"`
+	EnvKey             string `yaml:"env_key,omitempty" toml:"env_key"`
+	RequiresOpenAIAuth *bool  `yaml:"requires_openai_auth,omitempty" toml:"requires_openai_auth"`
 }
 
 // ApplicationNetworkConfig limits the Codex desktop app's own outbound
